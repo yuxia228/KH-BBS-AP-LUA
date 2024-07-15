@@ -7,8 +7,60 @@ IsEpicGLVersion = 0x6107D4
 IsSteamGLVersion = 0x6107B4
 IsSteamJPVersion = 0x610534
 can_execute = false
+frame_count = 0
 
 worlds_unlocked_array = {1,0,0,0,0,0,0,0,0,0,0,0,0}
+
+function define_world_progress_location_bits()
+    world_progress_location_bits = {}
+    for i=1,13 do
+        world_progress_location_bits[i] = {}
+        for j=1,16 do
+            world_progress_location_bits[i][j] = {}
+        end
+    end
+    --Land of Departure
+    world_progress_location_bits[1][11]  = {2271220000, 2271220001} --Max HP Increase, Critical Impact
+    world_progress_location_bits[1][4]   = {2271220002, 2271220003} --Ventus D-Link, Aqua D-Link
+    world_progress_location_bits[1][8]   = {2271220004} --Max HP Increase
+    world_progress_location_bits[1][9]   = {2271220005, 2271220006} --Chaos Ripper, Xehanort's Report 8
+    --Dwarf Woodlands
+    world_progress_location_bits[2][6]   = {2271220100} --Air Slide
+    world_progress_location_bits[2][10]  = {2271220101, 2271220102} --Max HP Increase, Firestorm
+    world_progress_location_bits[2][12]  = {2271220103} --Treasure Trove
+    --Castle of Dreams
+    world_progress_location_bits[3][11]  = {2271220200} --Counter Hammer
+    world_progress_location_bits[3][8]   = {2271220201, 2271220202} --Max HP Increase, Deck Capacity Increase
+    world_progress_location_bits[3][13]  = {2271220203, 2271220204, 2271220205} --Cinderella D-Link, Stroke of Midnight, Royal Board
+    --Enchanted Dominion
+    world_progress_location_bits[4][7]   = {2271220300} --Maleficent D-Link
+    world_progress_location_bits[4][9]   = {2271220301, 2271220302, 2271220303} --Deck Capacity Increase, Diamond Dust, Fairy Stars
+    --Radiant Garden
+    world_progress_location_bits[6][1]   = {2271220500} --Honey Pot Board
+    world_progress_location_bits[6][9]   = {2271220501, 2271220502, 2271220503} --Max HP Increase, Rockbreaker, Disney Town Pass
+    world_progress_location_bits[6][12]  = {2271220504, 2271220505, 2271220506} --Deck Capacity Increase, Dark Volley, Xehanort's Report 2
+    --Olympus Coliseum
+    world_progress_location_bits[8][8]   = {2271220700, 2271220701} --Max HP Increase, Sonic Impact
+    world_progress_location_bits[8][12]  = {2271220702, 2271220703, 2271220704} --Deck Capacity Increase, Zack D-Link, Mark of a Hero
+    --Deep Space
+    world_progress_location_bits[9][9]   = {2271220800} --Max HP Increase
+    world_progress_location_bits[9][10]  = {2271220801, 2271220802, 2271220803, 2271220804} --Thunderbolt, Experiment 626 D-Link, Hyperdrive, Spaceship Board
+    --Destiny Islands
+    world_progress_location_bits[10][1]  = {2271220900} --Ends of the Earth
+    --Neverland
+    world_progress_location_bits[11][6]  = {2271221000, 2271221001} --Bladecharge, Peter Pan D-Link
+    world_progress_location_bits[11][9]  = {2271221002} --Deck Capacity Increase
+    world_progress_location_bits[11][10] = {2271221003, 2271221004} --Pixie Petal, Skull Board
+    --Disney Town
+    world_progress_location_bits[12][7]  = {2271221100, 2271221101} --Hi-Potion and Toon Board
+    --Keyblade Graveyard
+    world_progress_location_bits[13][3]  = {2271221200} --Dark Impulse
+    world_progress_location_bits[13][10] = {2271221201} --Max HP Increase
+    world_progress_location_bits[13][15] = {2271221201} --Story Complete
+    return world_progress_location_bits
+end
+
+world_progress_location_bits = define_world_progress_location_bits()
 
 if os.getenv('LOCALAPPDATA') ~= nil then
     client_communication_path = os.getenv('LOCALAPPDATA') .. "\\KHBBSFMAP\\"
@@ -78,6 +130,19 @@ function write_command(command_value)
     --Writes command to the player's inventory
     command_stock_address = {0x0, 0x10FA2C88}
     max_commands = 99
+    command_value = command_value + 0x5B
+    if command_value >= 0xBC and command_value <= 0xD2 then --Item Command
+        command_index = 0
+        while ReadShort(command_stock_address[game_version] + (10 * command_index)) ~= command_value and command_index < max_commands do
+            command_index = command_index + 1
+            ConsolePrint(command_index)
+        end
+        if command_index < max_commands then
+            num_available = ReadShort(command_stock_address[game_version] + (10 * command_index) + 2)
+            WriteShort(command_stock_address[game_version] + (10 * command_index) + 2, math.min(num_available + 1, 99))
+            return
+        end
+    end
     command_index = 0
     while ReadShort(command_stock_address[game_version] + (10 * command_index)) ~= 0 and command_index < max_commands do
         command_index = command_index + 1
@@ -138,7 +203,7 @@ function write_command_style(command_style_offset)
     WriteByte(command_stock_address[game_version]+command_style_offset, 0x05)
 end
 
-function write_worlds(worlds_array)
+function write_worlds()
     world_open_address = {0x0, 0x10F9F7F0 + 0x2938}
     world_open_values = {
         0x00002002, --LOD
@@ -155,7 +220,7 @@ function write_worlds(worlds_array)
         0x00000102, --DT
         0x00000102  --KG
         }
-    for world_offset, world_value in pairs(worlds_array) do
+    for world_offset, world_value in pairs(worlds_unlocked_array) do
         if world_value == 0 then
             WriteInt(world_open_address[game_version] + (4 * (world_offset-1)), 0)
         elseif ReadInt(world_open_address[game_version] + (4 * (world_offset-1))) ~= world_open_values[world_offset] then
@@ -226,6 +291,26 @@ function read_deck_capacity()
     return WriteByte(deck_capacity_address[game_version])
 end
 
+function read_world_item()
+    ap_bits_address = {0x0, 0x10FA1D1C}
+    world_item_byte_array = ReadArray(ap_bits_address[game_version], 2)
+    world_item_bits_1 = toBits(world_item_byte_array[1], 8)
+    world_item_bits_2 = toBits(world_item_byte_array[2], 8)
+    worlds_unlocked_array[1] = 1 --LOD always unlocked
+    worlds_unlocked_array[2] = world_item_bits_1[2]
+    worlds_unlocked_array[3] = world_item_bits_1[3]
+    worlds_unlocked_array[4] = world_item_bits_1[4]
+    worlds_unlocked_array[5] = world_item_bits_1[5]
+    worlds_unlocked_array[6] = world_item_bits_1[6]
+    worlds_unlocked_array[7] = world_item_bits_1[7]
+    worlds_unlocked_array[8] = world_item_bits_1[8]
+    worlds_unlocked_array[9] = world_item_bits_2[1]
+    worlds_unlocked_array[10] = world_item_bits_2[2]
+    worlds_unlocked_array[11] = world_item_bits_2[3]
+    worlds_unlocked_array[12] = world_item_bits_2[4]
+    worlds_unlocked_array[13] = world_item_bits_2[5]
+end
+
 function read_chest_location_ids()
     location_ids = {}
     chests_opened_address = {0x0, 0x10FA2B7C}
@@ -241,8 +326,52 @@ function read_chest_location_ids()
     return location_ids
 end
 
+function read_sticker_location_ids()
+    stickers_found_address = {0x0, 0x10FA2B9C}
+    stickers_opened_array = ReadArray(stickers_found_address[game_version], 3)
+    for sticker_index, sticker_byte in pairs(stickers_opened_array) do
+        sticker_bits = toBits(sticker_byte, 8)
+        for i=1,8 do
+            if sticker_bits[i] == 1 then
+                location_ids[#location_ids] = 2271210000 + ((sticker_index-1)*10) + i
+            end
+        end
+    end
+    return location_ids
+end
+
+function read_world_progress_location_ids()
+    world_progress_address = {0x0, 0x10FA1D24}
+    location_ids = {}
+    world_progress_index = 0
+    while world_progress_index < 13 do
+        world_progress_value = ReadShort(world_progress_address[game_version] + (0x20 * world_progress_index))
+        world_progress_bits = toBits(world_progress_value, 16)
+        for i=1,16 do
+            if world_progress_bits[i] > 0 then
+                for k,v in pairs(world_progress_location_bits[world_progress_index+1][i]) do
+                    location_ids[#location_ids + 1] = v
+                end
+            end
+        end
+        world_progress_index = world_progress_index + 1
+    end
+    return location_ids
+end
+
+function victorious()
+    ap_bits_address = {0x0, 0x10FA1D1D}
+    ap_byte = ReadByte(ap_bits_address[game_version])
+    ap_bits = toBits(ap_byte, 8)
+    if ap_bits[6] == 1 then
+        return true
+    else
+        return false
+    end
+end
+
 function receive_items()
-    i = read_check_count() + 1
+    i = read_check_number() + 1
     while file_exists(client_communication_path .. "AP_" .. tostring(i) .. ".item") do
         file = io.open(client_communication_path .. "AP_" .. tostring(i) .. ".item", "r")
         io.input(file)
@@ -285,6 +414,32 @@ function send_items()
             io.close(file)
         end
     end
+    sticker_location_ids = read_sticker_location_ids()
+    for location_index, location_id in pairs(sticker_location_ids) do
+        if not file_exists(client_communication_path .. "send" .. tostring(location_id)) then
+            file = io.open(client_communication_path .. "send" .. tostring(location_id), "w")
+            io.output(file)
+            io.write("")
+            io.close(file)
+        end
+    end
+    world_progress_location_ids = read_world_progress_location_ids()
+    for location_index, location_id in pairs(world_progress_location_ids) do
+        if not file_exists(client_communication_path .. "send" .. tostring(location_id)) then
+            file = io.open(client_communication_path .. "send" .. tostring(location_id), "w")
+            io.output(file)
+            io.write("")
+            io.close(file)
+        end
+    end
+    if victorious() then
+        if not file_exists(client_communication_path .. "victory") then
+            file = io.open(client_communication_path .. "victory", "w")
+            io.output(file)
+            io.write("")
+            io.close(file)
+        end
+    end
 end
 
 function _OnInit()
@@ -298,9 +453,16 @@ function _OnInit()
         ConsolePrint("Steam Version Detected")
         can_execute = true
     end
+    if can_execute then
+        --write_command(98)
+    end
 end
 
 function _OnFrame()
-    write_worlds({1,0,0,0,0,0,0,0,0,0,1,0,0})
-    send_items()
+    frame_count = (frame_count + 1) % 30
+    if frame_count == 0 then
+        receive_items()
+        send_items()
+    end
+    write_worlds()
 end
