@@ -8,6 +8,23 @@ IsSteamGLVersion = 0x6107B4
 IsSteamJPVersion = 0x610534
 can_execute = false
 
+worlds_unlocked_array = {1,0,0,0,0,0,0,0,0,0,0,0,0}
+
+if os.getenv('LOCALAPPDATA') ~= nil then
+    client_communication_path = os.getenv('LOCALAPPDATA') .. "\\KHBBSFMAP\\"
+else
+    client_communication_path = os.getenv('HOME') .. "/KHBBSFMAP/"
+    ok, err, code = os.rename(client_communication_path, client_communication_path)
+    if not ok and code ~= 13 then
+        os.execute("mkdir " .. path)
+    end
+end
+
+function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
+
 function toBits(num, zeroes)
     -- returns a table of bits, least significant first.
     local t={} -- will contain the bits
@@ -147,6 +164,129 @@ function write_worlds(worlds_array)
     end
 end
 
+function write_check_number(value)
+    check_number_address = {0x0, 0x10FA1D20}
+    WriteInt(check_number_address[game_version], value)
+end
+
+function write_max_hp(value)
+    max_hp_pointer_address = {0x0, 0x10F9DDC0}
+    max_hp_pointer_offset_1 = 0x118
+    max_hp_pointer_offset_2 = 0x398
+    max_hp_pointer_offset_3 = 0xA4
+    max_hp_pointer = GetPointer(max_hp_pointer_address[game_version], max_hp_pointer_offset_1)
+    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_2, true)
+    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_3, true)
+    WriteInt(max_hp_pointer, value, true)
+end
+
+function write_deck_capacity(value)
+    deck_capacity_address = {0x0, 0x10F9DE66}
+    WriteByte(deck_capacity_address[game_version], math.min(value, 8))
+end
+
+function write_world_item(world_offset)
+    if world_offset <= 12 then
+        ap_bits_address = {0x0, 0x10FA1D1C}
+        address_offset = math.floor(world_offset / 8)
+        bit_num = (world_offset % 8) + 1
+        ap_byte = ReadByte(ap_bits_address[game_version] + address_offset)
+        ap_bits = toBits(ap_byte, 8)
+        ap_bits[world_offset+1] = 1
+        WriteByte(ap_bits_address[game_version] + address_offset, toNum(ap_bits))
+    end
+end
+
+function write_victory_item()
+    ap_bits_address = {0x0, 0x10FA1D1D}
+    ap_byte = ReadByte(ap_bits_address[game_version])
+    ap_bits = toBits(ap_byte, 8)
+    ap_bits[6] = 1
+    WriteByte(ap_bits_address[game_version], toNum(ap_bits))
+end
+
+function read_check_number()
+    check_number_address = {0x0, 0x10FA1D20}
+    return ReadInt(check_number_address[game_version])
+end
+
+function read_max_hp()
+    max_hp_pointer_address = {0x0, 0x10F9DDC0}
+    max_hp_pointer_offset_1 = 0x118
+    max_hp_pointer_offset_2 = 0x398
+    max_hp_pointer_offset_3 = 0xA4
+    max_hp_pointer = GetPointer(max_hp_pointer_address[game_version], max_hp_pointer_offset_1)
+    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_2, true)
+    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_3, true)
+    return ReadInt(max_hp_pointer, true)
+end
+
+function read_deck_capacity()
+    deck_capacity_address = {0x0, 0x10F9DE66}
+    return WriteByte(deck_capacity_address[game_version])
+end
+
+function read_chest_location_ids()
+    location_ids = {}
+    chests_opened_address = {0x0, 0x10FA2B7C}
+    chests_opened_array = ReadArray(chests_opened_address[game_version], 26)
+    for chest_index, chest_byte in pairs(chests_opened_array) do
+        chest_bits = toBits(chest_byte, 8)
+        for i=1,8 do
+            if chest_bits[i] == 1 then
+                location_ids[#location_ids] = 2271200000 + ((chest_index-1)*10) + i
+            end
+        end
+    end
+    return location_ids
+end
+
+function receive_items()
+    i = read_check_count() + 1
+    while file_exists(client_communication_path .. "AP_" .. tostring(i) .. ".item") do
+        file = io.open(client_communication_path .. "AP_" .. tostring(i) .. ".item", "r")
+        io.input(file)
+        received_item_id = tonumber(io.read())
+        io.close(file)
+        if received_item_id == 2270000000 then
+            write_victory_item()
+        elseif received_item_id >= 2270010000 and received_item_id <= 2270010209 then
+            item_value = received_item_id % 2270010000
+            write_command(item_value)
+        elseif received_item_id >= 2270020000 and received_item_id <= 2270020014 then
+            item_value = received_item_id % 2270020000
+            write_command_style(item_value)
+        elseif received_item_id >= 2270030000 and received_item_id <= 2270030029 then
+            item_value = received_item_id % 2270030000
+            write_ability(item_value)
+        elseif received_item_id >= 2270040001 and received_item_id <= 2270047967 then
+            item_value = received_item_id % 2270040000
+            write_key_item(item_value)
+        elseif received_item_id >= 2270050000 and received_item_id <= 2270050013 then
+            item_value = received_item_id % 2270050000
+            write_world_item(item_value)
+        elseif received_item_id == 2270060000 then
+            write_max_hp(read_max_hp() + 5)
+        elseif received_item_id == 2270060001 then
+            write_deck_capacity(read_deck_capacity() + 1)
+        end
+        i = i + 1
+    end
+    write_check_number(i-1)
+end
+
+function send_items()
+    chest_location_ids = read_chest_location_ids()
+    for location_index, location_id in pairs(chest_location_ids) do
+        if not file_exists(client_communication_path .. "send" .. tostring(location_id)) then
+            file = io.open(client_communication_path .. "send" .. tostring(location_id), "w")
+            io.output(file)
+            io.write("")
+            io.close(file)
+        end
+    end
+end
+
 function _OnInit()
     if ReadByte(IsEpicGLVersion) == 0xFF then
         game_version = 1
@@ -158,10 +298,9 @@ function _OnInit()
         ConsolePrint("Steam Version Detected")
         can_execute = true
     end
-    if can_execute then
-    end
 end
 
 function _OnFrame()
     write_worlds({1,0,0,0,0,0,0,0,0,0,1,0,0})
+    send_items()
 end
