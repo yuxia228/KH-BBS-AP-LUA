@@ -8,7 +8,7 @@ IsSteamGLVersion = 0x6107B4
 IsSteamJPVersion = 0x610534
 can_execute = false
 
-exp_mult = 1
+exp_mult = 10
 mult_applied = false
 
 -------------------------------------------------------------------------

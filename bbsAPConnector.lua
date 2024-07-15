@@ -121,6 +121,32 @@ function write_command_style(command_style_offset)
     WriteByte(command_stock_address[game_version]+command_style_offset, 0x05)
 end
 
+function write_worlds(worlds_array)
+    world_open_address = {0x0, 0x10F9F7F0 + 0x2938}
+    world_open_values = {
+        0x00002002, --LOD
+        0x00000102, --DW
+        0x00000102, --COD
+        0x00000102, --ED
+        0x00000102, --MT
+        0x00000102, --RG
+        0x00000000, --Unused
+        0x00000102, --OC
+        0x00000102, --DS
+        0x00000802, --DI
+        0x00000102, --NL
+        0x00000102, --DT
+        0x00000102  --KG
+        }
+    for world_offset, world_value in pairs(worlds_array) do
+        if world_value == 0 then
+            WriteInt(world_open_address[game_version] + (4 * (world_offset-1)), 0)
+        elseif ReadInt(world_open_address[game_version] + (4 * (world_offset-1))) ~= world_open_values[world_offset] then
+            WriteInt(world_open_address[game_version] + (4 * (world_offset-1)), world_open_values[world_offset])
+        end
+    end
+end
+
 function _OnInit()
     if ReadByte(IsEpicGLVersion) == 0xFF then
         game_version = 1
@@ -133,9 +159,9 @@ function _OnInit()
         can_execute = true
     end
     if can_execute then
-        write_command(0x005D) --Magic Hour
     end
 end
 
 function _OnFrame()
+    write_worlds({1,0,0,0,0,0,0,0,0,0,1,0,0})
 end
