@@ -8,6 +8,11 @@ IsSteamGLVersion = 0x6107B4
 IsSteamJPVersion = 0x610534
 can_execute = false
 
+function version_choice(array, choice)
+    a = array
+    return a[choice]
+end
+
 function _OnInit()
     if ReadByte(IsEpicGLVersion) == 0xFF then
         game_version = 1
@@ -28,7 +33,7 @@ function _OnFrame()
         if ReadInt(version_choice({0x0, 0x81711F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
             if ReadInt(version_choice({0x0, 0x81711F}, game_version)) ~= 0xD0100 then
                 if ReadInt(version_choice({0x0, 0x81711F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x0, 0x817123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x0, 0x817127}, game_version)) ~= 0x100 then
-                    if ReadByte(version_choice({0x0, 0x10F9F800}, game_version)) == 0x02 --Terra
+                    if ReadByte(version_choice({0x0, 0x10F9F800}, game_version)) == 0x02 then--Terra
                         --Remove Cutscene Rewards
                         WriteInt(version_choice({0x0, 0x10F9F498}, game_version), 0x00000000)
                         WriteInt(version_choice({0x0, 0x10F9F468}, game_version), 0x00000000)

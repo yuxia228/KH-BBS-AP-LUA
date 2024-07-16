@@ -177,8 +177,8 @@ end
 function write_ability(ability_offset)
     --Write ability to the player's ability array
     abilities_address = {0x0, 0x10FA4554}
-    ability_byte_1 = ReadByte(abilities_address[game_version] + (ability_offset-1) * 4)
-    ability_byte_2 = ReadByte((abilities_address[game_version] + (ability_offset-1) * 4)+1)
+    ability_byte_1 = ReadByte(abilities_address[game_version] + (ability_offset) * 4)
+    ability_byte_2 = ReadByte((abilities_address[game_version] + (ability_offset) * 4)+1)
     ability_bits_1 = toBits(ability_byte_1, 8)
     ability_bits_2 = toBits(ability_byte_2, 8)
     number_permanantly_available = toNum({ability_bits_1[7], ability_bits_1[8], ability_bits_2[1]})
@@ -192,8 +192,8 @@ function write_ability(ability_offset)
     ability_bits_2[7] = 1
     ability_byte_1 = toNum(ability_bits_1)
     ability_byte_2 = toNum(ability_bits_2)
-    WriteByte(abilities_address[game_version] + (ability_offset-1) * 4, ability_byte_1)
-    WriteByte((abilities_address[game_version] + (ability_offset-1) * 4)+1, ability_byte_2)
+    WriteByte(abilities_address[game_version] + (ability_offset) * 4, ability_byte_1)
+    WriteByte((abilities_address[game_version] + (ability_offset) * 4)+1, ability_byte_2)
 end
 
 function write_command_style(command_style_offset)
@@ -369,6 +369,18 @@ function victorious()
     end
 end
 
+function character_selected_or_save_loaded()
+    if can_execute then
+        if ReadInt(version_choice({0x0, 0x81711F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
+            if ReadInt(version_choice({0x0, 0x81711F}, game_version)) ~= 0xD0100 then
+                if ReadInt(version_choice({0x0, 0x81711F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x0, 0x817123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x0, 0x817127}, game_version)) ~= 0x100 then
+                    return true
+                end
+            end
+        end
+    end
+end
+
 function receive_items()
     i = read_check_number() + 1
     while file_exists(client_communication_path .. "AP_" .. tostring(i) .. ".item") do
@@ -458,10 +470,12 @@ function _OnInit()
 end
 
 function _OnFrame()
-    frame_count = (frame_count + 1) % 30
-    if frame_count == 0 then
-        receive_items()
-        send_items()
+    if character_selected_or_save_loaded() then
+        frame_count = (frame_count + 1) % 30
+        if frame_count == 0 then
+            receive_items()
+            send_items()
+        end
+        write_worlds()
     end
-    write_worlds()
 end
