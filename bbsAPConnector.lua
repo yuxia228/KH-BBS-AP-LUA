@@ -337,7 +337,7 @@ function read_sticker_location_ids()
         sticker_bits = toBits(sticker_byte, 8)
         for i=1,8 do
             if sticker_bits[i] == 1 then
-                location_ids[#location_ids] = 2271210000 + ((sticker_index-1)*10) + i
+                location_ids[#location_ids + 1] = 2271210000 + ((sticker_index-1)*10) + i
             end
         end
     end
