@@ -23,7 +23,7 @@ function define_world_progress_location_bits()
     world_progress_location_bits[1][11]  = {2271220000, 2271220001} --Max HP Increase, Critical Impact
     world_progress_location_bits[1][4]   = {2271220002, 2271220003} --Ventus D-Link, Aqua D-Link
     world_progress_location_bits[1][8]   = {2271220004} --Max HP Increase
-    world_progress_location_bits[1][9]   = {2271220005, 2271220006} --Chaos Ripper, Xehanort's Report 8
+    world_progress_location_bits[1][10]  = {2271220005, 2271220006} --Chaos Ripper, Xehanort's Report 8
     --Dwarf Woodlands
     world_progress_location_bits[2][6]   = {2271220100} --Air Slide
     world_progress_location_bits[2][10]  = {2271220101, 2271220102} --Max HP Increase, Firestorm
@@ -135,7 +135,6 @@ function write_command(command_value)
         command_index = 0
         while ReadShort(command_stock_address[game_version] + (10 * command_index)) ~= command_value and command_index < max_commands do
             command_index = command_index + 1
-            ConsolePrint(command_index)
         end
         if command_index < max_commands then
             num_available = ReadShort(command_stock_address[game_version] + (10 * command_index) + 2)
