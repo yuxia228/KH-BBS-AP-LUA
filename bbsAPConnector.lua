@@ -109,6 +109,11 @@ function toNum(bits)
     return num
 end
 
+function version_choice(array, choice)
+    a = array
+    return a[choice]
+end
+
 function write_key_item(item_value)
     --Writes key item to the player's inventory
     key_item_stock_address = {0x0, 0x10FA2AAC}
