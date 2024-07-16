@@ -1,0 +1,17 @@
+title: KHBBSFM Archipelago Companion
+originalAuthor: Gicu
+description: Necessary files for KHBBS Archipelago Randomizer.
+assets:
+#Lua Script
+- name: scripts/bbsAPConnector.lua
+  method: copy
+  source:
+  - name: bbsAPConnector.lua
+- name: scripts/bbsAPDummyLocations.lua
+  method: copy
+  source:
+  - name: bbsAPDummyLocations.lua
+- name: scripts/bbsAPEXPMultiplier.lua
+  method: copy
+  source:
+  - name: bbsAPEXPMultiplier.lua
