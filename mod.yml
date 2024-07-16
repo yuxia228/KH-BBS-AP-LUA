@@ -7,10 +7,6 @@ assets:
   method: copy
   source:
   - name: bbsAPConnector.lua
-- name: scripts/bbsAPDummyLocations.lua
-  method: copy
-  source:
-  - name: bbsAPDummyLocations.lua
 - name: scripts/bbsAPEXPMultiplier.lua
   method: copy
   source:
