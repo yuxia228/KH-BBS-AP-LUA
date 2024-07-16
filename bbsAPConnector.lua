@@ -323,7 +323,7 @@ function read_chest_location_ids()
         chest_bits = toBits(chest_byte, 8)
         for i=1,8 do
             if chest_bits[i] == 1 then
-                location_ids[#location_ids] = 2271200000 + ((chest_index-1)*10) + i
+                location_ids[#location_ids + 1] = 2271200000 + ((chest_index-1)*10) + i
             end
         end
     end
