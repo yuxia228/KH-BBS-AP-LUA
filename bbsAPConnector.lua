@@ -481,6 +481,7 @@ function _OnFrame()
             receive_items()
             send_items()
         end
+        read_world_item()
         write_worlds()
     end
 end
