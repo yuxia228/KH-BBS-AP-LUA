@@ -113,42 +113,20 @@ function _OnFrame()
         --Open All Worlds
         if ReadShort(Now+0x10) == 0x0101 and ReadShort(Now+0x00) == 0x0111 then
             read_world_item()
-            if worlds_unlocked_array[1] == 1 then
-                WriteInt(Save+0x2938,0x00002002) --The Land of Departure
+            WriteInt(Save+0x2938,0x00002002 * worlds_unlocked_array[1]) --The Land of Departure
+            WriteInt(Save+0x293C,0x00000102 * worlds_unlocked_array[2]) --Dwarf Woodlands
+            WriteInt(Save+0x2940,0x00000102 * worlds_unlocked_array[3]) --Castle of Dreams
+            WriteInt(Save+0x2944,0x00000102 * worlds_unlocked_array[4]) --Enchanted Dominion
+            WriteInt(Save+0x2948,0x00000102 * worlds_unlocked_array[5]) --The Mysterious Tower
+            WriteInt(Save+0x294C,0x00000102 * worlds_unlocked_array[6]) --Radiant Garden
+            WriteInt(Save+0x2954,0x00000102 * worlds_unlocked_array[8]) --Olympus Coliseum
+            WriteInt(Save+0x2958,0x00000102 * worlds_unlocked_array[9]) --Deep Space
+            if ReadShort(Save+0x10) == 0x01 then
+                WriteInt(Save+0x295C,0x00000802 * worlds_unlocked_array[10]) --Destiny Islands
             end
-            if worlds_unlocked_array[2] == 1 then
-                WriteInt(Save+0x293C,0x00000102) --Dwarf Woodlands
-            end
-            if worlds_unlocked_array[3] == 1 then
-                WriteInt(Save+0x2940,0x00000102) --Castle of Dreams
-            end
-            if worlds_unlocked_array[4] == 1 then
-                WriteInt(Save+0x2944,0x00000102) --Enchanted Dominion
-            end
-            if worlds_unlocked_array[5] == 1 then
-                WriteInt(Save+0x2948,0x00000102) --The Mysterious Tower
-            end
-            if worlds_unlocked_array[6] == 1 then
-                WriteInt(Save+0x294C,0x00000102) --Radiant Garden
-            end
-            if worlds_unlocked_array[8] == 1 then
-                WriteInt(Save+0x2954,0x00000102) --Olympus Coliseum
-            end
-            if worlds_unlocked_array[9] == 1 then
-                WriteInt(Save+0x2958,0x00000102) --Deep Space
-            end
-            if worlds_unlocked_array[10] == 1 then
-                if ReadShort(Save+0x10) == 0x01 then
-                    WriteInt(Save+0x295C,0x00000802) --Destiny Islands
-                end
-            end
-            if worlds_unlocked_array[11] == 1 then
-                WriteInt(Save+0x2960,0x00000102) --Never Land
-            end
-            if worlds_unlocked_array[12] == 1 then
-                WriteInt(Save+0x2964,0x00000102) --Disney Town
-            end
-            if read_number_of_wayfinders() == 3 then
+            WriteInt(Save+0x2960,0x00000102 * worlds_unlocked_array[11]) --Never Land
+            WriteInt(Save+0x2964,0x00000102 * worlds_unlocked_array[12]) --Disney Town
+            if read_number_of_wayfinders() >= 3 then
                 WriteInt(Save+0x2968,0x00000102) --Keyblade Graveyard
             end
             --WriteInt(Save+0x2970,0x00000002) --Mirage Arena
@@ -190,37 +168,17 @@ function _OnFrame()
             if ReadInt(Save+0x29E4) ~= 0 then -- Always Have The Land of Departure: Summit (Destroyed) Save Point Opened
                 WriteInt(Save+0x29E4,0)
             end
-            if worlds_unlocked_array[2] == 1 then
-                WriteByte(Save+0x293C,0x02) --Dwarf Woodlands
-            end
-            if worlds_unlocked_array[3] == 1 then
-                WriteByte(Save+0x2940,0x02) --Castle of Dreams
-            end
-            if worlds_unlocked_array[4] == 1 then
-                WriteByte(Save+0x2944,0x02) --Enchanted Dominion
-            end
-            if worlds_unlocked_array[5] == 1 then
-                WriteByte(Save+0x2948,0x02) --The Mysterious Tower
-            end
-            if worlds_unlocked_array[6] == 1 then
-                WriteByte(Save+0x294C,0x02) --Radiant Garden
-            end
-            if worlds_unlocked_array[8] == 1 then
-                WriteByte(Save+0x2954,0x02) --Olympus Coliseum
-            end
-            if worlds_unlocked_array[9] == 1 then
-                WriteByte(Save+0x2958,0x02) --Deep Space
-            end
-            if worlds_unlocked_array[10] == 1 then
-                WriteByte(Save+0x295C,0x00) --Destiny Islands
-            end
-            if worlds_unlocked_array[11] == 1 then
-                WriteByte(Save+0x2960,0x02) --Never Land
-            end
-            if worlds_unlocked_array[12] == 1 then
-                WriteByte(Save+0x2964,0x02) --Disney Town
-            end
-            if read_number_of_wayfinders() == 3 then
+            WriteByte(Save+0x293C,0x02 * worlds_unlocked_array[2]) --Dwarf Woodlands
+            WriteByte(Save+0x2940,0x02 * worlds_unlocked_array[3]) --Castle of Dreams
+            WriteByte(Save+0x2944,0x02 * worlds_unlocked_array[4]) --Enchanted Dominion
+            WriteByte(Save+0x2948,0x02 * worlds_unlocked_array[5]) --The Mysterious Tower
+            WriteByte(Save+0x294C,0x02 * worlds_unlocked_array[6]) --Radiant Garden
+            WriteByte(Save+0x2954,0x02 * worlds_unlocked_array[8]) --Olympus Coliseum
+            WriteByte(Save+0x2958,0x02 * worlds_unlocked_array[9]) --Deep Space
+            WriteByte(Save+0x295C,0x00 * worlds_unlocked_array[10]) --Destiny Islands
+            WriteByte(Save+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
+            WriteByte(Save+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
+            if read_number_of_wayfinders() >= 3 then
                 WriteByte(Save+0x2968,0x02) --Keyblade Graveyard
             end
             if ReadByte(Save+0x2969) == 0x15 then
@@ -778,37 +736,17 @@ function _OnFrame()
             if ReadByte(Save+0x2939) == 0x34 then
                     WriteByte(Save+0x2939,0x01)
                 end
-            if worlds_unlocked_array[2] == 1 then
-                WriteByte(Save+0x293C,0x02) --Dwarf Woodlands
-            end
-            if worlds_unlocked_array[3] == 1 then
-                WriteByte(Save+0x2940,0x02) --Castle of Dreams
-            end
-            if worlds_unlocked_array[4] == 1 then
-                WriteByte(Save+0x2944,0x02) --Enchanted Dominion
-            end
-            if worlds_unlocked_array[5] == 1 then
-                WriteByte(Save+0x2948,0x02) --The Mysterious Tower
-            end
-            if worlds_unlocked_array[6] == 1 then
-                WriteByte(Save+0x294C,0x02) --Radiant Garden
-            end
-            if worlds_unlocked_array[8] == 1 then
-                WriteByte(Save+0x2954,0x02) --Olympus Coliseum
-            end
-            if worlds_unlocked_array[9] == 1 then
-                WriteByte(Save+0x2958,0x02) --Deep Space
-            end
-            if worlds_unlocked_array[10] == 1 then
-                WriteByte(Save+0x295C,0x00) --Destiny Islands
-            end
-            if worlds_unlocked_array[11] == 1 then
-                WriteByte(Save+0x2960,0x02) --Never Land
-            end
-            if worlds_unlocked_array[12] == 1 then
-                WriteByte(Save+0x2964,0x02) --Disney Town
-            end
-            if read_number_of_wayfinders() == 3 then
+            WriteByte(Save+0x293C,0x02 * worlds_unlocked_array[2]) --Dwarf Woodlands
+            WriteByte(Save+0x2940,0x02 * worlds_unlocked_array[3]) --Castle of Dreams
+            WriteByte(Save+0x2944,0x02 * worlds_unlocked_array[4]) --Enchanted Dominion
+            WriteByte(Save+0x2948,0x02 * worlds_unlocked_array[5]) --The Mysterious Tower
+            WriteByte(Save+0x294C,0x02 * worlds_unlocked_array[6]) --Radiant Garden
+            WriteByte(Save+0x2954,0x02 * worlds_unlocked_array[8]) --Olympus Coliseum
+            WriteByte(Save+0x2958,0x02 * worlds_unlocked_array[9]) --Deep Space
+            WriteByte(Save+0x295C,0x00 * worlds_unlocked_array[10]) --Destiny Islands
+            WriteByte(Save+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
+            WriteByte(Save+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
+            if read_number_of_wayfinders() >= 3 then
                 WriteByte(Save+0x2968,0x02) --Keyblade Graveyard
             end
             if ReadByte(Save+0x2969) == 0x15 then
@@ -1416,40 +1354,21 @@ function _OnFrame()
             if ReadByte(Save+0x2939) == 0x34 then
                 WriteByte(Save+0x2939,0x01)
             end
-            if worlds_unlocked_array[2] == 1 then
-            WriteByte(Save+0x293C,0x02) --Dwarf Woodlands
-            end
-            if worlds_unlocked_array[3] == 1 then
-                WriteByte(Save+0x2940,0x02) --Castle of Dreams
-            end
-            if worlds_unlocked_array[4] == 1 then
-                WriteByte(Save+0x2944,0x02) --Enchanted Dominion
-            end
-            if worlds_unlocked_array[5] == 1 then
-                WriteByte(Save+0x2948,0x02) --The Mysterious Tower
-            end
-            if worlds_unlocked_array[6] == 1 then
-                WriteByte(Save+0x294C,0x02) --Radiant Garden
-            end
-            if worlds_unlocked_array[8] == 1 then
-                WriteByte(Save+0x2954,0x02) --Olympus Coliseum
-            end
-            if worlds_unlocked_array[9] == 1 then
-                WriteByte(Save+0x2958,0x02) --Deep Space
-            end
-            if worlds_unlocked_array[10] == 1 then
-                WriteByte(Save+0x295C,0x00) --Destiny Islands
-            end
+            WriteByte(Save+0x293C,0x02 * worlds_unlocked_array[2]) --Dwarf Woodlands
+            WriteByte(Save+0x2940,0x02 * worlds_unlocked_array[3]) --Castle of Dreams
+            WriteByte(Save+0x2944,0x02 * worlds_unlocked_array[4]) --Enchanted Dominion
+            WriteByte(Save+0x2948,0x02 * worlds_unlocked_array[5]) --The Mysterious Tower
+            WriteByte(Save+0x294C,0x02 * worlds_unlocked_array[6]) --Radiant Garden
+            WriteByte(Save+0x2954,0x02 * worlds_unlocked_array[8]) --Olympus Coliseum
+            WriteByte(Save+0x2958,0x02 * worlds_unlocked_array[9]) --Deep Space
+            WriteByte(Save+0x295C,0x00 * worlds_unlocked_array[10]) --Destiny Islands
             if ReadShort(Save+0x25F5) == 0x0000 then
                 WriteByte(Save+0x295D,0x08)
             else
                 WriteByte(Save+0x295D,0x01)
             end
-            if worlds_unlocked_array[11] == 1 then
-                WriteByte(Save+0x2960,0x02) --Never Land
-            end
-            if worlds_unlocked_array[12] == 1 then
-                WriteByte(Save+0x2964,0x02) --Disney Town
+            WriteByte(Save+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
+            WriteByte(Save+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
             end
             if read_number_of_wayfinders() == 3 then
                 WriteByte(Save+0x2968,0x02) --Keyblade Graveyard
