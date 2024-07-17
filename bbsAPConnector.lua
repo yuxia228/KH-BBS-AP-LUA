@@ -19,9 +19,9 @@ function define_world_progress_location_bits()
     end
     --Land of Departure
     world_progress_location_bits[1][11]  = {2271220000, 2271220001} --Max HP Increase, Critical Impact
-    world_progress_location_bits[1][4]   = {2271220002, 2271220003} --Ventus D-Link, Aqua D-Link
-    world_progress_location_bits[1][8]   = {2271220004} --Max HP Increase
-    world_progress_location_bits[1][10]  = {2271220005, 2271220006} --Chaos Ripper, Xehanort's Report 8
+    world_progress_location_bits[1][4]   = {2271220002, 2271220003, 2271220004} --Ventus D-Link, Aqua D-Link, Keyblade Board
+    world_progress_location_bits[1][8]   = {2271220005} --Max HP Increase
+    world_progress_location_bits[1][10]  = {2271220006, 2271220007} --Chaos Ripper, Xehanort's Report 8
     --Dwarf Woodlands
     world_progress_location_bits[2][6]   = {2271220100} --Air Slide
     world_progress_location_bits[2][10]  = {2271220101, 2271220102} --Max HP Increase, Firestorm
@@ -161,15 +161,9 @@ end
 function write_dlink(dlink_value)
     --Writes d-link to the player's inventory
     dlinks_address = {0x0, 0x10FA4EB4}
-    dlink_index = 0
+    dlink_index = dlink_value
     dlink_value = dlink_value + 0x163
     duplicate = false
-    while ReadShort(dlinks_address[game_version] + (8 * dlink_index)) ~= 0 do
-        if ReadShort(dlinks_address[game_version] + (8 * dlink_index)) == dlink_value then
-            duplicate = true
-        end
-        dlink_index = dlink_index + 1
-    end
     if not duplicate then
         WriteShort(dlinks_address[game_version] + (8 * dlink_index) + 0, dlink_value) --Write D-Link
         WriteShort(dlinks_address[game_version] + (8 * dlink_index) + 2, 0x8000) --Write ??
