@@ -479,13 +479,11 @@ function _OnInit()
         ConsolePrint("Steam Version Detected")
         can_execute = true
     end
-    if can_execute then
-        write_ap_item_text()
-    end
 end
 
 function _OnFrame()
     if character_selected_or_save_loaded() then
+        write_ap_item_text()
         remove_starting_wayfinder()
         frame_count = (frame_count + 1) % 30
         if frame_count == 0 then
