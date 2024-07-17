@@ -249,7 +249,7 @@ function write_max_hp(value)
 end
 
 function write_deck_capacity(value)
-    deck_capacity_address = {0x0, 0x10FA547A}
+    deck_capacity_address = {0x0, 0x10F9DE66}
     WriteByte(deck_capacity_address[game_version], math.min(value, 8))
 end
 
@@ -295,7 +295,7 @@ function read_max_hp()
 end
 
 function read_deck_capacity()
-    deck_capacity_address = {0x0, 0x10FA547A}
+    deck_capacity_address = {0x0, 0x10F9DE66}
     return ReadByte(deck_capacity_address[game_version])
 end
 
