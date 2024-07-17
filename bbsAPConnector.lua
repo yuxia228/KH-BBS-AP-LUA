@@ -9,8 +9,6 @@ IsSteamJPVersion = 0x610534
 can_execute = false
 frame_count = 0
 
-worlds_unlocked_array = {1,0,0,0,0,0,0,0,0,0,0,0,0}
-
 function define_world_progress_location_bits()
     world_progress_location_bits = {}
     for i=1,13 do
@@ -300,26 +298,6 @@ function read_deck_capacity()
     return WriteByte(deck_capacity_address[game_version])
 end
 
-function read_world_item()
-    ap_bits_address = {0x0, 0x10FA1D1C}
-    world_item_byte_array = ReadArray(ap_bits_address[game_version], 2)
-    world_item_bits_1 = toBits(world_item_byte_array[1], 8)
-    world_item_bits_2 = toBits(world_item_byte_array[2], 8)
-    worlds_unlocked_array[1] = 1 --LOD always unlocked
-    worlds_unlocked_array[2] = world_item_bits_1[2]
-    worlds_unlocked_array[3] = world_item_bits_1[3]
-    worlds_unlocked_array[4] = world_item_bits_1[4]
-    worlds_unlocked_array[5] = world_item_bits_1[5]
-    worlds_unlocked_array[6] = world_item_bits_1[6]
-    worlds_unlocked_array[7] = world_item_bits_1[7]
-    worlds_unlocked_array[8] = world_item_bits_1[8]
-    worlds_unlocked_array[9] = world_item_bits_2[1]
-    worlds_unlocked_array[10] = world_item_bits_2[2]
-    worlds_unlocked_array[11] = world_item_bits_2[3]
-    worlds_unlocked_array[12] = world_item_bits_2[4]
-    worlds_unlocked_array[13] = world_item_bits_2[5]
-end
-
 function read_chest_location_ids()
     location_ids = {}
     chests_opened_address = {0x0, 0x10FA2B7C}
@@ -425,6 +403,33 @@ function receive_items()
     write_check_number(i-1)
 end
 
+function removed_starting_wayfinder()
+    ap_bits_address = {0x0, 0x10FA1D1D}
+    ap_byte = ReadByte(ap_bits_address[game_version])
+    ap_bits = toBits(ap_byte, 8)
+    return ap_bits[7] == 1
+end
+
+function remove_starting_wayfinder()
+    if not removed_starting_wayfinder() then
+        key_item_stock_address = {0x0, 0x10FA2AAC}
+        ap_bits_address = {0x0, 0x10FA1D1D}
+        max_items = 25
+        item_index = 0
+        while ReadShort(key_item_stock_address[game_version] - (2 * item_index)) ~= 0 and item_index < max_items do
+            item_value = ReadShort(key_item_stock_address[game_version] - (2 * item_index))
+            if item_value == 0x1F1C or item_value == 0x1F1D or item_value == 0x1F20 then
+                WriteShort(key_item_stock_address[game_version] - (2 * item_index), 0x0000)
+            end
+        end
+        ap_byte = ReadByte(ap_bits_address[game_version])
+        ap_bits = toBits(ap_byte, 8)
+        ap_bits[7] = 1
+        ap_byte = toNum(ap_bits)
+        WriteByte(ap_bits_address[game_version], ap_byte)
+    end
+end
+
 function send_items()
     chest_location_ids = read_chest_location_ids()
     for location_index, location_id in pairs(chest_location_ids) do
@@ -481,12 +486,11 @@ end
 
 function _OnFrame()
     if character_selected_or_save_loaded() then
+        remove_starting_wayfinder()
         frame_count = (frame_count + 1) % 30
         if frame_count == 0 then
             receive_items()
             send_items()
         end
-        read_world_item()
-        write_worlds()
     end
 end
