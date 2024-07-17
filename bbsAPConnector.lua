@@ -171,8 +171,8 @@ function write_dlink(dlink_value)
     dlink_offset[7]  = 0x18
     dlink_offset[8]  = 0x30
     dlink_offset[9]  = 0x48
-    dlink_offset[10] = -0x18
-    dlink_offset[11] = -0x10
+    dlink_offset[10] = -0x10
+    dlink_offset[11] = -0x18
     dlink_offset[12] = -0x8
     dlinks_address = {0x0, 0x10FA4ECC}
     duplicate = false
