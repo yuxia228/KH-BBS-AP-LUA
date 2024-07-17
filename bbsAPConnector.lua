@@ -160,15 +160,15 @@ end
 
 function write_dlink(dlink_value)
     --Writes d-link to the player's inventory
-    dlinks_address = {0x0, 0x10FA4EB4}
+    dlinks_address = {0x0, 0x10FA4ECC}
     dlink_index = dlink_value
     dlink_value = dlink_value + 0x163
     duplicate = false
     if not duplicate then
-        WriteShort(dlinks_address[game_version] + (16 * dlink_index) + 0, dlink_value) --Write D-Link
-        WriteShort(dlinks_address[game_version] + (16 * dlink_index) + 2, 0x8000) --Write ??
-        WriteShort(dlinks_address[game_version] + (16 * dlink_index) + 4, 0) --Write ??
-        WriteShort(dlinks_address[game_version] + (16 * dlink_index) + 6, 0) --Write ??
+        WriteShort(dlinks_address[game_version] + (0x10 * dlink_index) + 0, dlink_value) --Write D-Link
+        WriteShort(dlinks_address[game_version] + (0x10 * dlink_index) + 2, 0x8000) --Write ??
+        WriteShort(dlinks_address[game_version] + (0x10 * dlink_index) + 4, 0) --Write ??
+        WriteShort(dlinks_address[game_version] + (0x10 * dlink_index) + 6, 0) --Write ??
     end
 end
 
