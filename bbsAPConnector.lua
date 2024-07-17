@@ -274,6 +274,11 @@ function write_victory_item()
     WriteByte(ap_bits_address[game_version], toNum(ap_bits))
 end
 
+function write_ap_item_text()
+    dummy_id_text_address = {0x0, 0xD65550}
+    WriteArray(dummy_id_text_address[game_version], {0x41,0x50,0x20,0x49,0x74,0x65,0x6D,0x00})
+end
+
 function read_check_number()
     check_number_address = {0x0, 0x10FA1D20}
     return ReadInt(check_number_address[game_version])
@@ -470,7 +475,7 @@ function _OnInit()
         can_execute = true
     end
     if can_execute then
-        --write_command(98)
+        write_ap_item_text()
     end
 end
 
