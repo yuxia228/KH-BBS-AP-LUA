@@ -403,6 +403,9 @@ function receive_items()
             write_max_hp(read_max_hp() + 5)
         elseif received_item_id == 2270060001 then
             write_deck_capacity(read_deck_capacity() + 1)
+        elseif received_item_id >= 2270070000 and received_item_id <= 2270070012 then
+            item_value = received_item_id % 2270070000
+            write_dlink(item_value)
         end
         i = i + 1
     end
