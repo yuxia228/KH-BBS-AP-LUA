@@ -11,3 +11,7 @@ assets:
   method: copy
   source:
   - name: bbsAPEXPMultiplier.lua
+- name: scripts/bbsAPOpenWorld.lua
+  method: copy
+  source:
+  - name: bbsAPOpenWorld.lua
