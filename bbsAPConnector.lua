@@ -346,6 +346,11 @@ function read_world_progress_location_ids()
     return location_ids
 end
 
+function read_current_character()
+    current_character_address = {0x0, 0x10F9F800}
+    return ReadByte(current_character_address[game_version])
+end
+
 function victorious()
     ap_bits_address = {0x0, 0x10FA1D1D}
     ap_byte = ReadByte(ap_bits_address[game_version])
@@ -414,11 +419,12 @@ function remove_starting_wayfinder()
     if not removed_starting_wayfinder() then
         key_item_stock_address = {0x0, 0x10FA2AAC}
         ap_bits_address = {0x0, 0x10FA1D1D}
+        wayfinder_value = {0x1F1C, 0x1F1F, 0x1F20}
         max_items = 25
         item_index = 0
         while ReadShort(key_item_stock_address[game_version] - (2 * item_index)) ~= 0 and item_index < max_items do
             item_value = ReadShort(key_item_stock_address[game_version] - (2 * item_index))
-            if item_value == 0x1F1C or item_value == 0x1F1D or item_value == 0x1F20 then
+            if item_value == wayfinder_value[read_current_character() + 1] then
                 WriteShort(key_item_stock_address[game_version] - (2 * item_index), 0x0000)
                 ap_byte = ReadByte(ap_bits_address[game_version])
                 ap_bits = toBits(ap_byte, 8)
