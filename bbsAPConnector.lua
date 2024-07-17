@@ -432,6 +432,7 @@ function remove_starting_wayfinder()
                 ap_byte = toNum(ap_bits)
                 WriteByte(ap_bits_address[game_version], ap_byte)
             end
+            item_index = item_index + 1
         end
     end
 end
