@@ -10,6 +10,39 @@ can_execute = false
 
 worlds_unlocked_array = {1,0,0,0,0,0,0,0,0,0,0,0,0}
 
+function toBits(num, zeroes)
+    -- returns a table of bits, least significant first.
+    local t={} -- will contain the bits
+    while num>0 do
+        rest=math.fmod(num,2)
+        t[#t+1]=rest
+        num=(num-rest)/2
+    end
+    for i=1,8 do
+        if t[i] == nil then
+            t[i] = 0
+        end
+    end
+    for i=1,zeroes do
+        if t[i] == nil then
+            t[i] = 0
+        end
+    end
+    return t
+end
+
+function toNum(bits)
+    --returns a number previously represented by bits
+    num = 0
+    for i=1,#bits do
+        if bits[i] == 1 then
+            num = num + (2^(i-1))
+        end
+    end
+    return num
+end
+
+
 function read_world_item()
     ap_bits_address = {0x0, 0x10FA1D1C}
     world_item_byte_array = ReadArray(ap_bits_address[game_version], 2)
