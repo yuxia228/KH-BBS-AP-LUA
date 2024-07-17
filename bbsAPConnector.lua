@@ -162,6 +162,7 @@ function write_dlink(dlink_value)
     --Writes d-link to the player's inventory
     dlinks_address = {0x0, 0x10FA4EB4}
     dlink_index = 0
+    dlink_value = dlink_value + 0x163
     duplicate = false
     while ReadShort(dlinks_address[game_version] + (8 * dlink_index)) ~= 0 do
         if ReadShort(dlinks_address[game_version] + (8 * dlink_index)) == dlink_value then
