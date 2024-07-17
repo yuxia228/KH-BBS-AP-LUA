@@ -111,7 +111,7 @@ end
 function _OnFrame()
     if can_execute then
         --Open All Worlds
-        if ReadShort(Now+0x10) >= 0x0101 and ReadShort(Now+0x00) == 0x0111 then
+        if ReadShort(Now+0x00) == 0x0111 then
             read_world_item()
             WriteInt(Save+0x2938,0x00002002 * worlds_unlocked_array[1]) --The Land of Departure
             WriteInt(Save+0x293C,0x00000102 * worlds_unlocked_array[2]) --Dwarf Woodlands
