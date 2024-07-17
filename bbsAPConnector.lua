@@ -296,7 +296,7 @@ end
 
 function read_deck_capacity()
     deck_capacity_address = {0x0, 0x10F9DE66}
-    return WriteByte(deck_capacity_address[game_version])
+    return ReadByte(deck_capacity_address[game_version])
 end
 
 function read_chest_location_ids()
