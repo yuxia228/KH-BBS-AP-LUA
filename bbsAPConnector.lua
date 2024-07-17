@@ -204,7 +204,7 @@ end
 function write_command_style(command_style_offset)
     --Writes command style to a players command style array
     command_style_address = {0x0, 0x10FA45CC}
-    WriteByte(command_stock_address[game_version]+command_style_offset, 0x05)
+    WriteByte(command_style_address[game_version]+command_style_offset, 0x05)
 end
 
 function write_worlds()
