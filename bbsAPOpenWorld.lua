@@ -112,7 +112,7 @@ function _OnFrame()
     if can_execute then
         --Open All Worlds
         if ReadShort(Now+0x10) == 0x0101 and ReadShort(Now+0x00) == 0x0111 then
-            worlds_unlocked_array = read_world_item()
+            read_world_item()
             if worlds_unlocked_array[1] == 1 then
                 WriteInt(Save+0x2938,0x00002002) --The Land of Departure
             end
