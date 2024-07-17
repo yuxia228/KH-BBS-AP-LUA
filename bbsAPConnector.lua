@@ -160,6 +160,7 @@ end
 
 function write_dlink(dlink_value)
     --Writes d-link to the player's inventory
+    dlink_offset = {}
     dlink_offset[0]  = 0x0
     dlink_offset[1]  = 0x8
     dlink_offset[2]  = 0x10
