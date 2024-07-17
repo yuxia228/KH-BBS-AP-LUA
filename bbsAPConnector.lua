@@ -261,7 +261,7 @@ function write_world_item(world_offset)
         bit_num = (world_offset % 8) + 1
         ap_byte = ReadByte(ap_bits_address[game_version] + address_offset)
         ap_bits = toBits(ap_byte, 8)
-        ap_bits[world_offset+1] = 1
+        ap_bits[bit_num] = 1
         WriteByte(ap_bits_address[game_version] + address_offset, toNum(ap_bits))
     end
 end
