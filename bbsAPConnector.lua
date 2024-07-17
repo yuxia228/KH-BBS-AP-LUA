@@ -420,13 +420,13 @@ function remove_starting_wayfinder()
             item_value = ReadShort(key_item_stock_address[game_version] - (2 * item_index))
             if item_value == 0x1F1C or item_value == 0x1F1D or item_value == 0x1F20 then
                 WriteShort(key_item_stock_address[game_version] - (2 * item_index), 0x0000)
+                ap_byte = ReadByte(ap_bits_address[game_version])
+                ap_bits = toBits(ap_byte, 8)
+                ap_bits[7] = 1
+                ap_byte = toNum(ap_bits)
+                WriteByte(ap_bits_address[game_version], ap_byte)
             end
         end
-        ap_byte = ReadByte(ap_bits_address[game_version])
-        ap_bits = toBits(ap_byte, 8)
-        ap_bits[7] = 1
-        ap_byte = toNum(ap_bits)
-        WriteByte(ap_bits_address[game_version], ap_byte)
     end
 end
 
