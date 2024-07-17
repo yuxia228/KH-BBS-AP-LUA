@@ -1369,7 +1369,6 @@ function _OnFrame()
             end
             WriteByte(Save+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
-            end
             if read_number_of_wayfinders() == 3 then
                 WriteByte(Save+0x2968,0x02) --Keyblade Graveyard
             end
