@@ -126,9 +126,7 @@ function _OnFrame()
             end
             WriteInt(Save+0x2960,0x00000102 * worlds_unlocked_array[11]) --Never Land
             WriteInt(Save+0x2964,0x00000102 * worlds_unlocked_array[12]) --Disney Town
-            if read_number_of_wayfinders() >= 3 then
-                WriteInt(Save+0x2968,0x00000102) --Keyblade Graveyard
-            end
+            WriteInt(Save+0x2968,0x00000102 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
             --WriteInt(Save+0x2970,0x00000002) --Mirage Arena
             --WriteInt(Save+0x2815,0x01010101) --LoD, DW, CS, ED
             --WriteInt(Save+0x2819,0x01010101) --TMT, RG, Special, OC
@@ -178,9 +176,7 @@ function _OnFrame()
             WriteByte(Save+0x295C,0x00 * worlds_unlocked_array[10]) --Destiny Islands
             WriteByte(Save+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
-            if read_number_of_wayfinders() >= 3 then
-                WriteByte(Save+0x2968,0x02) --Keyblade Graveyard
-            end
+            WriteByte(Save+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
             if ReadByte(Save+0x2969) == 0x15 then
                 WriteByte(Save+0x2969,0x01)
             end
@@ -746,9 +742,7 @@ function _OnFrame()
             WriteByte(Save+0x295C,0x00 * worlds_unlocked_array[10]) --Destiny Islands
             WriteByte(Save+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
-            if read_number_of_wayfinders() >= 3 then
-                WriteByte(Save+0x2968,0x02) --Keyblade Graveyard
-            end
+            WriteByte(Save+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
             if ReadByte(Save+0x2969) == 0x15 then
                 WriteByte(Save+0x2969,0x01)
             end
@@ -1369,9 +1363,7 @@ function _OnFrame()
             end
             WriteByte(Save+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
-            if read_number_of_wayfinders() == 3 then
-                WriteByte(Save+0x2968,0x02) --Keyblade Graveyard
-            end
+            WriteByte(Save+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
             if ReadByte(Save+0x2969) == 0x15 then
                 WriteByte(Save+0x2969,0x01)
             end
