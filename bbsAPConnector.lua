@@ -11,50 +11,98 @@ frame_count = 0
 
 function define_world_progress_location_bits()
     world_progress_location_bits = {}
-    for i=1,13 do
-        world_progress_location_bits[i] = {}
-        for j=1,16 do
-            world_progress_location_bits[i][j] = {}
+    world_progress_location_bits[0] = {} --Ventus
+    world_progress_location_bits[1] = {} --Aqua
+    world_progress_location_bits[2] = {} --Terra
+    for k=0,2 do
+        for i=1,13 do
+            world_progress_location_bits[k][i] = {}
+            for j=1,16 do
+                world_progress_location_bits[k][i][j] = {}
+            end
         end
     end
+    --Aqua
     --Land of Departure
-    world_progress_location_bits[1][11]  = {2271220000, 2271220001} --Max HP Increase, Critical Impact
-    world_progress_location_bits[1][4]   = {2271220002, 2271220003, 2271220004} --Ventus D-Link, Aqua D-Link, Keyblade Board
-    world_progress_location_bits[1][8]   = {2271220005} --Max HP Increase
-    world_progress_location_bits[1][10]  = {2271220006, 2271220007} --Chaos Ripper, Xehanort's Report 8
+    world_progress_location_bits[1][1][3]   = {2271120000, 2271120001} --Max HP Increase, Spellweaver
+    world_progress_location_bits[1][1][5]   = {2271120002, 2271120003, 2271120004} --Ventus D-Link, Terra D-Link, Keyblade Board
     --Dwarf Woodlands
-    world_progress_location_bits[2][6]   = {2271220100} --Air Slide
-    world_progress_location_bits[2][10]  = {2271220101, 2271220102} --Max HP Increase, Firestorm
-    world_progress_location_bits[2][12]  = {2271220103} --Treasure Trove
+    world_progress_location_bits[1][2][8]   = {2271120100} --Deck Capacity Increase
+    world_progress_location_bits[1][2][10]  = {2271120101, 2271120102} --Snow White D-Link, Treasure Trove
     --Castle of Dreams
-    world_progress_location_bits[3][11]  = {2271220200} --Counter Hammer
-    world_progress_location_bits[3][8]   = {2271220201, 2271220202} --Max HP Increase, Deck Capacity Increase
-    world_progress_location_bits[3][13]  = {2271220203, 2271220204, 2271220205} --Cinderella D-Link, Stroke of Midnight, Royal Board
+    world_progress_location_bits[1][3][4]   = {2271120200} --Map
+    world_progress_location_bits[1][3][10]  = {2271120201} --Thunderbolt
+    world_progress_location_bits[1][3][16]  = {2271120202, 2271120203, 2271120204, 2271120205, 2271120206} --Max HP Increase, Deck Capacity Increase, Cinderella D-Link, Stroke of Midnight, Castle Board
     --Enchanted Dominion
-    world_progress_location_bits[4][7]   = {2271220300} --Maleficent D-Link
-    world_progress_location_bits[4][9]   = {2271220301, 2271220302, 2271220303} --Deck Capacity Increase, Diamond Dust, Fairy Stars
+    world_progress_location_bits[1][4][8]   = {2271120300} --High Jump
+    world_progress_location_bits[1][4][11]  = {2271120301, 2271120302} --Max HP Increase, Firestorm
+    world_progress_location_bits[1][4][12]  = {2271120303, 2271120304} --Fairy Stars, Xehanort's Report 6
+    --Mysterious Tower
+    world_progress_location_bits[1][5][2]   = {2271120400, 2271120401, 2271120402} --Donald D-Link, Goofy D-Link, Xehanort's Report 4
     --Radiant Garden
-    world_progress_location_bits[6][1]   = {2271220500} --Honey Pot Board
-    world_progress_location_bits[6][9]   = {2271220501, 2271220502, 2271220503} --Max HP Increase, Rockbreaker, Disney Town Pass
-    world_progress_location_bits[6][12]  = {2271220504, 2271220505, 2271220506} --Deck Capacity Increase, Dark Volley, Xehanort's Report 2
+    world_progress_location_bits[1][6][3]   = {2271120500, 2271120501} --Mickey D-Link, Destiny's Embrace
+    world_progress_location_bits[1][6][6]   = {2271120502, 2271120503, 2271120504} --Max HP Increase, Bladecharge, Disney Town Pass
+    world_progress_location_bits[1][6][10]  = {2271120505} --Honey Pot Board
+    world_progress_location_bits[1][6][9]   = {2271120506} --Deck Capacity Increase
     --Olympus Coliseum
-    world_progress_location_bits[8][8]   = {2271220700, 2271220701} --Max HP Increase, Sonic Impact
-    world_progress_location_bits[8][12]  = {2271220702, 2271220703, 2271220704} --Deck Capacity Increase, Zack D-Link, Mark of a Hero
+    world_progress_location_bits[1][8][8]   = {2271120700} --Max HP Increase
+    world_progress_location_bits[1][8][10]  = {2271120701} --Deck Capacity Increase
+    world_progress_location_bits[1][8][13]  = {2271120702} --Diamond Dust
+    world_progress_location_bits[1][8][14]  = {2271120703, 2271120704} --Zack D-Link, Mark of a Hero
     --Deep Space
-    world_progress_location_bits[9][9]   = {2271220800} --Max HP Increase
-    world_progress_location_bits[9][10]  = {2271220801, 2271220802, 2271220803, 2271220804} --Thunderbolt, Experiment 626 D-Link, Hyperdrive, Spaceship Board
-    --Destiny Islands
-    world_progress_location_bits[10][1]  = {2271220900} --Ends of the Earth
+    world_progress_location_bits[1][9][10]  = {2271120800} --Air Slide
+    world_progress_location_bits[1][9][11]  = {2271120801} --Max HP Increase
+    world_progress_location_bits[1][9][16]  = {2271120802, 2271120803, 2271120804, 2271120805} --Deck Capacity Increase, Experiment 626 D-Link, Hyperdrive, Spaceship Board
     --Neverland
-    world_progress_location_bits[11][6]  = {2271221000, 2271221001} --Bladecharge, Peter Pan D-Link
-    world_progress_location_bits[11][9]  = {2271221002} --Deck Capacity Increase
-    world_progress_location_bits[11][10] = {2271221003, 2271221004} --Pixie Petal, Skull Board
+    world_progress_location_bits[1][11][6]  = {2271121000} --Doubleflight
+    world_progress_location_bits[1][11][8]  = {2271121001, 2271121002} --Max HP Increase, Ghost Drive
+    world_progress_location_bits[1][11][9]  = {2271121003, 2271121004, 2271121005, 2271121006} --Peter Pan D-Link, Pixie Petal, Stormfall, Skull Board
     --Disney Town
-    world_progress_location_bits[12][7]  = {2271221100, 2271221101} --Hi-Potion and Toon Board
+    world_progress_location_bits[1][12][5]  = {2271121100, 2271121101} --Balloon Letter, Toon Board
     --Keyblade Graveyard
-    world_progress_location_bits[13][3]  = {2271221200} --Dark Impulse
-    world_progress_location_bits[13][10] = {2271221201} --Max HP Increase
-    world_progress_location_bits[13][15] = {2271221201} --Story Complete
+    world_progress_location_bits[1][13][8]  = {2271121200} --Max HP Increase
+    world_progress_location_bits[1][13][9]  = {2271121201} --Xehanort's Report 7
+    
+    --Terra
+    --Land of Departure
+    world_progress_location_bits[2][1][11]  = {2271220000, 2271220001} --Max HP Increase, Critical Impact
+    world_progress_location_bits[2][1][4]   = {2271220002, 2271220003, 2271220004} --Ventus D-Link, Aqua D-Link, Keyblade Board
+    world_progress_location_bits[2][1][8]   = {2271220005} --Max HP Increase
+    world_progress_location_bits[2][1][10]  = {2271220006, 2271220007} --Chaos Ripper, Xehanort's Report 8
+    --Dwarf Woodlands
+    world_progress_location_bits[2][2][6]   = {2271220100} --Air Slide
+    world_progress_location_bits[2][2][10]  = {2271220101, 2271220102} --Max HP Increase, Firestorm
+    world_progress_location_bits[2][2][12]  = {2271220103} --Treasure Trove
+    --Castle of Dreams
+    world_progress_location_bits[2][3][11]  = {2271220200} --Counter Hammer
+    world_progress_location_bits[2][3][8]   = {2271220201, 2271220202} --Max HP Increase, Deck Capacity Increase
+    world_progress_location_bits[2][3][13]  = {2271220203, 2271220204, 2271220205} --Cinderella D-Link, Stroke of Midnight, Royal Board
+    --Enchanted Dominion
+    world_progress_location_bits[2][4][7]   = {2271220300} --Maleficent D-Link
+    world_progress_location_bits[2][4][9]   = {2271220301, 2271220302, 2271220303} --Deck Capacity Increase, Diamond Dust, Fairy Stars
+    --Radiant Garden
+    world_progress_location_bits[2][6][1]   = {2271220500} --Honey Pot Board
+    world_progress_location_bits[2][6][9]   = {2271220501, 2271220502, 2271220503} --Max HP Increase, Rockbreaker, Disney Town Pass
+    world_progress_location_bits[2][6][12]  = {2271220504, 2271220505, 2271220506} --Deck Capacity Increase, Dark Volley, Xehanort's Report 2
+    --Olympus Coliseum
+    world_progress_location_bits[2][8][8]   = {2271220700, 2271220701} --Max HP Increase, Sonic Impact
+    world_progress_location_bits[2][8][12]  = {2271220702, 2271220703, 2271220704} --Deck Capacity Increase, Zack D-Link, Mark of a Hero
+    --Deep Space
+    world_progress_location_bits[2][9][9]   = {2271220800} --Max HP Increase
+    world_progress_location_bits[2][9][10]  = {2271220801, 2271220802, 2271220803, 2271220804} --Thunderbolt, Experiment 626 D-Link, Hyperdrive, Spaceship Board
+    --Destiny Islands
+    world_progress_location_bits[2][10][1]  = {2271220900} --Ends of the Earth
+    --Neverland
+    world_progress_location_bits[2][11][6]  = {2271221000, 2271221001} --Bladecharge, Peter Pan D-Link
+    world_progress_location_bits[2][11][9]  = {2271221002} --Deck Capacity Increase
+    world_progress_location_bits[2][11][10] = {2271221003, 2271221004} --Pixie Petal, Skull Board
+    --Disney Town
+    world_progress_location_bits[2][12][7]  = {2271221100, 2271221101} --Hi-Potion and Toon Board
+    --Keyblade Graveyard
+    world_progress_location_bits[2][13][3]  = {2271221200} --Dark Impulse
+    world_progress_location_bits[2][13][10] = {2271221201} --Max HP Increase
+    world_progress_location_bits[2][13][15] = {2271221201} --Story Complete
+    
     return world_progress_location_bits
 end
 
@@ -343,7 +391,7 @@ function read_world_progress_location_ids()
         world_progress_bits = toBits(world_progress_value, 16)
         for i=1,16 do
             if world_progress_bits[i] > 0 then
-                for k,v in pairs(world_progress_location_bits[world_progress_index+1][i]) do
+                for k,v in pairs(world_progress_location_bits[read_current_character()][world_progress_index+1][i]) do
                     location_ids[#location_ids + 1] = v
                 end
             end
