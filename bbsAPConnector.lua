@@ -15,7 +15,7 @@ function define_world_progress_location_bits()
     world_progress_location_bits[1] = {} --Aqua
     world_progress_location_bits[2] = {} --Terra
     for k=0,2 do
-        for i=1,13 do
+        for i=1,14 do
             world_progress_location_bits[k][i] = {}
             for j=1,16 do
                 world_progress_location_bits[k][i][j] = {}
