@@ -8,7 +8,7 @@ IsSteamGLVersion = 0x6107B4
 IsSteamJPVersion = 0x610534
 can_execute = false
 
-xp_mult = 10
+xp_mult = 1
 mult_applied = false
 
 if os.getenv('LOCALAPPDATA') ~= nil then
