@@ -362,7 +362,7 @@ function read_chest_location_ids()
         chest_bits = toBits(chest_byte, 8)
         for i=1,8 do
             if chest_bits[i] == 1 then
-                location_ids[#location_ids + 1] = location_add_array[read_current_character()] + ((chest_index-1)*10) + i
+                location_ids[#location_ids + 1] = location_add_array[read_current_character() - 1] + ((chest_index-1)*10) + i
             end
         end
     end
@@ -378,7 +378,7 @@ function read_sticker_location_ids()
         sticker_bits = toBits(sticker_byte, 8)
         for i=1,8 do
             if sticker_bits[i] == 1 then
-                location_ids[#location_ids + 1] = location_add_array[read_current_character()] + ((sticker_index-1)*10) + i
+                location_ids[#location_ids + 1] = location_add_array[read_current_character() - 1] + ((sticker_index-1)*10) + i
             end
         end
     end
