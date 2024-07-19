@@ -394,7 +394,7 @@ end
 function read_chest_location_ids()
     location_ids = {}
     chests_opened_address = {0x0, 0x10FA2B7C}
-    location_add_array = {0, 2271100000, 2271200000}
+    location_add_array = {2271000000, 2271100000, 2271200000}
     chests_opened_array = ReadArray(chests_opened_address[game_version], 26)
     for chest_index, chest_byte in pairs(chests_opened_array) do
         chest_bits = toBits(chest_byte, 8)
@@ -410,7 +410,7 @@ end
 function read_sticker_location_ids()
     location_ids = {}
     stickers_found_address = {0x0, 0x10FA2B9C}
-    location_add_array = {0, 2271110000, 2271210000}
+    location_add_array = {2271010000, 2271110000, 2271210000}
     stickers_opened_array = ReadArray(stickers_found_address[game_version], 3)
     for sticker_index, sticker_byte in pairs(stickers_opened_array) do
         sticker_bits = toBits(sticker_byte, 8)
