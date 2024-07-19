@@ -48,7 +48,7 @@ function define_world_progress_location_bits()
     --Deep Space
     world_progress_location_bits[0][9][5]   = {2271020800} --Wingblade
     world_progress_location_bits[0][9][11]  = {2271020801, 2271020802} --Max HP Increase, Deck Capacity Increase
-    world_progress_location_bits[0][9][12]  = {2271020803, 2271020804, 2271020804} --Experiment 626 D-Link, Hyperdrive, Spaceship Board
+    world_progress_location_bits[0][9][12]  = {2271020803, 2271020804, 2271020805} --Experiment 626 D-Link, Hyperdrive, Spaceship Board
     --Neverland
     world_progress_location_bits[0][11][11] = {2271021000} --Glide
     world_progress_location_bits[0][11][13] = {2271021001, 2271021002, 2271021003, 2271021004} --Deck Capacity Increase, Peter Pan D-Link, Pixie Petal, Skull Board
