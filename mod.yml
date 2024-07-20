@@ -15,3 +15,7 @@ assets:
   method: copy
   source:
   - name: bbsAPOpenWorld.lua
+- name: arc/pc_terra/shopCmdTe.arc
+  method: copy
+  source:
+  - name: arc/pc_terra/shopCmdTe.arc
