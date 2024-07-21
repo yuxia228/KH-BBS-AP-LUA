@@ -53,7 +53,7 @@ function define_world_progress_location_bits()
     world_progress_location_bits[0][11][11] = {2271021000} --Glide
     world_progress_location_bits[0][11][13] = {2271021001, 2271021002, 2271021003, 2271021004} --Deck Capacity Increase, Peter Pan D-Link, Pixie Petal, Skull Board
     --Disney Town
-    world_progress_location_bits[0][12][7]  = {2271021100} --Toon Board
+    world_progress_location_bits[0][12][6]  = {2271021100} --Toon Board
     --Keyblade Graveyard
     world_progress_location_bits[0][13][8]  = {2271021200, 2271021201, 2271021202, 2271021203} --Max HP Increase, Deck Capacity Increase, High Jump, Mickey D-Link
     world_progress_location_bits[0][13][11] = {2271021204, 2271021205} --Lost Memory, Xehanort's Report 9
