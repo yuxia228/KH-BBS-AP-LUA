@@ -19,3 +19,15 @@ assets:
   method: copy
   source:
   - name: arc/pc_terra/shopCmdTe.arc
+- name: arc/pc_terra/shopCmdTe.arc
+  method: copy
+  source:
+  - name: arc/pc_terra/shopCmdTe.arc
+- name: arc/pc_ven/shopCmdVe.arc
+  method: copy
+  source:
+  - name: arc/pc_ven/shopCmdVe.arc
+- name: arc/pc_aqua/shopCmdAq.arc
+  method: copy
+  source:
+  - name: arc/pc_aqua/shopCmdAq.arc
