@@ -107,6 +107,7 @@ function define_world_progress_location_bits()
     world_progress_location_bits[2][1][10]  = {2271220006, 2271220007} --Chaos Ripper, Xehanort's Report 8
     --Dwarf Woodlands
     world_progress_location_bits[2][2][6]   = {2271220100} --Air Slide
+    world_progress_location_bits[2][2][9]   = {2271220101, 2271220102} --Max HP Increase, Firestorm
     world_progress_location_bits[2][2][10]  = {2271220101, 2271220102} --Max HP Increase, Firestorm
     world_progress_location_bits[2][2][12]  = {2271220103} --Treasure Trove
     --Castle of Dreams
