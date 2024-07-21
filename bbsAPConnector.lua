@@ -53,12 +53,10 @@ function define_world_progress_location_bits()
     world_progress_location_bits[0][11][11] = {2271021000} --Glide
     world_progress_location_bits[0][11][13] = {2271021001, 2271021002, 2271021003, 2271021004} --Deck Capacity Increase, Peter Pan D-Link, Pixie Petal, Skull Board
     --Disney Town
-    world_progress_location_bits[0][12][7]  = {2271021100} --Toon Board
+    world_progress_location_bits[0][12][6]  = {2271021100} --Toon Board
     --Keyblade Graveyard
     world_progress_location_bits[0][13][8]  = {2271021200, 2271021201, 2271021202, 2271021203} --Max HP Increase, Deck Capacity Increase, High Jump, Mickey D-Link
     world_progress_location_bits[0][13][11] = {2271021204, 2271021205} --Lost Memory, Xehanort's Report 9
-    --Keyblade Graveyard Cont
-    world_progress_location_bits[0][14][4]  = {2271021206} --Xehanort's Report 10
     
     --Aqua
     --Land of Departure
@@ -425,6 +423,7 @@ end
 
 function read_world_progress_location_ids()
     world_progress_address = {0x0, 0x10FA1D24}
+    final_story_address = {0x0, 0x10FA1EA6}
     location_ids = {}
     world_progress_index = 0
     while world_progress_index < 14 do
@@ -438,6 +437,9 @@ function read_world_progress_location_ids()
             end
         end
         world_progress_index = world_progress_index + 1
+    end
+    if ReadShort(final_story_address[game_version]) >= 0x000F and read_current_character() == 0 then
+        location_ids[#location_ids + 1] = 2271021206
     end
     return location_ids
 end

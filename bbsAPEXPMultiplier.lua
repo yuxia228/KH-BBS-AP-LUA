@@ -8,8 +8,9 @@ IsSteamGLVersion = 0x6107B4
 IsSteamJPVersion = 0x610534
 can_execute = false
 
-xp_mult = 1
+exp_mult = 1
 mult_applied = false
+mult_read = false
 
 if os.getenv('LOCALAPPDATA') ~= nil then
     client_communication_path = os.getenv('LOCALAPPDATA') .. "\\KHBBSFMAP\\"
@@ -27,18 +28,22 @@ function file_exists(name)
 end
 
 function read_mult()
-    if file_exists(client_communication_path .. "xpmult.cfg") then
-        file = io.open(client_communication_path .. "xpmult.cfg", "r")
-        io.input(file)
-        xp_mult = tonumber(io.read())
-        io.close(file)
-    elseif file_exists(client_communication_path .. "EXP Multiplier.cfg") then
-        file = io.open(client_communication_path .. "EXP Multiplier.cfg", "r")
-        io.input(file)
-        xp_mult = tonumber(io.read())
-        io.close(file)
-    else
-        xp_mult = 1
+    if not mult_read then
+        if file_exists(client_communication_path .. "xpmult.cfg") then
+            file = io.open(client_communication_path .. "xpmult.cfg", "r")
+            io.input(file)
+            exp_mult = tonumber(io.read())
+            io.close(file)
+            mult_read = true
+        elseif file_exists(client_communication_path .. "EXP Multiplier.cfg") then
+            file = io.open(client_communication_path .. "EXP Multiplier.cfg", "r")
+            io.input(file)
+            exp_mult = tonumber(io.read())
+            io.close(file)
+            mult_read = true
+        else
+            exp_mult = 1
+        end
     end
 end
 
@@ -57,8 +62,9 @@ end
 
 function _OnFrame()
     if can_execute then
+        read_mult()
         to_next_level_table_address = {0x649724, 0x6485F4}
-        if xp_mult ~= 1 and ReadInt(to_next_level_table_address[game_version]) == 90 then
+        if exp_mult ~= 1 and ReadInt(to_next_level_table_address[game_version]) == 90 then
             for i=1,99 do
                 to_next_level_address = to_next_level_table_address[game_version] + ((i-1)*4)
                 WriteInt(to_next_level_address, math.ceil(ReadInt(to_next_level_address)/exp_mult))
