@@ -68,14 +68,17 @@ function read_number_of_wayfinders()
     max_items = 25
     item_index = 0
     wayfinders = {}
+    wayfinders[0x1F1C] = 0
+    wayfinders[0x1F1F] = 0
+    wayfinders[0x1F20] = 0
     while ReadShort(key_item_stock_address[game_version] - (2 * item_index)) ~= 0 and item_index < max_items do
         item_value = ReadShort(key_item_stock_address[game_version] - (2 * item_index))
-        if item_value == 0x1F1C or item_value == 0x1F1D or item_value == 0x1F20 then
+        if item_value == 0x1F1C or item_value == 0x1F1F or item_value == 0x1F20 then
             wayfinders[item_value] = 1
         end
         item_index = item_index + 1
     end
-    return #wayfinders
+    return wayfinders[0x1F1C] + wayfinders[0x1F1F] + wayfinders[0x1F20]
 end
 
 function character_selected_or_save_loaded()
