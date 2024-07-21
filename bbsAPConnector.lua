@@ -438,7 +438,7 @@ function read_world_progress_location_ids()
         end
         world_progress_index = world_progress_index + 1
     end
-    if ReadShort(final_story_address[game_version] >= 0x000F then
+    if ReadShort(final_story_address[game_version]) >= 0x000F then
         location_ids[#location_ids + 1] = 2271021206
     end
     return location_ids
