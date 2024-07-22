@@ -28,7 +28,7 @@ function define_world_progress_location_bits()
     world_progress_location_bits[0][1][16]  = {2271020002, 2271020003, 2271020004, 2271020005} --Aqua D-Link, Terra D-Link, Xehanort's Letter, Keyblade Board
     --Dwarf Woodlands
     world_progress_location_bits[0][2][12]  = {2271020100} --Max HP Increase
-    world_progress_location_bits[0][2][15]  = {2271020100} --Deck Capacity Increase, Firestorm, Snow White D-Link, Treasure Trove
+    world_progress_location_bits[0][2][15]  = {2271020101, 2271020102, 2271020103, 2271020104} --Deck Capacity Increase, Firestorm, Snow White D-Link, Treasure Trove
     --Castle of Dreams
     world_progress_location_bits[0][3][10]  = {2271020200, 2271020201, 2271020202, 2271020203} --Diamond Dust, Cinderella D-Link, Stroke of Midnight, Castle Board
     --Enchanted Dominion
@@ -88,7 +88,7 @@ function define_world_progress_location_bits()
     --Deep Space
     world_progress_location_bits[1][9][10]  = {2271120800} --Air Slide
     world_progress_location_bits[1][9][11]  = {2271120801} --Max HP Increase
-    world_progress_location_bits[1][9][16]  = {2271120802, 2271120803, 2271120804, 2271120805} --Deck Capacity Increase, Experiment 626 D-Link, Hyperdrive, Spaceship Board
+    world_progress_location_bits[1][9][15]  = {2271120802, 2271120803, 2271120804, 2271120805} --Deck Capacity Increase, Experiment 626 D-Link, Hyperdrive, Spaceship Board
     --Neverland
     world_progress_location_bits[1][11][6]  = {2271121000} --Doubleflight
     world_progress_location_bits[1][11][8]  = {2271121001, 2271121002} --Max HP Increase, Ghost Drive
@@ -138,7 +138,7 @@ function define_world_progress_location_bits()
     --Keyblade Graveyard
     world_progress_location_bits[2][13][3]  = {2271221200} --Dark Impulse
     world_progress_location_bits[2][13][10] = {2271221201} --Max HP Increase
-    world_progress_location_bits[2][13][15] = {2271221201} --Story Complete
+    world_progress_location_bits[2][13][15] = {2271221202} --Story Complete
     
     return world_progress_location_bits
 end
