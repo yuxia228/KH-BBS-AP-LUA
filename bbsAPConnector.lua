@@ -138,7 +138,7 @@ function define_world_progress_location_bits()
     --Keyblade Graveyard
     world_progress_location_bits[2][13][3]  = {2271221200} --Dark Impulse
     world_progress_location_bits[2][13][10] = {2271221201} --Max HP Increase
-    world_progress_location_bits[2][13][15] = {2271221201} --Story Complete
+    world_progress_location_bits[2][13][15] = {2271221202} --Story Complete
     
     return world_progress_location_bits
 end
