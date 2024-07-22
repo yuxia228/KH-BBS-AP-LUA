@@ -28,7 +28,7 @@ function define_world_progress_location_bits()
     world_progress_location_bits[0][1][16]  = {2271020002, 2271020003, 2271020004, 2271020005} --Aqua D-Link, Terra D-Link, Xehanort's Letter, Keyblade Board
     --Dwarf Woodlands
     world_progress_location_bits[0][2][12]  = {2271020100} --Max HP Increase
-    world_progress_location_bits[0][2][15]  = {2271020100} --Deck Capacity Increase, Firestorm, Snow White D-Link, Treasure Trove
+    world_progress_location_bits[0][2][15]  = {2271020101, 2271020102, 2271020103, 2271020104} --Deck Capacity Increase, Firestorm, Snow White D-Link, Treasure Trove
     --Castle of Dreams
     world_progress_location_bits[0][3][10]  = {2271020200, 2271020201, 2271020202, 2271020203} --Diamond Dust, Cinderella D-Link, Stroke of Midnight, Castle Board
     --Enchanted Dominion
