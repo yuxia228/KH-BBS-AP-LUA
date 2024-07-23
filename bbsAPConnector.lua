@@ -68,7 +68,7 @@ function define_world_progress_location_bits()
     --Castle of Dreams
     world_progress_location_bits[1][3][4]   = {2271120200} --Map
     world_progress_location_bits[1][3][10]  = {2271120201} --Thunderbolt
-    world_progress_location_bits[1][3][16]  = {2271120202, 2271120203, 2271120204, 2271120205, 2271120206} --Max HP Increase, Deck Capacity Increase, Cinderella D-Link, Stroke of Midnight, Castle Board
+    world_progress_location_bits[1][3][15]  = {2271120202, 2271120203, 2271120204, 2271120205, 2271120206} --Max HP Increase, Deck Capacity Increase, Cinderella D-Link, Stroke of Midnight, Castle Board
     --Enchanted Dominion
     world_progress_location_bits[1][4][8]   = {2271120300} --High Jump
     world_progress_location_bits[1][4][11]  = {2271120301, 2271120302} --Max HP Increase, Firestorm
