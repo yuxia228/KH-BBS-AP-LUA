@@ -130,6 +130,11 @@ function _OnFrame()
         if ReadByte(Save+0x2815) == 0x01 and ReadByte(Save+0x2821) == 0x00 then
             WriteLong(Save+0x2815,0x0101010101010101) --LoD, DW, CS, ED, TMT, RG, Special, OC (Battle Levels)
             WriteByte(Save+0x281D,0x01) --DS (Battle Level)
+			if ReadShort(Save+0x10) == 0x01 then
+				WriteByte(Save+0x281E, 0x01) --DI (Aqua) (Battle Level)
+			else
+				WriteByte(Save+0x281E, 0x00) --DI (Terra and Ventus) (Battle Level)
+			end
             WriteShort(Save+0x281F, 0x0101) --NL, DT (Battle Levels)
             if ReadByte(Save+0x10) == 0x02 or ReadByte(Save+0x10) == 0x01 then
                 WriteByte(Save+0x2821,0x09) --KG (Terra and Aqua) (Battle Level)
@@ -152,9 +157,6 @@ function _OnFrame()
             WriteInt(Save+0x2958,0x00000102 * worlds_unlocked_array[9]) --Deep Space
             if ReadShort(Save+0x10) == 0x01 then
                 WriteInt(Save+0x295C,0x00000802 * worlds_unlocked_array[10]) --Destiny Islands
-                WriteByte(Save+0x281E, 0x01) --DI (Aqua) (Battle Level)
-            else
-                WriteByte(Save+0x281E, 0x00) --DI (Terra and Ventus) (Battle Level)
             end
             WriteInt(Save+0x2960,0x00000102 * worlds_unlocked_array[11]) --Never Land
             WriteInt(Save+0x2964,0x00000102 * worlds_unlocked_array[12]) --Disney Town
