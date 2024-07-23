@@ -104,7 +104,7 @@ function define_world_progress_location_bits()
     world_progress_location_bits[2][1][11]  = {2271220000, 2271220001} --Max HP Increase, Critical Impact
     world_progress_location_bits[2][1][4]   = {2271220002, 2271220003, 2271220004} --Ventus D-Link, Aqua D-Link, Keyblade Board
     world_progress_location_bits[2][1][8]   = {2271220005} --Max HP Increase
-    world_progress_location_bits[2][1][10]  = {2271220006, 2271220007} --Chaos Ripper, Xehanort's Report 8
+    world_progress_location_bits[2][1][9]  = {2271220006, 2271220007} --Chaos Ripper, Xehanort's Report 8
     --Dwarf Woodlands
     world_progress_location_bits[2][2][6]   = {2271220100} --Air Slide
     world_progress_location_bits[2][2][9]   = {2271220101, 2271220102} --Max HP Increase, Firestorm
