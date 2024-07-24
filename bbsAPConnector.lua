@@ -491,7 +491,7 @@ function receive_items()
         elseif received_item_id >= 2270030000 and received_item_id <= 2270030029 then
             item_value = received_item_id % 2270030000
             write_ability(item_value)
-        elseif received_item_id >= 2270040001 and received_item_id <= 2270047967 then
+        elseif received_item_id >= 2270040001 and received_item_id <= 2270047968 then
             item_value = received_item_id % 2270040000
             write_key_item(item_value)
         elseif received_item_id >= 2270050000 and received_item_id <= 2270050013 then
