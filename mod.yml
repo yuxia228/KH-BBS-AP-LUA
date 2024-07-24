@@ -183,3 +183,39 @@ assets:
   method: copy
   source:
   - name: arc/preset/yt/yt03ve.arc
+- name: arc/system/common_cd.arc
+  method: copy
+  source:
+  - name: arc/system/common_cd.arc
+- name: arc/system/common_dp.arc
+  method: copy
+  source:
+  - name: arc/system/common_dp.arc
+- name: arc/system/common_he.arc
+  method: copy
+  source:
+  - name: arc/system/common_he.arc
+- name: arc/system/common_kg.arc
+  method: copy
+  source:
+  - name: arc/system/common_kg.arc
+- name: arc/system/common_ls.arc
+  method: copy
+  source:
+  - name: arc/system/common_ls.arc
+- name: arc/system/common_pp.arc
+  method: copy
+  source:
+  - name: arc/system/common_pp.arc
+- name: arc/system/common_rg.arc
+  method: copy
+  source:
+  - name: arc/system/common_rg.arc
+- name: arc/system/common_sb.arc
+  method: copy
+  source:
+  - name: arc/system/common_sb.arc
+- name: arc/system/common_sw.arc
+  method: copy
+  source:
+  - name: arc/system/common_sw.arc
