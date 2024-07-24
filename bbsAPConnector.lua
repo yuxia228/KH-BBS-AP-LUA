@@ -104,7 +104,7 @@ function define_world_progress_location_bits()
     world_progress_location_bits[2][1][11]  = {2271220000, 2271220001} --Max HP Increase, Critical Impact
     world_progress_location_bits[2][1][4]   = {2271220002, 2271220003, 2271220004} --Ventus D-Link, Aqua D-Link, Keyblade Board
     world_progress_location_bits[2][1][8]   = {2271220005} --Max HP Increase
-    world_progress_location_bits[2][1][9]  = {2271220006, 2271220007} --Chaos Ripper, Xehanort's Report 8
+    world_progress_location_bits[2][1][9]  =  {2271220006, 2271220007} --Chaos Ripper, Xehanort's Report 8
     --Dwarf Woodlands
     world_progress_location_bits[2][2][6]   = {2271220100} --Air Slide
     world_progress_location_bits[2][2][9]   = {2271220101, 2271220102} --Max HP Increase, Firestorm
@@ -200,7 +200,7 @@ end
 function write_key_item(item_value)
     --Writes key item to the player's inventory
     key_item_stock_address = {0x0, 0x10FA2AAC}
-    max_items = 25
+    max_items = 40
     item_index = 0
     duplicate = false
     while ReadShort(key_item_stock_address[game_version] - (2 * item_index)) ~= 0 and item_index < max_items and not duplicate do

@@ -65,7 +65,7 @@ end
 
 function read_number_of_wayfinders()
     key_item_stock_address = {0x0, 0x10FA2AAC}
-    max_items = 25
+    max_items = 40
     item_index = 0
     wayfinders = {}
     wayfinders[0x1F1C] = 0
