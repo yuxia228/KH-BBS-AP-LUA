@@ -537,7 +537,7 @@ function remove_starting_wayfinder()
             item_index = item_index + 1
         end
     end
-end
+end]]
 
 function send_items()
     chest_location_ids = read_chest_location_ids()
@@ -575,7 +575,7 @@ function send_items()
             io.close(file)
         end
     end
-end]]
+end
 
 function remove_starting_wayfinder()
     starting_wayfinder_address = {0x0, 0x10FA2A4C}
