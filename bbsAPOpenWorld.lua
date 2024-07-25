@@ -300,6 +300,10 @@ function _OnFrame()
         if ReadByte(Save+0x2810) >= 0x0A then
             WriteArray(Save+0x2815,{10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10})
         end
+		--Skip World Cleared Animation
+		if ReadByte(Save+0x2913) ~= 0x00 then
+			WriteByte(Save+0x2913,0x00)
+		end
         --Open All Worlds
         if ReadShort(Now+0x00) == 0x0111 then
             read_world_item()
@@ -553,11 +557,11 @@ function _OnFrame()
 			    WriteShort(Save+0x14,0x010D)
 		    end
 		    --Normal Land of Departure Text
-		    if ReadShort(Now+0) == 0x0111 and ReadShort(Save+0x2939) == 0x0020 then
+		    if ReadShort(Now+0) == 0x0111 and ReadByte(Save+0x26BC) == 0x00 then
 			    WriteString(RoomNameText+0xDC,"Eraqus")
 		    end
 		    --Master Eraqus Fight
-		    if ReadInt(Now+0) == 0x00631001 and ReadShort(Save+0x2939) == 0x0020 then
+		    if ReadInt(Now+0) == 0x00631001 and ReadByte(Save+0x26BC) == 0x00 then
 			    WriteArray(Now+0,{0x01, 0x01, 0x00, 0x00, 0x41, 0x00, 0x41, 0x00, 0x41})
 		    end
 		    --End of The Land of Departure
@@ -566,24 +570,25 @@ function _OnFrame()
 				    WriteByte(Save+0x253C,1)
 				    WriteArray(Now+0,{0x01, 0x0F, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
 				    WriteShort(Save+0x2939,0x0222)
+					WriteByte(Save+0x26BC,0x01)
 				    WriteInt(Save+0x2988,0x00000000)
 				    WriteByte(Save+0x2658,ReadByte(Save+0x2658)+1)
 			    end
 		    end
 		    --Normal Summit -> Destroyed Summit (Post Master Eraqus Battle)
-		    if ReadShort(Now+0) == 0x0601 and ReadShort(Now+0x10) == 0x0111 and ReadByte(Save+0x293A) == 0x02 then
+		    if ReadShort(Now+0) == 0x0601 and ReadShort(Now+0x10) == 0x0111 and ReadByte(Save+0x26BC) == 0x01 then
 			    WriteArray(Now+0,{0x01, 0x10, 0x63, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
 		    end
 		    --Destroyed Land of Departure Text 1
-		    if ReadShort(Now+0) == 0x0111 and ReadShort(Save+0x2939) == 0x0222 then
+		    if ReadShort(Now+0) == 0x0111 and ReadByte(Save+0x26BC) == 0x01 then
 			    WriteString(RoomNameText+0xDC,"? ? ? ")
 		    end
 		    --Destroyed Land of Departure Text 2
-		    if ReadByte(Now+0) == 0x01 and ReadShort(Save+0x2939) == 0x0222 then
+		    if ReadByte(Now+0) == 0x01 and ReadShort(Save+0x26BC) == 0x01 then
 			    WriteString(RoomNameText+0xDC,"Summit")
 		    end
 		    --??? Fight
-		    if ReadInt(Now+0) == 0x00631001 and ReadShort(Now+0x30) == 0x1001 and ReadShort(Save+0x2939) == 0x0222 then
+		    if ReadInt(Now+0) == 0x00631001 and ReadShort(Now+0x30) == 0x1001 and ReadShort(Save+0x26BC) == 0x01 then
 			    WriteArray(Now+2,{0x00, 0x00, 0x43, 0x00, 0x43, 0x00, 0x43})
 		    end
 		    --The Keyblade Graveyard: Fissure Room Name
