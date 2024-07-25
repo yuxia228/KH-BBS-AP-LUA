@@ -65,7 +65,7 @@ end
 
 function read_number_of_wayfinders()
     key_item_stock_address = {0x0, 0x10FA2AAC}
-    max_items = 25
+    max_items = 40
     item_index = 0
     wayfinders = {}
     wayfinders[0x1F1C] = 0
@@ -126,11 +126,10 @@ function _OnFrame()
         if ReadByte(Save+0x11E89) << 7 then
             WriteByte(Save+0x11E89,7)
         end
-        --Battle Levels
+        --Battle/Combat Level 1
         if ReadByte(Save+0x2815) == 0x01 and ReadByte(Save+0x2821) == 0x00 then
-            WriteLong(Save+0x2815,0x0101010101010101) --LoD, DW, CS, ED, TMT, RG, Special, OC (Battle Levels)
-            WriteByte(Save+0x281D,0x01) --DS (Battle Level)
-            WriteShort(Save+0x281F, 0x0101) --NL, DT (Battle Levels)
+			WriteByte(Save+0x2810,0x01)
+            WriteArray(Save+0x2815,{0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01})
             if ReadByte(Save+0x10) == 0x02 or ReadByte(Save+0x10) == 0x01 then
                 WriteByte(Save+0x2821,0x09) --KG (Terra and Aqua) (Battle Level)
                 WriteByte(Save+0x13DA,0x01) --The Keyblade Graveyard: Badlands MAP
@@ -139,6 +138,172 @@ function _OnFrame()
                 WriteByte(Save+0x2821,0x01) --KG (Ventus) (Battle Level)
             end
         end
+		--Set Battle/Combat Levels
+		if ReadShort(Save+0x2810) == 0x02 then -- Combat Lv 2
+			WriteArray(Save+0x2815,{0x02, 0x02, 0x02, 0x02, 0x02}) --TLoD, DW, CoD, ED, & TMT
+			if ReadByte(Save+0x10) == 0x02 or ReadByte(Save+0x10) == 0x00 then --RG
+				WriteByte(Save+0x281A,0x02)
+			end
+			if ReadByte(Save+0x10) == 0x01 then --Aqua's Radiant Garden
+				if ReadByte(Save+0x26BC) == 0x01 then --In Final Episode
+					WriteByte(Save+0x281A,0x0A)
+				else
+					WriteByte(Save+0x281A,0x02)
+				end
+			end
+			WriteArray(Save+0x281B,{0x02, 0x02, 0x02, 0x02, 0x02, 0x02}) --Special, OC, DS, DI, NL, & DT
+			if ReadByte(Save+0x10) == 0x00 then --Ventus's The Keyblade Graveyard
+				if ReadByte(Save+0x26BC) == 0x01 then --Vanitas I Defeated
+					WriteByte(Save+0x2821,0x09)
+				else
+					WriteByte(Save+0x2821,0x02)
+				end
+			end
+		elseif ReadShort(Save+0x2810) == 0x03 then --Combat Lv 3
+			WriteArray(Save+0x2815,{0x03, 0x03, 0x03, 0x03, 0x03}) --TLoD, DW, CoD, ED, & TMT
+			if ReadByte(Save+0x10) == 0x02 or ReadByte(Save+0x10) == 0x00 then --RG
+				WriteByte(Save+0x281A,0x03)
+			end
+			if ReadByte(Save+0x10) == 0x01 then --Aqua's Radiant Garden
+				if ReadByte(Save+0x26BC) == 0x01 then --In Final Episode
+					WriteByte(Save+0x281A,0x0A)
+				else
+					WriteByte(Save+0x281A,0x03)
+				end
+			end
+			WriteArray(Save+0x281B,{0x03, 0x03, 0x03, 0x03, 0x03, 0x03}) --Special, OC, DS, DI, NL, & DT
+			if ReadByte(Save+0x10) == 0x00 then --Ventus's The Keyblade Graveyard
+				if ReadByte(Save+0x26BC) == 0x01 then --Vanitas I Defeated
+					WriteByte(Save+0x2821,0x09)
+				else
+					WriteByte(Save+0x2821,0x03)
+				end
+			end
+		elseif ReadShort(Save+0x2810) == 0x04 then --Combat Lv 4
+			WriteArray(Save+0x2815,{0x04, 0x04, 0x04, 0x04, 0x04}) --TLoD, DW, CoD, ED, & TMT
+			if ReadByte(Save+0x10) == 0x02 or ReadByte(Save+0x10) == 0x00 then --RG
+				WriteByte(Save+0x281A,0x04)
+			end
+			if ReadByte(Save+0x10) == 0x01 then --Aqua's Radiant Garden
+				if ReadByte(Save+0x26BC) == 0x01 then --In Final Episode
+					WriteByte(Save+0x281A,0x0A)
+				else
+					WriteByte(Save+0x281A,0x04)
+				end
+			end
+			WriteArray(Save+0x281B,{0x04, 0x04, 0x04, 0x04, 0x04, 0x04}) --Special, OC, DS, DI, NL, & DT
+			if ReadByte(Save+0x10) == 0x00 then --Ventus's The Keyblade Graveyard
+				if ReadByte(Save+0x26BC) == 0x01 then --Vanitas I Defeated
+					WriteByte(Save+0x2821,0x09)
+				else
+					WriteByte(Save+0x2821,0x04)
+				end
+			end
+		elseif ReadShort(Save+0x2810) == 0x05 then --Combat Lv 5
+			WriteArray(Save+0x2815,{0x05, 0x05, 0x05, 0x05, 0x05}) --TLoD, DW, CoD, ED, & TMT
+			if ReadByte(Save+0x10) == 0x02 or ReadByte(Save+0x10) == 0x00 then --RG
+				WriteByte(Save+0x281A,0x05)
+			end
+			if ReadByte(Save+0x10) == 0x01 then --Aqua's Radiant Garden
+				if ReadByte(Save+0x26BC) == 0x01 then --In Final Episode
+					WriteByte(Save+0x281A,0x0A)
+				else
+					WriteByte(Save+0x281A,0x05)
+				end
+			end
+			WriteArray(Save+0x281B,{0x05, 0x05, 0x05, 0x05, 0x05, 0x05}) --Special, OC, DS, DI, NL, & DT
+			if ReadByte(Save+0x10) == 0x00 then --Ventus's The Keyblade Graveyard
+				if ReadByte(Save+0x26BC) == 0x01 then --Vanitas I Defeated
+					WriteByte(Save+0x2821,0x09)
+				else
+					WriteByte(Save+0x2821,0x05)
+				end
+			end
+		elseif ReadShort(Save+0x2810) == 0x06 then --Combat Lv 6
+			WriteArray(Save+0x2815,{0x06, 0x06, 0x06, 0x06, 0x06}) --TLoD, DW, CoD, ED, & TMT
+			if ReadByte(Save+0x10) == 0x02 or ReadByte(Save+0x10) == 0x00 then --RG
+				WriteByte(Save+0x281A,0x06)
+			end
+			if ReadByte(Save+0x10) == 0x01 then --Aqua's Radiant Garden
+				if ReadByte(Save+0x26BC) == 0x01 then --In Final Episode
+					WriteByte(Save+0x281A,0x0A)
+				else
+					WriteByte(Save+0x281A,0x06)
+				end
+			end
+			WriteArray(Save+0x281B,{0x06, 0x06, 0x06, 0x06, 0x06, 0x06}) --Special, OC, DS, DI, NL, & DT
+			if ReadByte(Save+0x10) == 0x00 then --Ventus's The Keyblade Graveyard
+				if ReadByte(Save+0x26BC) == 0x01 then --Vanitas I Defeated
+					WriteByte(Save+0x2821,0x09)
+				else
+					WriteByte(Save+0x2821,0x06)
+				end
+			end
+		elseif ReadShort(Save+0x2810) == 0x07 then --Combat Lv 7
+			WriteArray(Save+0x2815,{0x07, 0x07, 0x07, 0x07, 0x07}) --TLoD, DW, CoD, ED, & TMT
+			if ReadByte(Save+0x10) == 0x02 or ReadByte(Save+0x10) == 0x00 then --RG
+				WriteByte(Save+0x281A,0x07)
+			end
+			if ReadByte(Save+0x10) == 0x01 then --Aqua's Radiant Garden
+				if ReadByte(Save+0x26BC) == 0x01 then --In Final Episode
+					WriteByte(Save+0x281A,0x0A)
+				else
+					WriteByte(Save+0x281A,0x07)
+				end
+			end
+			WriteArray(Save+0x281B,{0x07, 0x07, 0x07, 0x07, 0x07, 0x07}) --Special, OC, DS, DI, NL, & DT
+			if ReadByte(Save+0x10) == 0x00 then --Ventus's The Keyblade Graveyard
+				if ReadByte(Save+0x26BC) == 0x01 then --Vanitas I Defeated
+					WriteByte(Save+0x2821,0x09)
+				else
+					WriteByte(Save+0x2821,0x07)
+				end
+			end
+		elseif ReadShort(Save+0x2810) == 0x08 then --Combat Lv 8
+			WriteArray(Save+0x2815,{0x08, 0x08, 0x08, 0x08, 0x08}) --TLoD, DW, CoD, ED, & TMT
+			if ReadByte(Save+0x10) == 0x02 or ReadByte(Save+0x10) == 0x00 then --RG
+				WriteByte(Save+0x281A,0x08)
+			end
+			if ReadByte(Save+0x10) == 0x01 then --Aqua's Radiant Garden
+				if ReadByte(Save+0x26BC) == 0x01 then --In Final Episode
+					WriteByte(Save+0x281A,0x0A)
+				else
+					WriteByte(Save+0x281A,0x08)
+				end
+			end
+			WriteArray(Save+0x281B,{0x08, 0x08, 0x08, 0x08, 0x08, 0x08}) --Special, OC, DS, DI, NL, & DT
+			if ReadByte(Save+0x10) == 0x00 then --Ventus's The Keyblade Graveyard
+				if ReadByte(Save+0x26BC) == 0x01 then --Vanitas I Defeated
+					WriteByte(Save+0x2821,0x09)
+				else
+					WriteByte(Save+0x2821,0x08)
+				end
+			end
+		elseif ReadShort(Save+0x2810) == 0x09 then --Combat Lv 9
+			WriteArray(Save+0x2815,{0x09, 0x09, 0x09, 0x09, 0x09}) --TLoD, DW, CoD, ED, & TMT
+			if ReadByte(Save+0x10) == 0x02 or ReadByte(Save+0x10) == 0x00 then --RG
+				WriteByte(Save+0x281A,0x09)
+			end
+			if ReadByte(Save+0x10) == 0x01 then --Aqua's Radiant Garden
+				if ReadByte(Save+0x26BC) == 0x01 then --In Final Episode
+					WriteByte(Save+0x281A,0x0A)
+				else
+					WriteByte(Save+0x281A,0x09)
+				end
+			end
+			WriteArray(Save+0x281B,{0x09, 0x09, 0x09, 0x09, 0x09, 0x09}) --Special, OC, DS, DI, NL, & DT
+			if ReadByte(Save+0x10) == 0x00 and ReadByte(Save+0x2821) < 0x09 then --Ventus's The Keyblade Graveyard
+				WriteByte(Save+0x2821,0x09)
+			end
+		end
+        --Battle/Combat Level 10
+        if ReadByte(Save+0x2810) >= 0x0A then
+            WriteArray(Save+0x2815,{10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10})
+        end
+		--Skip World Cleared Animation
+		if ReadByte(Save+0x2913) ~= 0x00 then
+			WriteByte(Save+0x2913,0x00)
+		end
         --Open All Worlds
         if ReadShort(Now+0x00) == 0x0111 then
             read_world_item()
@@ -152,9 +317,6 @@ function _OnFrame()
             WriteInt(Save+0x2958,0x00000102 * worlds_unlocked_array[9]) --Deep Space
             if ReadShort(Save+0x10) == 0x01 then
                 WriteInt(Save+0x295C,0x00000802 * worlds_unlocked_array[10]) --Destiny Islands
-                WriteByte(Save+0x281E, 0x01) --DI (Aqua) (Battle Level)
-            else
-                WriteByte(Save+0x281E, 0x00) --DI (Terra and Ventus) (Battle Level)
             end
             WriteInt(Save+0x2960,0x00000102 * worlds_unlocked_array[11]) --Never Land
             WriteInt(Save+0x2964,0x00000102 * worlds_unlocked_array[12]) --Disney Town
@@ -167,10 +329,6 @@ function _OnFrame()
             if ReadByte(Save+0x2917) == 0x00 then
                 WriteByte(Save+0x2917,ReadByte(Save+0x2917)+8) --Unlock The Keyblade Graveyard: Fissure Save Point on World Map
             end
-        end
-        --Battle Level 10
-        if ReadByte(Save+0x281B) >= 0x0A then
-            WriteArray(Save+0x2815,{10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10})
         end
         --Terra's Story
         if ReadByte(Save+0x10) == 0x02 then
@@ -218,8 +376,7 @@ function _OnFrame()
              if ReadShort(Now+0) == 0x704 and ReadShort(Now+8) == 0x3D then
                 if ReadByte(Save+0x2598) == 0 then
                     WriteByte(Save+0x2598,1)
-                    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-                    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
+                    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
                 end
             end
             --End of Enchanted Dominion
@@ -236,8 +393,7 @@ function _OnFrame()
             if ReadShort(Now+0) == 0x603 and ReadShort(Now+8) == 0x37 then
                 if ReadByte(Save+0x2578) == 0 then
                     WriteByte(Save+0x2578,1)
-                    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-                    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
+                    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
                 end
             end
             --End of Castle of Dreams 1
@@ -256,8 +412,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x402 and ReadShort(Now+8) == 0x35 then
 			    if ReadByte(Save+0x2558) == 0 then
 				    WriteByte(Save+0x2558,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Dwarf Woodlands 1
@@ -286,8 +441,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x205 and ReadShort(Now+8) == 0x33 then
 			    if ReadByte(Save+0x25B8) == 0 then
 				    WriteByte(Save+0x25B8,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of The Mysterious Tower
@@ -304,8 +458,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x306 and ReadShort(Now+8) == 0x39 then
 			    if ReadByte(Save+0x25D8) == 0 then
 				    WriteByte(Save+0x25D8,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Radiant Garden
@@ -321,8 +474,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x40C and ReadShort(Now+8) == 0x50 then
 			    if ReadByte(Save+0x2698) == 0 then
 				    WriteByte(Save+0x2698,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Disney Town 1
@@ -344,8 +496,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x508 and ReadShort(Now+8) == 0x3F then
 			    if ReadByte(Save+0x2618) == 0 then
 				    WriteByte(Save+0x2618,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Olympus Coliseum
@@ -362,8 +513,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x109 and ReadShort(Now+8) == 0x1 then
 			    if ReadByte(Save+0x2638) == 0 then
 				    WriteByte(Save+0x2638,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Deep Space
@@ -379,8 +529,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0xB0B and ReadShort(Now+8) == 0x39 then
 			    if ReadByte(Save+0x2658) == 0 then
 				    WriteByte(Save+0x2658,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Never Land
@@ -408,11 +557,11 @@ function _OnFrame()
 			    WriteShort(Save+0x14,0x010D)
 		    end
 		    --Normal Land of Departure Text
-		    if ReadShort(Now+0) == 0x0111 and ReadShort(Save+0x2939) == 0x0020 then
+		    if ReadShort(Now+0) == 0x0111 and ReadByte(Save+0x26BC) == 0x00 then
 			    WriteString(RoomNameText+0xDC,"Eraqus")
 		    end
 		    --Master Eraqus Fight
-		    if ReadInt(Now+0) == 0x00631001 and ReadShort(Save+0x2939) == 0x0020 then
+		    if ReadInt(Now+0) == 0x00631001 and ReadByte(Save+0x26BC) == 0x00 then
 			    WriteArray(Now+0,{0x01, 0x01, 0x00, 0x00, 0x41, 0x00, 0x41, 0x00, 0x41})
 		    end
 		    --End of The Land of Departure
@@ -421,24 +570,25 @@ function _OnFrame()
 				    WriteByte(Save+0x253C,1)
 				    WriteArray(Now+0,{0x01, 0x0F, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
 				    WriteShort(Save+0x2939,0x0222)
+					WriteByte(Save+0x26BC,0x01)
 				    WriteInt(Save+0x2988,0x00000000)
 				    WriteByte(Save+0x2658,ReadByte(Save+0x2658)+1)
 			    end
 		    end
 		    --Normal Summit -> Destroyed Summit (Post Master Eraqus Battle)
-		    if ReadShort(Now+0) == 0x0601 and ReadShort(Now+0x10) == 0x0111 and ReadByte(Save+0x293A) == 0x02 then
+		    if ReadShort(Now+0) == 0x0601 and ReadShort(Now+0x10) == 0x0111 and ReadByte(Save+0x26BC) == 0x01 then
 			    WriteArray(Now+0,{0x01, 0x10, 0x63, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
 		    end
 		    --Destroyed Land of Departure Text 1
-		    if ReadShort(Now+0) == 0x0111 and ReadShort(Save+0x2939) == 0x0222 then
+		    if ReadShort(Now+0) == 0x0111 and ReadByte(Save+0x26BC) == 0x01 then
 			    WriteString(RoomNameText+0xDC,"? ? ? ")
 		    end
 		    --Destroyed Land of Departure Text 2
-		    if ReadByte(Now+0) == 0x01 and ReadShort(Save+0x2939) == 0x0222 then
+		    if ReadByte(Now+0) == 0x01 and ReadShort(Save+0x26BC) == 0x01 then
 			    WriteString(RoomNameText+0xDC,"Summit")
 		    end
 		    --??? Fight
-		    if ReadInt(Now+0) == 0x00631001 and ReadShort(Now+0x30) == 0x1001 and ReadShort(Save+0x2939) == 0x0222 then
+		    if ReadInt(Now+0) == 0x00631001 and ReadShort(Now+0x30) == 0x1001 and ReadShort(Save+0x26BC) == 0x01 then
 			    WriteArray(Now+2,{0x00, 0x00, 0x43, 0x00, 0x43, 0x00, 0x43})
 		    end
 		    --The Keyblade Graveyard: Fissure Room Name
@@ -459,111 +609,6 @@ function _OnFrame()
 				    WriteShort(Now+0,0x080D)
 			    else
 				    WriteInt(Now+0,0x0032070D)
-			    end
-		    end]]
-		    --[[Enchanted Dominion Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0F04 then
-			    if ReadShort(EDChestsT1+0x281) == 0x3230 then
-				    WriteString(EDChestsT1+0x280,"g01sb00")
-			    end
-			    if ReadShort(EDChestsT2+0xF1) == 0x3230 then
-				    WriteString(EDChestsT2+0xF0,"g01sb00")
-			    end
-		    end
-		    if ReadShort(Now+0) == 0x1004 then
-			    if ReadShort(EDChestsT1+0x01) == 0x3230 then
-				    WriteString(EDChestsT1+0x00,"g01sb00")
-			    end
-		    end
-		    if ReadShort(Now+0) == 0x1204 then
-			    if ReadShort(EDChestsT1+0x191) == 0x3230 then
-				    WriteString(EDChestsT1+0x190,"g01sb00")
-			    end
-			    if ReadShort(EDChestsT2+0x01) == 0x3230 then
-				    WriteString(EDChestsT2+0x00,"g01sb00")
-			    end
-		    end
-		    --Castle of Dreams Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0703 then
-			    if ReadShort(CoDChestsT1+1) == 0x3230 then
-				    WriteString(CoDChestsT1+0,"g01cd00")
-			    end
-			    if ReadShort(CoDChestsT2+1) == 0x3230 then
-				    WriteString(CoDChestsT2+0,"g01cd00")
-			    end
-		    end
-		    --Dwarf Woodlands Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0602 then
-			    if ReadShort(DWChestsT1+1) == 0x3230 then
-				    WriteString(DWChestsT1+0,"g01sw00")
-			    end
-			    if ReadShort(CoDChestsT2+1) == 0x3230 then
-				    WriteString(DWChestsT2+0,"g01sw00")
-			    end
-		    end
-		    --The Mysterious Tower Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0305 then
-			    if ReadShort(TMTChestsT+1) == 0x3230 then
-				    WriteString(TMTChestsT+0,"g01yt00")
-			    end
-		    end
-		    --Radiant Garden Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0506 then
-			    if ReadShort(RGChestsT1+1) == 0x3230 then
-				    WriteString(RGChestsT1+0,"g01rg00")
-			    end
-			    if ReadShort(RGChestsT2+1) == 0x3230 then
-				    WriteString(RGChestsT2+0,"g01rg00")
-			    end
-		    end
-		    --Disney Town Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x020C then
-			    if ReadShort(DTChestsT1+1) == 0x3230 then
-				    WriteString(DTChestsT1+0,"g01dc00")
-			    end
-			    if ReadShort(DTChestsT2+1) == 0x3230 then
-				    WriteString(DTChestsT2+0,"g01dc00")
-			    end
-		    end
-		    --Olympus Coliseum Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0208 then
-			    if ReadShort(OCChestsT1+1) == 0x3230 then
-				    WriteString(OCChestsT1+0,"g01he00")
-			    end
-			    if ReadShort(OCChestsT2+1) == 0x3230 then
-				    WriteString(OCChestsT2+0,"g01he00")
-			    end
-		    end
-		    --Deep Space Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0209 then
-			    if ReadShort(DSChestsT1+1) == 0x3230 then
-				    WriteString(DSChestsT1+0,"g01ls00")
-			    end
-			    if ReadShort(DSChestsT2+1) == 0x3230 then
-				    WriteString(DSChestsT2+0,"g01ls00")
-			    end
-		    end
-		    --Never Land Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x070B then
-			    if ReadShort(NLChestsT1+0x6B1) == 0x3230 then
-				    WriteString(NLChestsT1+0x6B0,"g01pp00")
-			    end
-			    if ReadShort(NLChestsT2+0X01) == 0x3230 then
-				    WriteString(NLChestsT2+0x00,"g01pp00")
-			    end
-		    end
-		    if ReadShort(Now+0) == 0x060B then
-			    if ReadShort(NLChestsT1+0x01) == 0x3230 then
-				    WriteString(NLChestsT1+0x00,"g01pp00")
-			    end
-		    end
-		    --The Keyblade Graveyard Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x020D then
-			    if ReadShort(KGChestsT1+1) == 0x3230 then
-				    WriteString(KGChestsT1+0,"g01kg00")
-			    end
-			    if ReadShort(KGChestsT2+1) == 0x3230 then
-				    WriteString(KGChestsT2+0,"g01kg00")
 			    end
 		    end]]
 	    end
@@ -607,11 +652,7 @@ function _OnFrame()
             if ReadShort(Now+0) == 0xC02 and ReadShort(Now+8) == 0x3A then
 			    if ReadByte(Save+0x2558) == 0 then
 				    WriteByte(Save+0x2558,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x2821,ReadByte(Save+0x2821)+1)
-				    end
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Dwarf Woodlands
@@ -627,11 +668,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x103 and ReadShort(Now+8) == 0x3A then
 			    if ReadByte(Save+0x2578) == 0 then
 				    WriteByte(Save+0x2578,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x2821,ReadByte(Save+0x2821)+1)
-				    end
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Castle of Dreams
@@ -650,11 +687,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0xF04 and ReadShort(Now+8) == 0x3C then
 			    if ReadByte(Save+0x2598) == 0 then
 				    WriteByte(Save+0x2598,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x2821,ReadByte(Save+0x2821)+1)
-				    end
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Enchanted Dominion
@@ -669,20 +702,11 @@ function _OnFrame()
 				    end
 			    end
 		    end
-		    --Start of Radiant Garden 1
-		    if ReadShort(Now+0) == 0x0306 and ReadShort(Now+0x10) == 0x0111 then
-			    WriteArray(Now+0,{0x07, 0x32, 0x01, 0x00, 0x37, 0x00, 0x37, 0x00, 0x37})
-		    end
-		    --Start of Radiant Garden 2
-		    if ReadShort(Now+0) == 0x0111 and ReadInt(Now+0x10) == 0x00013207 then
+		    --Start of Radiant Garden
+		    if ReadShort(Now+0) == 0x0306 and ReadShort(Now+8) == 0x40 then
 			    if ReadByte(Save+0x25D8) == 0 then
 				    WriteByte(Save+0x25D8,1)
-				    WriteArray(Now+0,{0x06, 0x03, 0x00, 0x00, 0x40, 0x00, 0x40, 0x00, 0x40})
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x2821,ReadByte(Save+0x2821)+1)
-				    end
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Radiant Garden
@@ -698,11 +722,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x20C and ReadShort(Now+8) == 0x55 then
 			    if ReadByte(Save+0x2698) == 0 then
 				    WriteByte(Save+0x2698,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x2821,ReadByte(Save+0x2821)+1)
-				    end
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Disney Town 1
@@ -724,11 +744,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x508 and ReadShort(Now+8) == 0x40 then
 			    if ReadByte(Save+0x2618) == 0 then
 				    WriteByte(Save+0x2618,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x2821,ReadByte(Save+0x2821)+1)
-				    end
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Olympus Coliseum
@@ -744,11 +760,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x609 and ReadShort(Now+8) == 0x1 then
 			    if ReadByte(Save+0x2638) == 0 then
 				    WriteByte(Save+0x2638,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x2821,ReadByte(Save+0x2821)+1)
-				    end
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Deep Space
@@ -764,11 +776,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x40B and ReadShort(Now+8) == 0x1 then
 			    if ReadByte(Save+0x2658) == 0 then
 				    WriteByte(Save+0x2658,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x2821,ReadByte(Save+0x2821)+1)
-				    end
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Never Land
@@ -790,11 +798,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x205 and ReadShort(Now+8) == 0x36 then
 			    if ReadByte(Save+0x25B8) == 0 then
 				    WriteByte(Save+0x25B8,1)
-				    WriteLong(Save+0x2815,ReadLong(Save+0x2815)+0x0101010101010101)
-				    WriteInt(Save+0x281D,ReadInt(Save+0x281D)+0x01010101)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x2821,ReadByte(Save+0x2821)+1)
-				    end
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of The Mysterious Tower
@@ -862,10 +866,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x3207 and ReadShort(Now+0x10) == 0x010D then
 			    if ReadByte(Save+0x26BC) == 0 then
 				    WriteByte(Save+0x26BC,1)
-				    WriteArray(Now+0,{0x0D, 0x01, 0x63, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
-			    	WriteShort(Save+0x14,0x010D)
 			    	WriteInt(Save+0x2A04,0x00000000)
-			    	WriteByte(Save+0x2821,9)
 				    WriteByte(Save+0x13DA,0x01) --The Keyblade Graveyard: Badlands MAP
 				    WriteByte(Save+0x13DE,0x16) --The Keyblade Graveyard: Badlands EVENT
 				    WriteByte(Save+0x2658,ReadByte(Save+0x2658)+1)
@@ -882,14 +883,10 @@ function _OnFrame()
 		    --Start of The Keyblade Graveyard
 		    if ReadShort(Now+0) == 0x070D and ReadShort(RoomNameText+0x9DD) == 0x6553 then
 		    	WriteArray(Now+0,{0x0D, 0x02, 0x00, 0x00, 0x42, 0x00, 0x42, 0x00, 0x42})
-		    	WriteInt(Now+0,0x0000020D)
-		    	WriteShort(Now+4,0x42)
-		    	WriteShort(Now+6,0x42)
-		    	WriteShort(Now+8,0x42)
 		    end
 		    --Start of Final Battles
 		    if ReadShort(Now+0) == 0x080D and ReadShort(Save+0x26BC) == 0 then
-			    WriteByte(Save+0x2821,10)
+			    WriteByte(Save+0x2821,9)
 		    end
 		    --[[Final Battle Requirements
 		    if ReadShort(Now+0) == 0x080D then 
@@ -899,108 +896,6 @@ function _OnFrame()
 			    	WriteInt(Now+0,0x0032070D)
 		    	end
 	    	end]]
-		    --[[Dwarf Woodlands Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0A02 then
-			    if ReadShort(DWChestsV1+0x611) == 0x3230 then
-			    	WriteString(DWChestsV1+0x610,"g01sw00")
-			    end
-			    if ReadShort(DWChestsV2+0x01) == 0x3230 then
-			    	WriteString(DWChestsV2+0x00,"g01sw00")
-			    end
-		    end
-		    if ReadShort(Now+0) == 0x0B02 then
-			    if ReadShort(DWChestsV1+0x01) == 0x3230 then
-			    	WriteString(DWChestsV1+0x00,"g01sw00")
-			    end
-		    end
-		    --Castle of Dreams Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0103 then 
-			    if ReadShort(CoDChestsV1+1) == 0x3230 then
-			    	WriteString(CoDChestsV1+0,"g01cd00")
-			    end
-			    if ReadShort(CoDChestsV2+1) == 0x3230 then
-				    WriteString(CoDChestsV2+0,"g01cd00")
-		    	end
-		    end
-		    --Enchanted Dominion Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0804 then
-			    if ReadShort(EDChestsV1+1) == 0x3230 then
-			    	WriteString(EDChestsV1+0,"g01sb00")
-			    end
-			    if ReadShort(EDChestsV2+1) == 0x3230 then
-			    	WriteString(EDChestsV2+0,"g01sb00")
-		    	end
-	    	end
-	    	--Radiant Garden Large Chests -> Small Chests
-	    	if ReadShort(Now+0) == 0x0506 then
-		    	if ReadShort(DWChestsV1+0x6C1) == 0x3230 then
-			    	WriteString(RGChestsV1+0x6C0,"g01rg00")
-			    end
-			    if ReadShort(RGChestsV2+0x01) == 0x3230 then
-			    	WriteString(RGChestsV2+0x00,"g01rg00")
-		    	end
-		    	if ReadShort(RGChestsV3+0x01) == 0x3230 then
-			    	WriteString(RGChestsV3+0x00,"g01rg00")
-		    	end
-		    end
-		    if ReadShort(Now+0) == 0x0806 then
-			    if ReadShort(RGChestsV1+0x01) == 0x3230 then
-			    	WriteString(RGChestsV1+0x00,"g01rg00")
-		    	end
-	    	end
-		    --Disney Town Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x020C then
-			    if ReadShort(DTChestsV1+1) == 0x3230 then
-			    	WriteString(DTChestsV1+0,"g01dc00")
-			    end
-		    end
-		    --Olympus Coliseum Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0208 then
-		    	if ReadShort(OCChestsV1+1) == 0x3230 then
-			    	WriteString(OCChestsV1+0,"g01he00")
-			    end
-			    if ReadShort(OCChestsV2+1) == 0x3230 then
-			    	WriteString(OCChestsV2+0,"g01he00")
-			    end
-		    end
-		    --Deep Space Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0509 then
-			    if ReadShort(DSChestsV1+0x01) == 0x3230 then
-				    WriteString(DSChestsV1+0x00,"g01ls00")
-			    end
-			    if ReadShort(DSChestsV2+0x01) == 0x3230 then
-			    	WriteString(DSChestsV2+0x00,"g01ls00")
-			    end
-		    end
-		    if ReadShort(Now+0) == 0x0909 then
-			    if ReadShort(DSChestsV1+0x10D1) == 0x3230 then
-			    	WriteString(DSChestsV1+0x10D0,"g01ls00")
-			    end
-		    end
-		    --Never Land Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x070B then
-		    	if ReadShort(NLChestsV1+1) == 0x3230 then
-				    WriteString(NLChestsV1+0,"g01pp00")
-			    end
-			    if ReadShort(NLChestsV2+1) == 0x3230 then
-			    	WriteString(NLChestsV2+0,"g01pp00")
-			    end
-		    end
-		    --The Mysterious Tower Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0305 then
-			    if ReadShort(TMTChestsV+1) == 0x3230 then
-			    	WriteString(TMTChestsV+0,"g01yt00")
-			    end
-	    	end
-	    	--The Keyblade Graveyard Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x020D then
-			    if ReadShort(KGChestsV1+1) == 0x3230 then
-			    	WriteString(KGChestsV1+0,"g01kg00")
-			    end
-			    if ReadShort(KGChestsV2+1) == 0x3230 then
-			    	WriteString(KGChestsV2+0,"g01kg00")
-			    end
-		    end]]
 	    end
         --Aqua's Story
         if ReadByte(Save+0x10) == 0x01 then
@@ -1048,13 +943,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0xA03 and ReadShort(Now+8) == 0x3D then
 			    if ReadByte(Save+0x2578) == 0 then
 				    WriteByte(Save+0x2578,1)
-				    WriteInt(Save+0x2815,ReadInt(Save+0x2815)+0x01010101)
-				    WriteByte(Save+0x2819,ReadByte(Save+0x2819)+1)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x281A,ReadByte(Save+0x281A)+1)
-				    end
-				    WriteInt(Save+0x281B,ReadInt(Save+0x281B)+0x01010101)
-				    WriteShort(Save+0x281F,ReadByte(Save+0x281F)+0x0101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Castle of Dreams
@@ -1071,13 +960,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0xB02 and ReadShort(Now+8) == 0x3C then
 			    if ReadByte(Save+0x2558) == 0 then
 			    	WriteByte(Save+0x2558,1)
-				    WriteInt(Save+0x2815,ReadInt(Save+0x2815)+0x01010101)
-				    WriteByte(Save+0x2819,ReadByte(Save+0x2819)+1)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x281A,ReadByte(Save+0x281A)+1)
-				    end
-			    	WriteInt(Save+0x281B,ReadInt(Save+0x281B)+0x01010101)
-			    	WriteShort(Save+0x281F,ReadByte(Save+0x281F)+0x0101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 	    	--End of Dwarf Woodlands
@@ -1096,13 +979,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x604 and ReadShort(Now+8) == 0x3B then
 			    if ReadByte(Save+0x2598) == 0 then
 				    WriteByte(Save+0x2598,1)
-				    WriteInt(Save+0x2815,ReadInt(Save+0x2815)+0x01010101)
-				    WriteByte(Save+0x2819,ReadByte(Save+0x2819)+1)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x281A,ReadByte(Save+0x281A)+1)
-			    	end
-			    	WriteInt(Save+0x281B,ReadInt(Save+0x281B)+0x01010101)
-			    	WriteShort(Save+0x281F,ReadByte(Save+0x281F)+0x0101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Enchanted Dominion
@@ -1120,13 +997,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x306 and ReadShort(Now+8) == 0x4A then
 			    if ReadByte(Save+0x25D8) == 0 then
 				    WriteByte(Save+0x25D8,1)
-				    WriteInt(Save+0x2815,ReadInt(Save+0x2815)+0x01010101)
-				    WriteByte(Save+0x2819,ReadByte(Save+0x2819)+1)
-				    if ReadByte(Save+0x26BC) == 0 then
-				    	WriteByte(Save+0x281A,ReadByte(Save+0x281A)+1)
-				    end
-				    WriteInt(Save+0x281B,ReadInt(Save+0x281B)+0x01010101)
-				    WriteShort(Save+0x281F,ReadByte(Save+0x281F)+0x0101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Radiant Garden
@@ -1142,13 +1013,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x20C and ReadShort(Now+8) == 0x5F then
 			    if ReadByte(Save+0x2698) == 0 then
 				    WriteByte(Save+0x2698,1)
-				    WriteInt(Save+0x2815,ReadInt(Save+0x2815)+0x01010101)
-				    WriteByte(Save+0x2819,ReadByte(Save+0x2819)+1)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x281A,ReadByte(Save+0x281A)+1)
-			    	end
-				    WriteInt(Save+0x281B,ReadInt(Save+0x281B)+0x01010101)
-			    	WriteShort(Save+0x281F,ReadByte(Save+0x281F)+0x0101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 	    	end
 		    --Quicker Fruitball
@@ -1174,13 +1039,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x108 and ReadShort(Now+8) == 0x41 then
 			    if ReadByte(Save+0x2618) == 0 then
 			    	WriteByte(Save+0x2618,1)
-			    	WriteInt(Save+0x2815,ReadInt(Save+0x2815)+0x01010101)
-				    WriteByte(Save+0x2819,ReadByte(Save+0x2819)+1)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x281A,ReadByte(Save+0x281A)+1)
-				    end
-				    WriteInt(Save+0x281B,ReadInt(Save+0x281B)+0x01010101)
-				    WriteShort(Save+0x281F,ReadByte(Save+0x281F)+0x0101)
+			    	WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
             --End of Olympus Coliseum
@@ -1196,13 +1055,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x309 and ReadShort(Now+8) == 0x3F then
 			    if ReadByte(Save+0x2638) == 0 then
 				    WriteByte(Save+0x2638,1)
-				    WriteInt(Save+0x2815,ReadInt(Save+0x2815)+0x01010101)
-				    WriteByte(Save+0x2819,ReadByte(Save+0x2819)+1)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x281A,ReadByte(Save+0x281A)+1)
-			    	end
-				    WriteInt(Save+0x281B,ReadInt(Save+0x281B)+0x01010101)
-				    WriteShort(Save+0x281F,ReadByte(Save+0x281F)+0x0101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Deep Space
@@ -1218,13 +1071,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x80B and ReadShort(Now+8) == 0x3B then
 			    if ReadByte(Save+0x2678) == 0 then
 				    WriteByte(Save+0x2678,1)
-				    WriteInt(Save+0x2815,ReadInt(Save+0x2815)+0x01010101)
-				    WriteByte(Save+0x2819,ReadByte(Save+0x2819)+1)
-			    	if ReadByte(Save+0x26BC) == 0 then
-				    	WriteByte(Save+0x281A,ReadByte(Save+0x281A)+1)
-				    end
-				    WriteInt(Save+0x281B,ReadInt(Save+0x281B)+0x01010101)
-				    WriteShort(Save+0x281F,ReadByte(Save+0x281F)+0x0101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of Never Land
@@ -1260,13 +1107,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x205 and ReadShort(Now+8) == 0x34 then
 			    if ReadByte(Save+0x25B8) == 0 then
 			    	WriteByte(Save+0x25B8,1)
-				    WriteInt(Save+0x2815,ReadInt(Save+0x2815)+0x01010101)
-				    WriteByte(Save+0x2819,ReadByte(Save+0x2819)+1)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x281A,ReadByte(Save+0x281A)+1)
-				    end
-				    WriteInt(Save+0x281B,ReadInt(Save+0x281B)+0x01010101)
-				    WriteShort(Save+0x281F,ReadByte(Save+0x281F)+0x0101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --End of The Mysterious Tower 1
@@ -1275,13 +1116,6 @@ function _OnFrame()
 				    WriteArray(Now+0,{0x05, 0x04, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
 				    WriteShort(Save+0x14,0x0405)
 				    WriteString(TMTBGM+0,"124dp_amb")
-				    WriteShort(Save+0x2816,ReadShort(Save+0x2816)-0x0202)
-				    WriteByte(Save+0x2818,ReadByte(Save+0x2818)-2)
-			    	if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x281A,ReadByte(Save+0x281A)-2)
-				    end
-				    WriteShort(Save+0x281C,ReadShort(Save+0x281C)-0x0101)
-				    WriteShort(Save+0x281F,ReadShort(Save+0x281F)-0x0101)
 			    end
 		    end
 		    --End of The Mysterious Tower 2
@@ -1358,7 +1192,6 @@ function _OnFrame()
 			    WriteInt(Save+0x29CC,0x00000000)
 			    WriteLong(Save+0x29F4,0x0000000000000000) --Re-opens Seat of War & Twister Trench
 			    WriteInt(Save+0x29FC,0x00000000) --Re-opens Fissure
-			    WriteByte(Save+0x281A,0x0A) --Forces Radiant Garden's Battle Level to 10
 			    WriteByte(CharMod+0,0x02) --Changes Character from Armored Aqua to Normal Aqua
 			    if ReadByte(Save+0x25D4) >= 0x7F then
 				    WriteInt(Save+0x29BC,0x00000000)
@@ -1407,13 +1240,7 @@ function _OnFrame()
 		    if ReadShort(Now+0) == 0x1407 and ReadShort(Now+8) == 0x4D then
 			    if ReadByte(Save+0x25F8) == 0 then
 				    WriteByte(Save+0x25F8,1)
-				    WriteInt(Save+0x2815,ReadInt(Save+0x2815)+0x01010101)
-				    WriteByte(Save+0x2819,ReadByte(Save+0x2819)+1)
-				    if ReadByte(Save+0x26BC) == 0 then
-					    WriteByte(Save+0x281A,ReadByte(Save+0x281A)+1)
-				    end
-				    WriteInt(Save+0x281B,ReadInt(Save+0x281B)+0x01010101)
-				    WriteShort(Save+0x281F,ReadByte(Save+0x281F)+0x0101)
+				    WriteByte(Save+0x2810,ReadByte(Save+0x2810)+1)
 			    end
 		    end
 		    --Entering Realm of Darkness 1
@@ -1467,108 +1294,6 @@ function _OnFrame()
 			    WriteShort(Now+48,0xFF81)
 			    WriteShort(Save+0x14,0x1607)
 		    end
-		    --[[Castle of Dreams Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0503 then
-			    if ReadShort(CoDChestsA1+1) == 0x3230 then
-				    WriteString(CoDChestsA1+0,"g01cd00")
-			    end
-			    if ReadShort(CoDChestsA2+1) == 0x3230 then
-				    WriteString(CoDChestsA2+0,"g01cd00")
-			    end
-			    if ReadShort(CoDChestsA3+1) == 0x3230 then
-				    WriteString(CoDChestsA3+0,"g01cd00")
-			    end
-		    end
-		    --Dwarf Woodlands Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0602 then
-			    if ReadShort(DWChestsA1+0x01) == 0x3230 then
-				    WriteString(DWChestsA1+0x00,"g01sw00")
-			    end
-			    if ReadShort(DWChestsA2+0x01) == 0x3230 then
-				    WriteString(DWChestsA2+0x00,"g01sw00")
-			    end
-		    end
-		    if ReadShort(Now+0) == 0x0B02 then
-			    if ReadShort(DWChestsA1+0x21) == 0x3230 then
-				    WriteString(DWChestsA1+0x20,"g01sw00")
-			    end
-		    end
-		    --Enchanted Dominion Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0104 then
-			    if ReadShort(EDChestsA1+1) == 0x3230 then
-				    WriteString(EDChestsA1+0,"g01sb00")
-			    end
-			    if ReadShort(EDChestsA2+1) == 0x3230 then
-				    WriteString(EDChestsA2+0,"g01sb00")
-			    end
-		    end
-		    --The Mysterious Tower Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0305 then
-			    if ReadShort(TMTChestsA+1) == 0x3230 then
-				    WriteString(TMTChestsA+0,"g01yt00")
-			    end
-		    end
-		    --Radiant Garden Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0A06 then
-			    if ReadShort(RGChestsA1+0x01) == 0x3230 then
-				    WriteString(RGChestsA1+0x00,"g01rg00")
-			    end
-			    if ReadShort(RGChestsA2+0x01) == 0x3230 then
-				    WriteString(RGChestsA2+0x00,"g01rg00")
-			    end
-		    end
-		    if ReadShort(Now+0) == 0x0806 then
-			    if ReadShort(RGChestsA1+0x41) == 0x3230 then
-				    WriteString(RGChestsA1+0x40,"g01rg00")
-			    end
-		    end
-		    --Disney Town Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x020C then
-			    if ReadShort(DTChestsA1+1) == 0x3230 then
-				    WriteString(DTChestsA1+0,"g01dc00")
-			    end
-		    end
-		    --Olympus Coliseum Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0208 then
-			    if ReadShort(OCChestsA1+1) == 0x3230 then
-				    WriteString(OCChestsA1+0,"g01he00")
-			    end
-			    if ReadShort(OCChestsA2+1) == 0x3230 then
-				    WriteString(OCChestsA2+0,"g01he00")
-			    end
-		    end
-		    --Deep Space Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x0209 then
-			    if ReadShort(DSChestsA1+0xB1) == 0x3230 then
-				    WriteString(DSChestsA1+0xB0,"g01ls00")
-			    end
-			    if ReadShort(DSChestsA2+0x01) == 0x3230 then
-				    WriteString(DSChestsA2+0x00,"g01ls00")
-			    end
-		    end
-		    if ReadShort(Now+0) == 0x0E09 then
-			    if ReadShort(DSChestsA1+0x01) == 0x3230 then
-				    WriteString(DSChestsA1+0x00,"g01ls00")
-			    end
-		    end
-		    --Never Land Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x070B then
-			    if ReadShort(NLChestsA1+1) == 0x3230 then
-				    WriteString(NLChestsA1+0,"g01pp00")
-			    end
-			    if ReadShort(NLChestsA2+1) == 0x3230 then
-				    WriteString(NLChestsA2+0,"g01pp00")
-			    end
-		    end
-		    --The Keyblade Graveyard Large Chests -> Small Chests
-		    if ReadShort(Now+0) == 0x020D then
-			    if ReadShort(KGChestsA1+1) == 0x3230 then
-				    WriteString(KGChestsA1+0,"g01kg00")
-			    end
-			    if ReadShort(KGChestsA2+1) == 0x3230 then
-				    WriteString(KGChestsA2+0,"g01kg00")
-			    end
-		    end]]
 	    end
     end
 end

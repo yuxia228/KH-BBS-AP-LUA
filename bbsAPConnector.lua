@@ -68,7 +68,7 @@ function define_world_progress_location_bits()
     --Castle of Dreams
     world_progress_location_bits[1][3][4]   = {2271120200} --Map
     world_progress_location_bits[1][3][10]  = {2271120201} --Thunderbolt
-    world_progress_location_bits[1][3][16]  = {2271120202, 2271120203, 2271120204, 2271120205, 2271120206} --Max HP Increase, Deck Capacity Increase, Cinderella D-Link, Stroke of Midnight, Castle Board
+    world_progress_location_bits[1][3][15]  = {2271120202, 2271120203, 2271120204, 2271120205, 2271120206} --Max HP Increase, Deck Capacity Increase, Cinderella D-Link, Stroke of Midnight, Castle Board
     --Enchanted Dominion
     world_progress_location_bits[1][4][8]   = {2271120300} --High Jump
     world_progress_location_bits[1][4][11]  = {2271120301, 2271120302} --Max HP Increase, Firestorm
@@ -104,7 +104,7 @@ function define_world_progress_location_bits()
     world_progress_location_bits[2][1][11]  = {2271220000, 2271220001} --Max HP Increase, Critical Impact
     world_progress_location_bits[2][1][4]   = {2271220002, 2271220003, 2271220004} --Ventus D-Link, Aqua D-Link, Keyblade Board
     world_progress_location_bits[2][1][8]   = {2271220005} --Max HP Increase
-    world_progress_location_bits[2][1][10]  = {2271220006, 2271220007} --Chaos Ripper, Xehanort's Report 8
+    world_progress_location_bits[2][1][9]  =  {2271220006, 2271220007} --Chaos Ripper, Xehanort's Report 8
     --Dwarf Woodlands
     world_progress_location_bits[2][2][6]   = {2271220100} --Air Slide
     world_progress_location_bits[2][2][9]   = {2271220101, 2271220102} --Max HP Increase, Firestorm
@@ -200,7 +200,7 @@ end
 function write_key_item(item_value)
     --Writes key item to the player's inventory
     key_item_stock_address = {0x0, 0x10FA2AAC}
-    max_items = 25
+    max_items = 40
     item_index = 0
     duplicate = false
     while ReadShort(key_item_stock_address[game_version] - (2 * item_index)) ~= 0 and item_index < max_items and not duplicate do
@@ -217,7 +217,7 @@ end
 function write_command(command_value)
     --Writes command to the player's inventory
     command_stock_address = {0x0, 0x10FA2C88}
-    max_commands = 99
+    max_commands = 500
     command_value = command_value + 0x5B
     if command_value >= 0xBC and command_value <= 0xD2 then --Item Command
         command_index = 0
@@ -491,7 +491,7 @@ function receive_items()
         elseif received_item_id >= 2270030000 and received_item_id <= 2270030029 then
             item_value = received_item_id % 2270030000
             write_ability(item_value)
-        elseif received_item_id >= 2270040001 and received_item_id <= 2270047967 then
+        elseif received_item_id >= 2270040001 and received_item_id <= 2270047968 then
             item_value = received_item_id % 2270040000
             write_key_item(item_value)
         elseif received_item_id >= 2270050000 and received_item_id <= 2270050013 then
@@ -591,11 +591,11 @@ function _OnInit()
 end
 
 function _OnFrame()
-    if character_selected_or_save_loaded() then
-        write_ap_item_text()
-        remove_starting_wayfinder()
-        frame_count = (frame_count + 1) % 30
-        if frame_count == 0 then
+    frame_count = (frame_count + 1) % 30
+    if frame_count == 0 then
+        if character_selected_or_save_loaded() then
+            remove_starting_wayfinder()
+            write_ap_item_text()
             receive_items()
             send_items()
         end
