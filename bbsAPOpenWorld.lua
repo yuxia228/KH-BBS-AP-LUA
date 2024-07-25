@@ -915,7 +915,7 @@ function _OnFrame()
             WriteByte(Save+0x294C,0x02 * worlds_unlocked_array[6]) --Radiant Garden
             WriteByte(Save+0x2954,0x02 * worlds_unlocked_array[8]) --Olympus Coliseum
             WriteByte(Save+0x2958,0x02 * worlds_unlocked_array[9]) --Deep Space
-            WriteByte(Save+0x295C,0x00 * worlds_unlocked_array[10]) --Destiny Islands
+            WriteByte(Save+0x295C,0x02 * worlds_unlocked_array[10]) --Destiny Islands
             if ReadShort(Save+0x25F5) == 0x0000 then
                 WriteByte(Save+0x295D,0x08)
             else
