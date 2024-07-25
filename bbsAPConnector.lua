@@ -394,7 +394,7 @@ function read_chest_location_ids()
     location_ids = {}
     chests_opened_address = {0x0, 0x10FA2B7C}
     location_add_array = {2271000000, 2271100000, 2271200000}
-    chests_opened_array = ReadArray(chests_opened_address[game_version], 26)
+    chests_opened_array = ReadArray(chests_opened_address[game_version], 27)
     for chest_index, chest_byte in pairs(chests_opened_array) do
         chest_bits = toBits(chest_byte, 8)
         for i=1,8 do
