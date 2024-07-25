@@ -591,11 +591,11 @@ function _OnInit()
 end
 
 function _OnFrame()
-    if character_selected_or_save_loaded() then
-        write_ap_item_text()
-        remove_starting_wayfinder()
-        frame_count = (frame_count + 1) % 30
-        if frame_count == 0 then
+    frame_count = (frame_count + 1) % 30
+    if frame_count == 0 then
+        if character_selected_or_save_loaded() then
+            remove_starting_wayfinder()
+            write_ap_item_text()
             receive_items()
             send_items()
         end
