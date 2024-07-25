@@ -217,7 +217,7 @@ end
 function write_command(command_value)
     --Writes command to the player's inventory
     command_stock_address = {0x0, 0x10FA2C88}
-    max_commands = 99
+    max_commands = 500
     command_value = command_value + 0x5B
     if command_value >= 0xBC and command_value <= 0xD2 then --Item Command
         command_index = 0
