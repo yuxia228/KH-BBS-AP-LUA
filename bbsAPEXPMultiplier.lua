@@ -11,6 +11,7 @@ can_execute = false
 exp_mult = 1
 mult_applied = false
 mult_read = false
+frame_count = 0
 
 if os.getenv('LOCALAPPDATA') ~= nil then
     client_communication_path = os.getenv('LOCALAPPDATA') .. "\\KHBBSFMAP\\"
@@ -61,7 +62,8 @@ function _OnInit()
 end
 
 function _OnFrame()
-    if can_execute then
+    frame_count = (frame_count + 1) % 30
+    if can_execute and frame_count == 0 then
         read_mult()
         to_next_level_table_address = {0x649724, 0x6485F4}
         if exp_mult ~= 1 and ReadInt(to_next_level_table_address[game_version]) == 90 then
