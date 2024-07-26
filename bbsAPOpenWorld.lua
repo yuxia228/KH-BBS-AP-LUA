@@ -81,7 +81,7 @@ function read_number_of_wayfinders()
     return wayfinders[0x1F1C] + wayfinders[0x1F1F] + wayfinders[0x1F20]
 end
 
-function character_selected_or_Save[game_version]_loaded()
+function character_selected_or_save_loaded()
     if can_execute then
         if ReadInt(version_choice({0x81509F, 0x81711F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
             if ReadInt(version_choice({0x81509F, 0x81711F}, game_version)) ~= 0xD0100 then
