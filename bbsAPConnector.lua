@@ -199,7 +199,7 @@ end
 
 function write_key_item(item_value)
     --Writes key item to the player's inventory
-    key_item_stock_address = {0x10F9FF4C, 0x10FA2AAC}
+    key_item_stock_address = {0x10FA422C, 0x10FA2AAC}
     max_items = 40
     item_index = 0
     duplicate = false
@@ -216,7 +216,7 @@ end
 
 function write_command(command_value)
     --Writes command to the player's inventory
-    command_stock_address = {0x10FA0188, 0x10FA2C88}
+    command_stock_address = {0X10FA4408, 0x10FA2C88}
     max_commands = 500
     command_value = command_value + 0x5B
     if command_value >= 0xBC and command_value <= 0xD2 then --Item Command
@@ -259,7 +259,7 @@ function write_dlink(dlink_value)
     dlink_offset[10] = -0x10
     dlink_offset[11] = -0x18
     dlink_offset[12] = -0x8
-    dlinks_address = {0x10FA23CC, 0x10FA4ECC}
+    dlinks_address = {0x10FA664C, 0x10FA4ECC}
     duplicate = false
     if not duplicate then
         WriteShort(dlinks_address[game_version] + dlink_offset[dlink_value] + 0, dlink_value + 0x163) --Write D-Link
@@ -271,7 +271,7 @@ end
 
 function write_ability(ability_offset)
     --Write ability to the player's ability array
-    abilities_address = {0x10FA1A54, 0x10FA4554}
+    abilities_address = {0x10FA5CD4, 0x10FA4554}
     ability_byte_1 = ReadByte(abilities_address[game_version] + (ability_offset) * 4)
     ability_byte_2 = ReadByte((abilities_address[game_version] + (ability_offset) * 4)+1)
     ability_bits_1 = toBits(ability_byte_1, 8)
@@ -293,12 +293,12 @@ end
 
 function write_command_style(command_style_offset)
     --Writes command style to a players command style array
-    command_style_address = {0x10FA1ACC, 0x10FA45CC}
+    command_style_address = {0x10FA5D4C, 0x10FA45CC}
     WriteByte(command_style_address[game_version]+command_style_offset, 0x05)
 end
 
 function write_worlds()
-    world_open_address = {0x10F9CCF0 + 0x2938, 0x10F9F7F0 + 0x2938}
+    world_open_address = {0x10FA0F70 + 0x2938, 0x10F9F7F0 + 0x2938}
     world_open_values = {
         0x00002002, --LOD
         0x00000102, --DW
@@ -324,12 +324,12 @@ function write_worlds()
 end
 
 function write_check_number(value)
-    check_number_address = {0x10F9F220, 0x10FA1D20}
+    check_number_address = {0x10FA34A0, 0x10FA1D20}
     WriteInt(check_number_address[game_version], value)
 end
 
 function write_max_hp(value)
-    max_hp_pointer_address = {0x10F9B2C0, 0x10F9DDC0}
+    max_hp_pointer_address = {0x10F9F540, 0x10F9DDC0}
     max_hp_pointer_offset_1 = 0x118
     max_hp_pointer_offset_2 = 0x398
     max_hp_pointer_offset_3 = 0xA4
@@ -340,13 +340,13 @@ function write_max_hp(value)
 end
 
 function write_deck_capacity(value)
-    deck_capacity_address = {0x10F9B366, 0x10F9DE66}
+    deck_capacity_address = {0x10F9F5E6, 0x10F9DE66}
     WriteByte(deck_capacity_address[game_version], math.min(value, 8))
 end
 
 function write_world_item(world_offset)
     if world_offset <= 12 then
-        ap_bits_address = {0x10F9F21C, 0x10FA1D1C}
+        ap_bits_address = {0x10FA349C, 0x10FA1D1C}
         address_offset = math.floor(world_offset / 8)
         bit_num = (world_offset % 8) + 1
         ap_byte = ReadByte(ap_bits_address[game_version] + address_offset)
@@ -357,7 +357,7 @@ function write_world_item(world_offset)
 end
 
 function write_victory_item()
-    ap_bits_address = {0x10F9F21D, 0x10FA1D1D}
+    ap_bits_address = {0x10FA349D, 0x10FA1D1D}
     ap_byte = ReadByte(ap_bits_address[game_version])
     ap_bits = toBits(ap_byte, 8)
     ap_bits[6] = 1
@@ -365,17 +365,17 @@ function write_victory_item()
 end
 
 function write_ap_item_text()
-    dummy_id_text_address = {0xD62A50, 0xD65550}
+    dummy_id_text_address = {0xD66CD0, 0xD65550}
     WriteArray(dummy_id_text_address[game_version], {0x41,0x50,0x20,0x49,0x74,0x65,0x6D,0x00})
 end
 
 function read_check_number()
-    check_number_address = {0x10F9F220, 0x10FA1D20}
+    check_number_address = {0x10FA34A0, 0x10FA1D20}
     return ReadInt(check_number_address[game_version])
 end
 
 function read_max_hp()
-    max_hp_pointer_address = {0x10F9B2C0, 0x10F9DDC0}
+    max_hp_pointer_address = {0x10F9F540, 0x10F9DDC0}
     max_hp_pointer_offset_1 = 0x118
     max_hp_pointer_offset_2 = 0x398
     max_hp_pointer_offset_3 = 0xA4
@@ -386,13 +386,13 @@ function read_max_hp()
 end
 
 function read_deck_capacity()
-    deck_capacity_address = {0x10F9B366, 0x10F9DE66}
+    deck_capacity_address = {0x10F9F5E6, 0x10F9DE66}
     return ReadByte(deck_capacity_address[game_version])
 end
 
 function read_chest_location_ids()
     location_ids = {}
-    chests_opened_address = {0x10FA007C, 0x10FA2B7C}
+    chests_opened_address = {0x10FA42FC, 0x10FA2B7C}
     location_add_array = {2271000000, 2271100000, 2271200000}
     chests_opened_array = ReadArray(chests_opened_address[game_version], 27)
     for chest_index, chest_byte in pairs(chests_opened_array) do
@@ -408,7 +408,7 @@ end
 
 function read_sticker_location_ids()
     location_ids = {}
-    stickers_found_address = {0x10FA009C, 0x10FA2B9C}
+    stickers_found_address = {0x10FA431C, 0x10FA2B9C}
     location_add_array = {2271010000, 2271110000, 2271210000}
     stickers_opened_array = ReadArray(stickers_found_address[game_version], 3)
     for sticker_index, sticker_byte in pairs(stickers_opened_array) do
@@ -423,8 +423,8 @@ function read_sticker_location_ids()
 end
 
 function read_world_progress_location_ids()
-    world_progress_address = {0x10F9F224, 0x10FA1D24}
-    final_story_address = {0x10F9F3A6, 0x10FA1EA6}
+    world_progress_address = {0x10FA34A4, 0x10FA1D24}
+    final_story_address = {0x10FA3626, 0x10FA1EA6}
     location_ids = {}
     world_progress_index = 0
     while world_progress_index < 14 do
@@ -446,12 +446,12 @@ function read_world_progress_location_ids()
 end
 
 function read_current_character()
-    current_character_address = {0x10F9CD00, 0x10F9F800}
+    current_character_address = {0x10FA0F80, 0x10F9F800}
     return ReadByte(current_character_address[game_version])
 end
 
 function victorious()
-    ap_bits_address = {0x10F9F21D, 0x10FA1D1D}
+    ap_bits_address = {0x10FA349D, 0x10FA1D1D}
     ap_byte = ReadByte(ap_bits_address[game_version])
     ap_bits = toBits(ap_byte, 8)
     if ap_bits[6] == 1 then
@@ -463,9 +463,9 @@ end
 
 function character_selected_or_save_loaded()
     if can_execute then
-        if ReadInt(version_choice({0x81509F, 0x81711F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
-            if ReadInt(version_choice({0x81509F, 0x81711F}, game_version)) ~= 0xD0100 then
-                if ReadInt(version_choice({0x81509F, 0x81711F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x8150A3, 0x817123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x8150A7, 0x817127}, game_version)) ~= 0x100 then
+        if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
+            if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0xD0100 then
+                if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x817123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x817127}, game_version)) ~= 0x100 then
                     return true
                 end
             end
@@ -549,7 +549,7 @@ function send_items()
 end
 
 function remove_starting_wayfinder()
-    starting_wayfinder_address = {0x10F9FF4C, 0x10FA2A4C}
+    starting_wayfinder_address = {0x10FA41CC, 0x10FA2A4C}
     item = ReadInt(starting_wayfinder_address[game_version])
     if item == 0x1F1C or item == 0x1F1F or item == 0x1F20 then
         WriteInt(starting_wayfinder_address[game_version], 0x0)

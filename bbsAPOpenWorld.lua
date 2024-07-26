@@ -44,7 +44,7 @@ end
 
 
 function read_world_item()
-    ap_bits_address = {0x10F9F21C, 0x10FA1D1C}
+    ap_bits_address = {0x10FA349C, 0x10FA1D1C}
     world_item_byte_array = ReadArray(ap_bits_address[game_version], 2)
     world_item_bits_1 = toBits(world_item_byte_array[1], 8)
     world_item_bits_2 = toBits(world_item_byte_array[2], 8)
@@ -64,7 +64,7 @@ function read_world_item()
 end
 
 function read_number_of_wayfinders()
-    key_item_stock_address = {0x10F9FFAC, 0x10FA2AAC}
+    key_item_stock_address = {0x10FA422C, 0x10FA2AAC}
     max_items = 40
     item_index = 0
     wayfinders = {}
@@ -83,9 +83,9 @@ end
 
 function character_selected_or_save_loaded()
     if can_execute then
-        if ReadInt(version_choice({0x81509F, 0x81711F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
-            if ReadInt(version_choice({0x81509F, 0x81711F}, game_version)) ~= 0xD0100 then
-                if ReadInt(version_choice({0x81509F, 0x81711F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x8150A3, 0x817123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x8150A7, 0x817127}, game_version)) ~= 0x100 then
+        if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
+            if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0xD0100 then
+                if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x817123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x817127}, game_version)) ~= 0x100 then
                     return true
                 end
             end
@@ -94,11 +94,11 @@ function character_selected_or_save_loaded()
 end
 
 function _OnInit()
-    Now = {0x8150A0, 0x817120}
-    Save = {0x10F9CCF0, 0x10F9F7F0}
-    RoomNameText = {0xCB43D2, 0xCB6ED2}
-    CharMod = {0x10F9B2CC, 0x10F9DDCC}
-    TMTBGM = {0x86C5EC, 0x86F0EC}
+    Now = {0x819120, 0x817120}
+    Save = {0x10FA0F70, 0x10F9F7F0}
+    RoomNameText = {0xCB8652, 0xCB6ED2}
+    CharMod = {0x10F9F54C, 0x10F9DDCC}
+    TMTBGM = {0x87086C, 0x86F0EC}
     Timer = {0x81EF20, 0x81CF24}
     if ReadByte(IsEpicGLVersion) == 0xFF then
         game_version = 1
