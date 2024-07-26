@@ -915,7 +915,7 @@ function _OnFrame()
             WriteByte(Save+0x294C,0x02 * worlds_unlocked_array[6]) --Radiant Garden
             WriteByte(Save+0x2954,0x02 * worlds_unlocked_array[8]) --Olympus Coliseum
             WriteByte(Save+0x2958,0x02 * worlds_unlocked_array[9]) --Deep Space
-            WriteByte(Save+0x295C,0x00 * worlds_unlocked_array[10]) --Destiny Islands
+            WriteByte(Save+0x295C,0x02 * worlds_unlocked_array[10]) --Destiny Islands
             if ReadShort(Save+0x25F5) == 0x0000 then
                 WriteByte(Save+0x295D,0x08)
             else
@@ -1120,14 +1120,12 @@ function _OnFrame()
 		    end
 		    --End of The Mysterious Tower 2
 		    if ReadShort(Now+0) == 0x0111 and ReadShort(Now+0x10) == 0x0405 then
-			    if ReadShort(Save+0x2949) == 0x0021 then
-				    if ReadByte(Save+0x25BC) == 0 then
-					    WriteByte(Save+0x25BC,1)
-					    WriteArray(Now+0,{0x07, 0x32, 0x00, 0x00, 0x44, 0x00, 0x44, 0x00, 0x44})
-					    WriteShort(Save+0x2949,0x0122)
-					    WriteString(TMTBGM+0,"019iensid_f")
-					    WriteByte(Save+0x2658,ReadByte(Save+0x2658)+1)
-				    end
+				if ReadByte(Save+0x25BC) == 0 then
+					WriteByte(Save+0x25BC,1)
+					WriteArray(Now+0,{0x07, 0x32, 0x00, 0x00, 0x44, 0x00, 0x44, 0x00, 0x44})
+					WriteShort(Save+0x2949,0x0122)
+					WriteString(TMTBGM+0,"019iensid_f")
+					WriteByte(Save+0x2658,ReadByte(Save+0x2658)+1)
 			    end
 		    end
 		    --Normal Land of Departure -> Destroyed Land of Departure

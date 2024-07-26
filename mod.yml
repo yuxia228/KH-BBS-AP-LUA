@@ -15,22 +15,6 @@ assets:
   method: copy
   source:
   - name: bbsAPOpenWorld.lua
-- name: arc/pc_terra/shopCmdTe.arc
-  method: copy
-  source:
-  - name: arc/pc_terra/shopCmdTe.arc
-- name: arc/pc_terra/shopCmdTe.arc
-  method: copy
-  source:
-  - name: arc/pc_terra/shopCmdTe.arc
-- name: arc/pc_ven/shopCmdVe.arc
-  method: copy
-  source:
-  - name: arc/pc_ven/shopCmdVe.arc
-- name: arc/pc_aqua/shopCmdAq.arc
-  method: copy
-  source:
-  - name: arc/pc_aqua/shopCmdAq.arc
 - name: arc/preset/cd/cd01ve.arc
   method: copy
   source:
@@ -39,10 +23,22 @@ assets:
   method: copy
   source:
   - name: arc/preset/cd/cd05aq.arc
+- name: arc/preset/cd/cd07aq.arc
+  method: copy
+  source:
+  - name: arc/preset/cd/cd07aq.arc
 - name: arc/preset/cd/cd07te.arc
   method: copy
   source:
   - name: arc/preset/cd/cd07te.arc
+- name: arc/preset/cd/cd09aq.arc
+  method: copy
+  source:
+  - name: arc/preset/cd/cd09aq.arc
+- name: arc/preset/cd/cd10te.arc
+  method: copy
+  source:
+  - name: arc/preset/cd/cd10te.arc
 - name: arc/preset/dc/dc02aq.arc
   method: copy
   source:
@@ -55,6 +51,58 @@ assets:
   method: copy
   source:
   - name: arc/preset/dc/dc02ve.arc
+- name: arc/preset/di/di01ve.arc
+  method: copy
+  source:
+  - name: arc/preset/di/di01ve.arc
+- name: arc/preset/di/di02aq.arc
+  method: copy
+  source:
+  - name: arc/preset/di/di02aq.arc
+- name: arc/preset/di/di02te.arc
+  method: copy
+  source:
+  - name: arc/preset/di/di02te.arc
+- name: arc/preset/dp/dp01aq.arc
+  method: copy
+  source:
+  - name: arc/preset/dp/dp01aq.arc
+- name: arc/preset/dp/dp01te.arc
+  method: copy
+  source:
+  - name: arc/preset/dp/dp01te.arc
+- name: arc/preset/dp/dp01ve.arc
+  method: copy
+  source:
+  - name: arc/preset/dp/dp01ve.arc
+- name: arc/preset/dp/dp06ve.arc
+  method: copy
+  source:
+  - name: arc/preset/dp/dp06ve.arc
+- name: arc/preset/dp/dp08te.arc
+  method: copy
+  source:
+  - name: arc/preset/dp/dp08te.arc
+- name: arc/preset/dp/dp12aq.arc
+  method: copy
+  source:
+  - name: arc/preset/dp/dp12aq.arc
+- name: arc/preset/dp/dp16aq.arc
+  method: copy
+  source:
+  - name: arc/preset/dp/dp16aq.arc
+- name: arc/preset/dp/dp16te.arc
+  method: copy
+  source:
+  - name: arc/preset/dp/dp16te.arc
+- name: arc/preset/dp/dp16ve.arc
+  method: copy
+  source:
+  - name: arc/preset/dp/dp16ve.arc
+- name: arc/preset/he/he01aq.arc
+  method: copy
+  source:
+  - name: arc/preset/he/he01aq.arc
 - name: arc/preset/he/he02aq.arc
   method: copy
   source:
@@ -67,6 +115,30 @@ assets:
   method: copy
   source:
   - name: arc/preset/he/he02ve.arc
+- name: arc/preset/he/he04te.arc
+  method: copy
+  source:
+  - name: arc/preset/he/he04te.arc
+- name: arc/preset/he/he05ve.arc
+  method: copy
+  source:
+  - name: arc/preset/he/he05ve.arc
+- name: arc/preset/jb/jb20aq.arc
+  method: copy
+  source:
+  - name: arc/preset/jb/jb20aq.arc
+- name: arc/preset/jb/jb50aq.arc
+  method: copy
+  source:
+  - name: arc/preset/jb/jb50aq.arc
+- name: arc/preset/jb/jb50ve.arc
+  method: copy
+  source:
+  - name: arc/preset/jb/jb50ve.arc
+- name: arc/preset/kg/kg01te.arc
+  method: copy
+  source:
+  - name: arc/preset/kg/kg01te.arc
 - name: arc/preset/kg/kg02aq.arc
   method: copy
   source:
@@ -79,6 +151,26 @@ assets:
   method: copy
   source:
   - name: arc/preset/kg/kg02ve.arc
+- name: arc/preset/kg/kg12aq.arc
+  method: copy
+  source:
+  - name: arc/preset/kg/kg12aq.arc
+- name: arc/preset/kg/kg50ve.arc
+  method: copy
+  source:
+  - name: arc/preset/kg/kg50ve.arc
+- name: arc/preset/kg/kg56aq.arc
+  method: copy
+  source:
+  - name: arc/preset/kg/kg56aq.arc
+- name: arc/preset/kg/kg56te.arc
+  method: copy
+  source:
+  - name: arc/preset/kg/kg56te.arc
+- name: arc/preset/kg/kg56ve.arc
+  method: copy
+  source:
+  - name: arc/preset/kg/kg56ve.arc
 - name: arc/preset/ls/ls02aq.arc
   method: copy
   source:
@@ -91,14 +183,34 @@ assets:
   method: copy
   source:
   - name: arc/preset/ls/ls05ve.arc
+- name: arc/preset/ls/ls06te.arc
+  method: copy
+  source:
+  - name: arc/preset/ls/ls06te.arc
+- name: arc/preset/ls/ls09aq.arc
+  method: copy
+  source:
+  - name: arc/preset/ls/ls09aq.arc
 - name: arc/preset/ls/ls09ve.arc
   method: copy
   source:
   - name: arc/preset/ls/ls09ve.arc
+- name: arc/preset/ls/ls11ve.arc
+  method: copy
+  source:
+  - name: arc/preset/ls/ls11ve.arc
 - name: arc/preset/ls/ls14aq.arc
   method: copy
   source:
   - name: arc/preset/ls/ls14aq.arc
+- name: arc/preset/pp/pp01ve.arc
+  method: copy
+  source:
+  - name: arc/preset/pp/pp01ve.arc
+- name: arc/preset/pp/pp03ve.arc
+  method: copy
+  source:
+  - name: arc/preset/pp/pp03ve.arc
 - name: arc/preset/pp/pp06te.arc
   method: copy
   source:
@@ -115,6 +227,18 @@ assets:
   method: copy
   source:
   - name: arc/preset/pp/pp07ve.arc
+- name: arc/preset/pp/pp08aq.arc
+  method: copy
+  source:
+  - name: arc/preset/pp/pp08aq.arc
+- name: arc/preset/pp/pp13te.arc
+  method: copy
+  source:
+  - name: arc/preset/pp/pp13te.arc
+- name: arc/preset/rg/rg03ve.arc
+  method: copy
+  source:
+  - name: arc/preset/rg/rg03ve.arc
 - name: arc/preset/rg/rg05te.arc
   method: copy
   source:
@@ -127,6 +251,10 @@ assets:
   method: copy
   source:
   - name: arc/preset/rg/rg08aq.arc
+- name: arc/preset/rg/rg08te.arc
+  method: copy
+  source:
+  - name: arc/preset/rg/rg08te.arc
 - name: arc/preset/rg/rg08ve.arc
   method: copy
   source:
@@ -135,14 +263,30 @@ assets:
   method: copy
   source:
   - name: arc/preset/rg/rg10aq.arc
+- name: arc/preset/rg/rg11te.arc
+  method: copy
+  source:
+  - name: arc/preset/rg/rg11te.arc
 - name: arc/preset/sb/sb01aq.arc
   method: copy
   source:
   - name: arc/preset/sb/sb01aq.arc
+- name: arc/preset/sb/sb02ve.arc
+  method: copy
+  source:
+  - name: arc/preset/sb/sb02ve.arc
 - name: arc/preset/sb/sb08ve.arc
   method: copy
   source:
   - name: arc/preset/sb/sb08ve.arc
+- name: arc/preset/sb/sb09aq.arc
+  method: copy
+  source:
+  - name: arc/preset/sb/sb09aq.arc
+- name: arc/preset/sb/sb09te.arc
+  method: copy
+  source:
+  - name: arc/preset/sb/sb09te.arc
 - name: arc/preset/sb/sb15te.arc
   method: copy
   source:
@@ -151,6 +295,10 @@ assets:
   method: copy
   source:
   - name: arc/preset/sb/sb16te.arc
+- name: arc/preset/sw/sw04te.arc
+  method: copy
+  source:
+  - name: arc/preset/sw/sw04te.arc
 - name: arc/preset/sw/sw06aq.arc
   method: copy
   source:
@@ -159,6 +307,14 @@ assets:
   method: copy
   source:
   - name: arc/preset/sw/sw06te.arc
+- name: arc/preset/sw/sw07ve.arc
+  method: copy
+  source:
+  - name: arc/preset/sw/sw07ve.arc
+- name: arc/preset/sw/sw10aq.arc
+  method: copy
+  source:
+  - name: arc/preset/sw/sw10aq.arc
 - name: arc/preset/sw/sw10ve.arc
   method: copy
   source:
@@ -171,6 +327,10 @@ assets:
   method: copy
   source:
   - name: arc/preset/sw/sw11ve.arc
+- name: arc/preset/yt/yt01ve.arc
+  method: copy
+  source:
+  - name: arc/preset/yt/yt01ve.arc
 - name: arc/preset/yt/yt03aq.arc
   method: copy
   source:
@@ -219,3 +379,7 @@ assets:
   method: copy
   source:
   - name: arc/system/common_sw.arc
+- name: arc/system/common_vs.arc
+  method: copy
+  source:
+  - name: arc/system/common_vs.arc

@@ -394,7 +394,7 @@ function read_chest_location_ids()
     location_ids = {}
     chests_opened_address = {0x0, 0x10FA2B7C}
     location_add_array = {2271000000, 2271100000, 2271200000}
-    chests_opened_array = ReadArray(chests_opened_address[game_version], 26)
+    chests_opened_array = ReadArray(chests_opened_address[game_version], 27)
     for chest_index, chest_byte in pairs(chests_opened_array) do
         chest_bits = toBits(chest_byte, 8)
         for i=1,8 do
@@ -510,7 +510,7 @@ function receive_items()
     write_check_number(i-1)
 end
 
-function removed_starting_wayfinder()
+--[[function removed_starting_wayfinder()
     ap_bits_address = {0x0, 0x10FA1D1D}
     ap_byte = ReadByte(ap_bits_address[game_version])
     ap_bits = toBits(ap_byte, 8)
@@ -537,7 +537,7 @@ function remove_starting_wayfinder()
             item_index = item_index + 1
         end
     end
-end
+end]]
 
 function send_items()
     chest_location_ids = read_chest_location_ids()
@@ -574,6 +574,14 @@ function send_items()
             io.write("")
             io.close(file)
         end
+    end
+end
+
+function remove_starting_wayfinder()
+    starting_wayfinder_address = {0x0, 0x10FA2A4C}
+    item = ReadInt(starting_wayfinder_address[game_version])
+    if item == 0x1F1C or item == 0x1F1F or item == 0x1F20 then
+        WriteInt(starting_wayfinder_address[game_version], 0x0)
     end
 end
 
