@@ -17,7 +17,7 @@ function define_world_progress_location_bits()
     for k=0,2 do
         for i=1,14 do
             world_progress_location_bits[k][i] = {}
-            for j=1,16 do
+            for j=1,32 do
                 world_progress_location_bits[k][i][j] = {}
             end
         end
@@ -56,7 +56,8 @@ function define_world_progress_location_bits()
     world_progress_location_bits[0][12][6]  = {2271021100} --Toon Board
     --Keyblade Graveyard
     world_progress_location_bits[0][13][8]  = {2271021200, 2271021201, 2271021202, 2271021203} --Max HP Increase, Deck Capacity Increase, High Jump, Mickey D-Link
-    world_progress_location_bits[0][13][11] = {2271021204, 2271021205} --Lost Memory, Xehanort's Report 9
+    world_progress_location_bits[0][13][17] = {2271021204} --Max HP Increase
+    world_progress_location_bits[0][13][20] = {2271021205} --Final Vanitas
     
     --Aqua
     --Land of Departure
@@ -424,13 +425,12 @@ end
 
 function read_world_progress_location_ids()
     world_progress_address = {0x10FA34A4, 0x10FA1D24}
-    final_story_address = {0x10FA3626, 0x10FA1EA6}
     location_ids = {}
     world_progress_index = 0
     while world_progress_index < 14 do
-        world_progress_value = ReadShort(world_progress_address[game_version] + (0x20 * world_progress_index))
-        world_progress_bits = toBits(world_progress_value, 16)
-        for i=1,16 do
+        world_progress_value = ReadInt(world_progress_address[game_version] + (0x20 * world_progress_index))
+        world_progress_bits = toBits(world_progress_value, 32)
+        for i=1,32 do
             if world_progress_bits[i] > 0 then
                 for k,v in pairs(world_progress_location_bits[read_current_character()][world_progress_index+1][i]) do
                     location_ids[#location_ids + 1] = v
@@ -438,9 +438,6 @@ function read_world_progress_location_ids()
             end
         end
         world_progress_index = world_progress_index + 1
-    end
-    if ReadShort(final_story_address[game_version]) >= 0x000F and read_current_character() == 0 then
-        location_ids[#location_ids + 1] = 2271021206
     end
     return location_ids
 end
