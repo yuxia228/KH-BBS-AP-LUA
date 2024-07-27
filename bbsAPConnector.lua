@@ -17,7 +17,7 @@ function define_world_progress_location_bits()
     for k=0,2 do
         for i=1,14 do
             world_progress_location_bits[k][i] = {}
-            for j=1,16 do
+            for j=1,32 do
                 world_progress_location_bits[k][i][j] = {}
             end
         end
