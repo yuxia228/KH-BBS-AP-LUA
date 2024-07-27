@@ -430,7 +430,7 @@ function read_world_progress_location_ids()
     while world_progress_index < 14 do
         world_progress_value = ReadInt(world_progress_address[game_version] + (0x20 * world_progress_index))
         world_progress_bits = toBits(world_progress_value, 32)
-        for i=1,16 do
+        for i=1,32 do
             if world_progress_bits[i] > 0 then
                 for k,v in pairs(world_progress_location_bits[read_current_character()][world_progress_index+1][i]) do
                     location_ids[#location_ids + 1] = v
@@ -438,9 +438,6 @@ function read_world_progress_location_ids()
             end
         end
         world_progress_index = world_progress_index + 1
-    end
-    if ReadShort(final_story_address[game_version]) >= 0x000F and read_current_character() == 0 then
-        location_ids[#location_ids + 1] = 2271021206
     end
     return location_ids
 end
