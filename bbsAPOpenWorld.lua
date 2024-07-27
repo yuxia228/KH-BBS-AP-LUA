@@ -1,4 +1,4 @@
-LUAGUI_NAME = "bbsAPConnector"
+LUAGUI_NAME = "bbsAPOpenWorld"
 LUAGUI_AUTH = "Sonicshadowsilver2"
 LUAGUI_DESC = "BBS FM AP Open World"
 
@@ -336,7 +336,7 @@ function _OnFrame()
             if ReadShort(Now[game_version]+0x10) == 0x0101 and ReadShort(Now[game_version]+0x00) == 0x0111 then
                 WriteByte(Save[game_version]+0x2694,0x02) --Disney Town's Story Progression
                 WriteInt(Save[game_version]+0x29C0,0xFFFFFFFE) --Lock Disney Town's Save[game_version] Point on World Map
-                WriteShort(Save[game_version]+0x26B4,0x9807) --Keyblade Graveyard's Story Progression
+                WriteShort(Save[game_version]+0x26B4,0x8003) --Keyblade Graveyard's Story Progression
                 WriteInt(Save[game_version]+0x29F0,0xFFFFFFFE) --Lock Keyblade Graveyard's Save[game_version] Points on World Map
                 WriteByte(Save[game_version]+0x13DA,0x01) --The Keyblade Graveyard: Badlands MAP
                 WriteByte(Save[game_version]+0x13DE,0x16) --The Keyblade Graveyard: Badlands EVENT
@@ -592,7 +592,7 @@ function _OnFrame()
 			    WriteArray(Now[game_version]+2,{0x00, 0x00, 0x43, 0x00, 0x43, 0x00, 0x43})
 		    end
 		    --The Keyblade Graveyard: Fissure Room Name
-		    if ReadShort(Save[game_version]+0x26B4) == 0x9807 then
+		    if ReadByte(Save[game_version]+0x26B8) == 0x00 then
 			    WriteString(RoomNameText[game_version]+0x9DD,"Seat of War") --Changes The Keyblade Graveyard: Fissure's Room Name
 			    WriteByte(RoomNameText[game_version]+0x9E8,0x00) --Makes sure Room Name text doesn't overlap
 		    else
@@ -602,6 +602,7 @@ function _OnFrame()
 		    --Start of The Keyblade Graveyard
 		    if ReadShort(Now[game_version]+0) == 0x070D and ReadShort(RoomNameText[game_version]+0x9DD) == 0x6553 then
 			    WriteArray(Now[game_version]+0,{0x0D, 0x02, 0x00, 0x00, 0x46, 0x00, 0x46, 0x00, 0x46})
+				WriteByte(Save[game_version]+0x26B8,0x01)
 		    end
 		    --[[Final Battle Requirements
 		    if ReadShort(Now[game_version]+0) == 0x080D then 
@@ -1235,9 +1236,9 @@ function _OnFrame()
 			    WriteByte(Save[game_version]+0x295D,0x01)
 		    end
 		    --Start of Realm of Darkness 2
-		    if ReadShort(Now[game_version]+0) == 0x1407 and ReadShort(Now[game_version]+8) == 0x4D then
-			    if ReadByte(Save[game_version]+0x25F8) == 0 then
-				    WriteByte(Save[game_version]+0x25F8,1)
+		    if ReadShort(Now[game_version]+0) == 0x1407 and ReadShort(Now[game_version]+8) == 0x51 then
+			    if ReadByte(Save[game_version]+0x25F7) == 0 then
+				    WriteByte(Save[game_version]+0x25F7,1)
 				    WriteByte(Save[game_version]+0x2810,ReadByte(Save[game_version]+0x2810)+1)
 			    end
 		    end
