@@ -587,8 +587,9 @@ function _OnFrame()
 		    end
 		    --Destroyed Land of Departure Text
 		    if ReadByte(Save[game_version]+0x26BC) == 0x01 then
-				if ReadShort(Now[game_version]+0) == 0x0111
-				WriteString(RoomNameText[game_version]+0xDC,"? ? ? ")
+				if ReadShort(Now[game_version]+0) == 0x0111 then
+                    WriteString(RoomNameText[game_version]+0xDC,"? ? ? ")
+                end
 			else
 				WriteString(RoomNameText[game_version]+0xDC,"Summit")
 			end
