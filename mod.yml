@@ -355,6 +355,10 @@ assets:
   method: copy
   source:
   - name: arc/system/common_he.arc
+- name: arc/system/common_jb.arc
+  method: copy
+  source:
+  - name: arc/system/common_jb.arc
 - name: arc/system/common_kg.arc
   method: copy
   source:

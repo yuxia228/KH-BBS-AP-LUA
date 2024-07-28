@@ -98,7 +98,7 @@ function _OnInit()
     Save = {0x10FA0F70, 0x10F9F7F0}
     RoomNameText = {0xCB8652, 0xCB6ED2}
     CharMod = {0x10F9F54C, 0x10F9DDCC}
-    TMTBGM = {0x87086C, 0x86F0EC}
+    BGM = {0x87086C, 0x86F0EC}
     Timer = {0x81EF20, 0x81CF24}
     if ReadByte(IsEpicGLVersion) == 0xFF then
         game_version = 1
@@ -132,8 +132,6 @@ function _OnFrame()
             WriteArray(Save[game_version]+0x2815,{0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01})
             if ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x10) == 0x01 then
                 WriteByte(Save[game_version]+0x2821,0x09) --KG (Terra and Aqua) (Battle Level)
-                WriteByte(Save[game_version]+0x13DA,0x01) --The Keyblade Graveyard: Badlands MAP
-                WriteByte(Save[game_version]+0x13DE,0x16) --The Keyblade Graveyard: Badlands EVENT
             elseif ReadByte(Save[game_version]+0x10) == 0x00 then
                 WriteByte(Save[game_version]+0x2821,0x01) --KG (Ventus) (Battle Level)
             end
@@ -291,15 +289,18 @@ function _OnFrame()
 					WriteByte(Save[game_version]+0x281A,0x09)
 				end
 			end
-			WriteArray(Save[game_version]+0x281B,{0x09, 0x09, 0x09, 0x09, 0x09, 0x09}) --Special, OC, DS, DI, NL, & DT
-			if ReadByte(Save[game_version]+0x10) == 0x00 and ReadByte(Save[game_version]+0x2821) < 0x09 then --Ventus's The Keyblade Graveyard
-				WriteByte(Save[game_version]+0x2821,0x09)
-			end
+			WriteArray(Save[game_version]+0x281B,{0x09, 0x09, 0x09, 0x09, 0x09, 0x09, 0x09}) --Special, OC, DS, DI, NL, DT, & TKG
 		end
         --Battle/Combat Level 10
         if ReadByte(Save[game_version]+0x2810) >= 0x0A then
-            WriteArray(Save[game_version]+0x2815,{10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10})
+            WriteArray(Save[game_version]+0x2815,{10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 9})
         end
+		--Terra & Aqua's The Keyblade Graveyard Battle/Combat Level
+		if ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x10) == 0x01 then
+			if ReadByte(Save[game_version]+0x2821) > 0x09 then
+				WriteByte(Save[game_version]+0x2821,0x09)
+			end
+		end
 		--Skip World Cleared Animation
 		if ReadByte(Save[game_version]+0x2913) ~= 0x00 then
 			WriteByte(Save[game_version]+0x2913,0x00)
@@ -325,21 +326,26 @@ function _OnFrame()
             WriteArray(Save[game_version]+0x2974,{0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01}) --World Map Lines
             WriteByte(Save[game_version]+0x22E,0x01) --The Land of Departure: Mountain Path (Destroyed) MAP
             WriteByte(Save[game_version]+0x234,0x01) --The Land of Departure: Summit (Destroyed) MAP
-            WriteInt(Save[game_version]+0x2984,0x00000000) --Unlock The Land of Departure: Summit (Destroyed) Save[game_version] Point on World Map
+            WriteInt(Save[game_version]+0x2984,0x00000000) --Unlock The Land of Departure: Summit (Destroyed) Save Point on World Map
             if ReadByte(Save[game_version]+0x2917) == 0x00 then
-                WriteByte(Save[game_version]+0x2917,ReadByte(Save[game_version]+0x2917)+8) --Unlock The Keyblade Graveyard: Fissure Save[game_version] Point on World Map
+                WriteByte(Save[game_version]+0x2917,ReadByte(Save[game_version]+0x2917)+8) --Unlock The Keyblade Graveyard: Fissure Save Point on World Map
             end
         end
+		--Vanitas Remnant
+		if ReadByte(Save[game_version]+0x10) == 0x01 or ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x00) == 0x00 and ReadByte(Save[game_version]+0x26BC) == 0x01 then
+			if ReadByte(Save[game_version]+0x13DA) ~= 0x01 or ReadByte(Save[game_version]+0x13DE) ~= 0x16 then
+				WriteByte(Save[game_version]+0x13DA,0x01) --The Keyblade Graveyard: Badlands MAP
+				WriteByte(Save[game_version]+0x13DE,0x16) --The Keyblade Graveyard: Badlands EVENT
+			end
+		end
         --Terra's Story
         if ReadByte(Save[game_version]+0x10) == 0x02 then
             --Unlock All Worlds (New Game)
             if ReadShort(Now[game_version]+0x10) == 0x0101 and ReadShort(Now[game_version]+0x00) == 0x0111 then
                 WriteByte(Save[game_version]+0x2694,0x02) --Disney Town's Story Progression
-                WriteInt(Save[game_version]+0x29C0,0xFFFFFFFE) --Lock Disney Town's Save[game_version] Point on World Map
+                WriteInt(Save[game_version]+0x29C0,0xFFFFFFFE) --Lock Disney Town's Save Point on World Map
                 WriteShort(Save[game_version]+0x26B4,0x8003) --Keyblade Graveyard's Story Progression
-                WriteInt(Save[game_version]+0x29F0,0xFFFFFFFE) --Lock Keyblade Graveyard's Save[game_version] Points on World Map
-                WriteByte(Save[game_version]+0x13DA,0x01) --The Keyblade Graveyard: Badlands MAP
-                WriteByte(Save[game_version]+0x13DE,0x16) --The Keyblade Graveyard: Badlands EVENT
+                WriteInt(Save[game_version]+0x29F0,0xFFFFFFFE) --Lock Keyblade Graveyard's Save Points on World Map
             end
             --Always Have All Worlds Opened
             WriteByte(Save[game_version]+0x2938,0x02) --The Land of Departure
@@ -579,14 +585,13 @@ function _OnFrame()
 		    if ReadShort(Now[game_version]+0) == 0x0601 and ReadShort(Now[game_version]+0x10) == 0x0111 and ReadByte(Save[game_version]+0x26BC) == 0x01 then
 			    WriteArray(Now[game_version]+0,{0x01, 0x10, 0x63, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
 		    end
-		    --Destroyed Land of Departure Text 1
-		    if ReadShort(Now[game_version]+0) == 0x0111 and ReadByte(Save[game_version]+0x26BC) == 0x01 then
-			    WriteString(RoomNameText[game_version]+0xDC,"? ? ? ")
-		    end
-		    --Destroyed Land of Departure Text 2
-		    if ReadByte(Now[game_version]+0) == 0x01 and ReadShort(Save[game_version]+0x26BC) == 0x01 then
-			    WriteString(RoomNameText[game_version]+0xDC,"Summit")
-		    end
+		    --Destroyed Land of Departure Text
+		    if ReadByte(Save[game_version]+0x26BC) == 0x01 then
+				if ReadShort(Now[game_version]+0) == 0x0111
+				WriteString(RoomNameText[game_version]+0xDC,"? ? ? ")
+			else
+				WriteString(RoomNameText[game_version]+0xDC,"Summit")
+			end
 		    --??? Fight
 		    if ReadInt(Now[game_version]+0) == 0x00631001 and ReadShort(Now[game_version]+0x30) == 0x1001 and ReadShort(Save[game_version]+0x26BC) == 0x01 then
 			    WriteArray(Now[game_version]+2,{0x00, 0x00, 0x43, 0x00, 0x43, 0x00, 0x43})
@@ -837,12 +842,10 @@ function _OnFrame()
 		    if ReadShort(Now[game_version]+0) == 0x0601 and ReadShort(Save[game_version]+0x2939) == 0x0222 then
 			    WriteArray(Now[game_version]+0,{0x01, 0x10, 0x63, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
 		    end
-		    --Destroyed Land of Departure Text 1
+		    --Destroyed Land of Departure Text
 		    if ReadShort(Now[game_version]+0) == 0x0111 then
 		    	WriteString(RoomNameText[game_version]+0xDC,"? ? ? ")
-		    end
-		    --Destroyed Land of Departure Text 2
-		    if ReadByte(Now[game_version]+0) == 0x01 then
+			else
 		    	WriteString(RoomNameText[game_version]+0xDC,"Summit")
 		    end
 		    --??? Fight
@@ -1100,14 +1103,9 @@ function _OnFrame()
 		    end
 		    --Start of The Mysterious Tower 2
 		    if ReadShort(Now[game_version]+0) == 0x0111 and ReadShort(Now[game_version]+0x10) == 0x3207 then
-			    if ReadShort(Save[game_version]+0x2949) == 0x0001 then
+			    if ReadByte(Save[game_version]+0x25B8) == 0x00 then
 				    WriteArray(Now[game_version]+0,{0x05, 0x02, 0x00, 0x00, 0x34, 0x00, 0x34, 0x00, 0x34})
-			    end
-		    end
-		    --Start of The Mysterious Tower 3
-		    if ReadShort(Now[game_version]+0) == 0x205 and ReadShort(Now[game_version]+8) == 0x34 then
-			    if ReadByte(Save[game_version]+0x25B8) == 0 then
-			    	WriteByte(Save[game_version]+0x25B8,1)
+					WriteByte(Save[game_version]+0x25B8,1)
 				    WriteByte(Save[game_version]+0x2810,ReadByte(Save[game_version]+0x2810)+1)
 			    end
 		    end
@@ -1116,7 +1114,7 @@ function _OnFrame()
 			    if ReadShort(Save[game_version]+0x2949) == 0x0021 then
 				    WriteArray(Now[game_version]+0,{0x05, 0x04, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
 				    WriteShort(Save[game_version]+0x14,0x0405)
-				    WriteString(TMTBGM[game_version]+0,"124dp_amb")
+				    WriteString(BGM[game_version]+0,"124dp_amb")
 			    end
 		    end
 		    --End of The Mysterious Tower 2
@@ -1125,7 +1123,7 @@ function _OnFrame()
 					WriteByte(Save[game_version]+0x25BC,1)
 					WriteArray(Now[game_version]+0,{0x07, 0x32, 0x00, 0x00, 0x44, 0x00, 0x44, 0x00, 0x44})
 					WriteShort(Save[game_version]+0x2949,0x0122)
-					WriteString(TMTBGM[game_version]+0,"019iensid_f")
+					WriteString(BGM[game_version]+0,"019iensid_f")
 					WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
 			    end
 		    end
@@ -1143,9 +1141,7 @@ function _OnFrame()
 		    --Destroyed Land of Departure Text 1
 		    if ReadShort(Now[game_version]+0) == 0x0111 then
 			    WriteString(RoomNameText[game_version]+0xDC,"? ? ? ")
-		    end
-		    --Destroyed Land of Departure Text 2
-		    if ReadByte(Now[game_version]+0) == 0x01 then
+			else
 			    WriteString(RoomNameText[game_version]+0xDC,"Summit")
 		    end
 		    --??? Fight
@@ -1172,6 +1168,12 @@ function _OnFrame()
 				    WriteInt(Now[game_version]+0,0x0032070D)
 			    end
 		    end]]
+			--No Music After Braig
+			if ReadShort(Now[game_version]+0) == 0x0C0D and ReadByte(Now[game_version]+0) == 0x3C and ReadShort(BGM[game_version]+0x21) == 0x3132 then
+				WriteString(BGM[game_version]+0x20,"124dp_amb")
+			else
+				WriteString(BGM[game_version]+0x20,"021kouya_f")
+			end
 		    --Start of Final Episode
 		    if ReadShort(Now[game_version]+0) == 0x0105 and ReadShort(Now[game_version]+8) == 0x0038 then
 			    WriteArray(Now[game_version]+0,{0x05, 0x02, 0x00, 0x00, 0x37, 0x00, 0x37, 0x00, 0x37})
@@ -1192,11 +1194,6 @@ function _OnFrame()
 			    WriteLong(Save[game_version]+0x29F4,0x0000000000000000) --Re-opens Seat of War & Twister Trench
 			    WriteInt(Save[game_version]+0x29FC,0x00000000) --Re-opens Fissure
 			    WriteByte(CharMod[game_version]+0,0x02) --Changes Character from Armored Aqua to Normal Aqua
-			    if ReadByte(Save[game_version]+0x25D4) >= 0x7F then
-				    WriteInt(Save[game_version]+0x29BC,0x00000000)
-			    else
-				    WriteInt(Save[game_version]+0x29B8,0xFFFFFFFE)
-			    end
 		    end
 		    --Final Episode Room Names
 		    if ReadByte(Save[game_version]+0x26BC) == 0x01 then
@@ -1275,7 +1272,7 @@ function _OnFrame()
 		    --Dark Hide Fight
 		    if ReadByte(Save[game_version]+0x25F5) == 0x0F then
 			    if ReadShort(Now[game_version]+0) == 0x1707 and ReadShort(Now[game_version]+0x10) == 0x1607 then
-				    WriteArray(Now[game_version]+0,{0x07, 0x17, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x01})
+				    WriteArray(Now[game_version]+0,{0x07, 0x17, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01})
 			    end
 		    end
 		    --Secret Episode Ending
