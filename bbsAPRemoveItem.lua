@@ -26,7 +26,7 @@ function _OnFrame()
     i = 0
     while i < 48 do
         if ReadShort(queue_address[game_version] + (i*2)) == 0x1F1B then
-            WriteShort(queue_address[game_version], 0x0)
+            WriteShort(queue_address[game_version] + (i*2), 0x0)
         end
         i = i + 1
     end
