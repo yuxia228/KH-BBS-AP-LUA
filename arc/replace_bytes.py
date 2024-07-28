@@ -14,6 +14,6 @@ def replace_bytes(findstring, replacestr, path):
                     with open(new_path + new_file_name, "wb") as f:
                         f.write(replaced_str)
 
-findstring = b'\x0F\x32\x00\x28'
+findstring = b'\x0E\x32\x00\x28'
 replacestr = b'\x1B\x1F\x1B\x1F'
 replace_bytes(findstring, replacestr, path)
