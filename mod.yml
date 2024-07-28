@@ -15,6 +15,14 @@ assets:
   method: copy
   source:
   - name: bbsAPOpenWorld.lua
+- name: remastered/Item/Tm2/it1f1b.tm2/-0.dds
+  method: copy
+  source:
+  - name: remastered/Item/Tm2/it1f1b.tm2/-0.dds
+- name: remastered/Item/Tm2/it1f1bs.tm2/-0.dds
+  method: copy
+  source:
+  - name: remastered/Item/Tm2/it1f1bs.tm2/-0.dds
 - name: arc/preset/cd/cd01ve.arc
   method: copy
   source:
