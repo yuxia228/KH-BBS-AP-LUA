@@ -22,10 +22,10 @@ function _OnInit()
 end
 
 function _OnFrame()
-    queue_address = {0x0, 0x10FA2AAE}
+    queue_address = {0x0, 0x10FA2A4A}
     i = 0
-    while ReadShort(queue_address[game_version] + (i*4)) ~= 0 do
-        if ReadShort(queue_address[game_version] + (i*4)) == 0x320F then
+    while ReadShort(queue_address[game_version] + (i*4)) ~= 0 and i < 24 do
+        if ReadShort(queue_address[game_version] + (i*4)) == 0x1F1B then
             WriteInt(queue_address[game_version], 0x0)
         end
         i = i + 1
