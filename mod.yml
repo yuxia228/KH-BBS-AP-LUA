@@ -15,6 +15,18 @@ assets:
   method: copy
   source:
   - name: bbsAPOpenWorld.lua
+- name: scripts/bbsAPRemoveItem.lua
+  method: copy
+  source:
+  - name: bbsAPRemoveItem.lua
+- name: remastered/Item/Tm2/it1f1b.tm2/-0.dds
+  method: copy
+  source:
+  - name: remastered/Item/Tm2/it1f1b.tm2/-0.dds
+- name: remastered/Item/Tm2/it1f1bs.tm2/-0.dds
+  method: copy
+  source:
+  - name: remastered/Item/Tm2/it1f1bs.tm2/-0.dds
 - name: arc/preset/cd/cd01ve.arc
   method: copy
   source:
@@ -355,6 +367,10 @@ assets:
   method: copy
   source:
   - name: arc/system/common_he.arc
+- name: arc/system/common_jb.arc
+  method: copy
+  source:
+  - name: arc/system/common_jb.arc
 - name: arc/system/common_kg.arc
   method: copy
   source:
