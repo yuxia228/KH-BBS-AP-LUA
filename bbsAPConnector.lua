@@ -107,11 +107,11 @@ function define_world_progress_location_bits()
     world_progress_location_bits[1][9][14]  = {2271120802} --Deck Capacity Increase
     world_progress_location_bits[1][9][15]  = {2271120803, 2271120804, 2271120805} --Experiment 626 D-Link, Hyperdrive, Spaceship Board
     --Destiny Islands
-    world_progress_location_bits[1][10][2]  = {2271120902} --Stormfall
+    world_progress_location_bits[1][10][2]  = {2271120900} --Stormfall
     --Neverland
     world_progress_location_bits[1][11][6]  = {2271121000} --Doubleflight
     world_progress_location_bits[1][11][8]  = {2271121001, 2271121002} --Max HP Increase, Ghost Drive
-    world_progress_location_bits[1][11][9]  = {2271121003, 2271121004, 2271121005, 2271121006} --Peter Pan D-Link, Pixie Petal, Skull Board
+    world_progress_location_bits[1][11][9]  = {2271121003, 2271121004, 2271121005} --Peter Pan D-Link, Pixie Petal, Skull Board
     --Disney Town
     world_progress_location_bits[1][12][2]  = {2271121100} --Balloon Letter
     world_progress_location_bits[1][12][5]  = {2271121101} --Toon Board
