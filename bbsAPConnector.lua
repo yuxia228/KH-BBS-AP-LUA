@@ -355,14 +355,20 @@ function write_check_number(value)
 end
 
 function write_max_hp(value)
-    max_hp_pointer_address = {0x10F9F540, 0x10F9DDC0}
-    max_hp_pointer_offset_1 = 0x118
-    max_hp_pointer_offset_2 = 0x398
-    max_hp_pointer_offset_3 = 0xA4
-    max_hp_pointer = GetPointer(max_hp_pointer_address[game_version], max_hp_pointer_offset_1)
-    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_2, true)
-    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_3, true)
-    WriteInt(max_hp_pointer, value, true)
+    max_hp_pointer_address = {0x10FB5978, 0x10FB41F8}
+    if ReadInt(max_hp_pointer_address[game_version]) ~= 0 then
+        max_hp_address = GetPointer(max_hp_pointer_address[game_version], 0x2548)
+        return WriteShort(max_hp_address, value, true)
+    else
+        max_hp_pointer_address = {0x10F9F540, 0x10F9DDC0}
+        max_hp_pointer_offset_1 = 0x118
+        max_hp_pointer_offset_2 = 0x398
+        max_hp_pointer_offset_3 = 0xA4
+        max_hp_pointer = GetPointer(max_hp_pointer_address[game_version], max_hp_pointer_offset_1)
+        max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_2, true)
+        max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_3, true)
+        return WriteShort(max_hp_pointer, value, true)
+    end
 end
 
 function write_deck_capacity(value)
@@ -411,18 +417,24 @@ function read_check_number()
 end
 
 function read_max_hp()
-    max_hp_pointer_address = {0x10F9F540, 0x10F9DDC0}
-    max_hp_pointer_offset_1 = 0x118
-    max_hp_pointer_offset_2 = 0x398
-    max_hp_pointer_offset_3 = 0xA4
-    max_hp_pointer = GetPointer(max_hp_pointer_address[game_version], max_hp_pointer_offset_1)
-    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_2, true)
-    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_3, true)
-    return ReadInt(max_hp_pointer, true)
+    max_hp_pointer_address = {0x10FB5978, 0x10FB41F8}
+    if ReadInt(max_hp_pointer_address[game_version]) ~= 0 then
+        max_hp_address = GetPointer(max_hp_pointer_address[game_version], 0x2548)
+        return ReadShort(max_hp_address, true)
+    else
+        max_hp_pointer_address = {0x10F9F540, 0x10F9DDC0}
+        max_hp_pointer_offset_1 = 0x118
+        max_hp_pointer_offset_2 = 0x398
+        max_hp_pointer_offset_3 = 0xA4
+        max_hp_pointer = GetPointer(max_hp_pointer_address[game_version], max_hp_pointer_offset_1)
+        max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_2, true)
+        max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_3, true)
+        return ReadShort(max_hp_pointer, true)
+    end
 end
 
 function read_deck_capacity()
-        deck_capacity_pointer_address = {0x10FB5978, 0x10FB41F8}
+    deck_capacity_pointer_address = {0x10FB5978, 0x10FB41F8}
     if ReadInt(deck_capacity_pointer_address[game_version]) ~= 0 then --in menu
         deck_capacity_address = GetPointer(deck_capacity_pointer_address[game_version], 0x27F2)
         return ReadByte(deck_capacity_address, true)
