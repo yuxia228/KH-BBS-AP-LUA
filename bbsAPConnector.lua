@@ -366,8 +366,14 @@ function write_max_hp(value)
 end
 
 function write_deck_capacity(value)
-    deck_capacity_address = {0x10F9F5E6, 0x10F9DE66}
-    WriteByte(deck_capacity_address[game_version], math.min(value, 8))
+    deck_capacity_pointer_address = {0x0, 0x10FB41F8}
+    if ReadInt(deck_capacity_pointer_address[game_version]) ~= 0 then --in menu
+        deck_capacity_address = GetPointer(deck_capacity_pointer_address[game_version], 0x27F2)
+        WriteByte(deck_capacity_address, math.min(value, 8), true)
+    else
+        deck_capacity_address = {0x10F9F5E6, 0x10F9DE66}
+        WriteByte(deck_capacity_address[game_version], math.min(value, 8))
+    end
 end
 
 function write_world_item(world_offset)
@@ -416,8 +422,14 @@ function read_max_hp()
 end
 
 function read_deck_capacity()
-    deck_capacity_address = {0x10F9F5E6, 0x10F9DE66}
-    return ReadByte(deck_capacity_address[game_version])
+        deck_capacity_pointer_address = {0x0, 0x10FB41F8}
+    if ReadInt(deck_capacity_pointer_address[game_version]) ~= 0 then --in menu
+        deck_capacity_address = GetPointer(deck_capacity_pointer_address[game_version], 0x27F2)
+        return ReadByte(deck_capacity_address, true)
+    else
+        deck_capacity_address = {0x10F9F5E6, 0x10F9DE66}
+        ReadByte(deck_capacity_address[game_version])
+    end
 end
 
 function read_chest_location_ids()
