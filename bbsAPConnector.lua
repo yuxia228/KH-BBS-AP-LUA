@@ -532,7 +532,7 @@ function receive_items()
         io.close(file)
         if received_item_id == 2270000000 then
             write_victory_item()
-        elseif received_item_id >= 2270010000 and received_item_id <= 2270010209 then
+        elseif received_item_id >= 2270010000 and received_item_id <= 2270010210 then
             item_value = received_item_id % 2270010000
             write_command(item_value)
         elseif received_item_id >= 2270020000 and received_item_id <= 2270020014 then
