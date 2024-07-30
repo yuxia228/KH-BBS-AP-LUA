@@ -129,12 +129,25 @@ function _OnFrame()
         --Battle/Combat Level 1
         if ReadByte(Save[game_version]+0x2815) == 0x01 and ReadByte(Save[game_version]+0x2821) == 0x00 then
 			WriteByte(Save[game_version]+0x2810,0x01)
-            WriteArray(Save[game_version]+0x2815,{0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01})
-            if ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x10) == 0x01 then
-                WriteByte(Save[game_version]+0x2821,0x09) --KG (Terra and Aqua) (Battle Level)
-            elseif ReadByte(Save[game_version]+0x10) == 0x00 then
-                WriteByte(Save[game_version]+0x2821,0x01) --KG (Ventus) (Battle Level)
-            end
+			WriteArray(Save[game_version]+0x2815,{0x01, 0x01, 0x01, 0x01, 0x01}) --TLoD, DW, CoD, ED, & TMT
+			if ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x10) == 0x00 then --RG
+				WriteByte(Save[game_version]+0x281A,0x01)
+			end
+			if ReadByte(Save[game_version]+0x10) == 0x01 then --Aqua's Radiant Garden
+				if ReadByte(Save[game_version]+0x26BC) == 0x01 then --In Final Episode
+					WriteByte(Save[game_version]+0x281A,0x0A)
+				else
+					WriteByte(Save[game_version]+0x281A,0x01)
+				end
+				WriteArray(Save[game_version]+0x281B,{0x01, 0x01, 0x01, 0x01, 0x01, 0x01}) --Special, OC, DS, DI, NL, & DT
+				if ReadByte(Save[game_version]+0x10) == 0x00 then --Ventus's The Keyblade Graveyard
+					if ReadByte(Save[game_version]+0x26BC) == 0x01 then --Vanitas I Defeated
+						WriteByte(Save[game_version]+0x2821,0x09)
+					else
+						WriteByte(Save[game_version]+0x2821,0x01)
+					end
+				end
+			end
         end
 		--Set Battle/Combat Levels
 		if ReadShort(Save[game_version]+0x2810) == 0x02 then -- Combat Lv 2
@@ -293,7 +306,7 @@ function _OnFrame()
 		end
         --Battle/Combat Level 10
         if ReadByte(Save[game_version]+0x2810) >= 0x0A then
-            WriteArray(Save[game_version]+0x2815,{10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 9})
+            WriteArray(Save[game_version]+0x2815,{10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10})
         end
 		--Terra & Aqua's The Keyblade Graveyard Battle/Combat Level
 		if ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x10) == 0x01 then
@@ -589,9 +602,9 @@ function _OnFrame()
 		    if ReadByte(Save[game_version]+0x26BC) == 0x01 then
 				if ReadShort(Now[game_version]+0) == 0x0111 then
                     WriteString(RoomNameText[game_version]+0xDC,"? ? ? ")
-                end
-			else
-				WriteString(RoomNameText[game_version]+0xDC,"Summit")
+				else
+					WriteString(RoomNameText[game_version]+0xDC,"Summit")
+				end
 			end
 		    --??? Fight
 		    if ReadInt(Now[game_version]+0) == 0x00631001 and ReadShort(Now[game_version]+0x30) == 0x1001 and ReadShort(Save[game_version]+0x26BC) == 0x01 then
@@ -904,9 +917,9 @@ function _OnFrame()
 	    end
         --Aqua's Story
         if ReadByte(Save[game_version]+0x10) == 0x01 then
-            --Unlock All Worlds (New Game)
+             --Makes The Mysterious Tower not "clear" when entering Final Episode
             if ReadShort(Now[game_version]+0x10) == 0x0101 and ReadShort(Now[game_version]+0) == 0x0111 then
-                WriteShort(Save[game_version]+0x2875,0x04C0) --Makes The Mysterious Tower not "clear" when entering Final Episode
+                WriteShort(Save[game_version]+0x2875,0x04C0)
             end
             --Always Have All Worlds Opened
             WriteByte(Save[game_version]+0x2938,0x02) --The Land of Departure
@@ -933,8 +946,8 @@ function _OnFrame()
                 WriteByte(Save[game_version]+0x2969,0x01)
             end
             --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
-            WriteLong(Save[game_version]+0x298C,0x0000000000000000) --Unlock The Land of Departure's Save[game_version] Points on World Map
-            WriteInt(Save[game_version]+0x29F0,0x00000000) --Unlock The Keyblade Graveyard: Badlands Save[game_version] Point on World Map
+            WriteLong(Save[game_version]+0x298C,0x0000000000000000) --Unlock The Land of Departure's Save Points on World Map
+            WriteInt(Save[game_version]+0x29F0,0x00000000) --Unlock The Keyblade Graveyard: Badlands Save Point on World Map
             WriteString(RoomNameText[game_version]+0x77C,"Realm of Darkness")
             WriteByte(RoomNameText[game_version]+0x78D,0x00)
             --All Tutorials Viewed (Except Command Styles & Mini-Games)
