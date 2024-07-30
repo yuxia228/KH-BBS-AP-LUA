@@ -103,7 +103,8 @@ function define_world_progress_location_bits()
     world_progress_location_bits[1][8][14]  = {2271120703, 2271120704} --Zack D-Link, Mark of a Hero
     --Deep Space
     world_progress_location_bits[1][9][10]  = {2271120800} --Air Slide
-    world_progress_location_bits[1][9][11]  = {2271120801} --Max HP Increase
+    world_progress_location_bits[1][9][7]   = {2271120801} --Max HP Increase
+    world_progress_location_bits[1][9][11]  = {2271120800, 2271120801} --Air Slide or Max HP Increase
     world_progress_location_bits[1][9][14]  = {2271120802} --Deck Capacity Increase
     world_progress_location_bits[1][9][15]  = {2271120803, 2271120804, 2271120805} --Experiment 626 D-Link, Hyperdrive, Spaceship Board
     --Destiny Islands
