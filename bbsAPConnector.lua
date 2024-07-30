@@ -103,7 +103,8 @@ function define_world_progress_location_bits()
     world_progress_location_bits[1][8][14]  = {2271120703, 2271120704} --Zack D-Link, Mark of a Hero
     --Deep Space
     world_progress_location_bits[1][9][10]  = {2271120800} --Air Slide
-    world_progress_location_bits[1][9][11]  = {2271120801} --Max HP Increase
+    world_progress_location_bits[1][9][7]   = {2271120801} --Max HP Increase
+    world_progress_location_bits[1][9][11]  = {2271120800, 2271120801} --Air Slide or Max HP Increase
     world_progress_location_bits[1][9][14]  = {2271120802} --Deck Capacity Increase
     world_progress_location_bits[1][9][15]  = {2271120803, 2271120804, 2271120805} --Experiment 626 D-Link, Hyperdrive, Spaceship Board
     --Destiny Islands
@@ -354,19 +355,31 @@ function write_check_number(value)
 end
 
 function write_max_hp(value)
-    max_hp_pointer_address = {0x10F9F540, 0x10F9DDC0}
-    max_hp_pointer_offset_1 = 0x118
-    max_hp_pointer_offset_2 = 0x398
-    max_hp_pointer_offset_3 = 0xA4
-    max_hp_pointer = GetPointer(max_hp_pointer_address[game_version], max_hp_pointer_offset_1)
-    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_2, true)
-    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_3, true)
-    WriteInt(max_hp_pointer, value, true)
+    max_hp_pointer_address = {0x10FB5978, 0x10FB41F8}
+    if ReadInt(max_hp_pointer_address[game_version]) ~= 0 then
+        max_hp_address = GetPointer(max_hp_pointer_address[game_version], 0x2548)
+        return WriteShort(max_hp_address, value, true)
+    else
+        max_hp_pointer_address = {0x10F9F540, 0x10F9DDC0}
+        max_hp_pointer_offset_1 = 0x118
+        max_hp_pointer_offset_2 = 0x398
+        max_hp_pointer_offset_3 = 0xA4
+        max_hp_pointer = GetPointer(max_hp_pointer_address[game_version], max_hp_pointer_offset_1)
+        max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_2, true)
+        max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_3, true)
+        return WriteShort(max_hp_pointer, value, true)
+    end
 end
 
 function write_deck_capacity(value)
-    deck_capacity_address = {0x10F9F5E6, 0x10F9DE66}
-    WriteByte(deck_capacity_address[game_version], math.min(value, 8))
+    deck_capacity_pointer_address = {0x10FB5978, 0x10FB41F8}
+    if ReadInt(deck_capacity_pointer_address[game_version]) ~= 0 then --in menu
+        deck_capacity_address = GetPointer(deck_capacity_pointer_address[game_version], 0x27F2)
+        WriteByte(deck_capacity_address, math.min(value, 8), true)
+    else
+        deck_capacity_address = {0x10F9F5E6, 0x10F9DE66}
+        WriteByte(deck_capacity_address[game_version], math.min(value, 8))
+    end
 end
 
 function write_world_item(world_offset)
@@ -404,19 +417,31 @@ function read_check_number()
 end
 
 function read_max_hp()
-    max_hp_pointer_address = {0x10F9F540, 0x10F9DDC0}
-    max_hp_pointer_offset_1 = 0x118
-    max_hp_pointer_offset_2 = 0x398
-    max_hp_pointer_offset_3 = 0xA4
-    max_hp_pointer = GetPointer(max_hp_pointer_address[game_version], max_hp_pointer_offset_1)
-    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_2, true)
-    max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_3, true)
-    return ReadInt(max_hp_pointer, true)
+    max_hp_pointer_address = {0x10FB5978, 0x10FB41F8}
+    if ReadInt(max_hp_pointer_address[game_version]) ~= 0 then
+        max_hp_address = GetPointer(max_hp_pointer_address[game_version], 0x2548)
+        return ReadShort(max_hp_address, true)
+    else
+        max_hp_pointer_address = {0x10F9F540, 0x10F9DDC0}
+        max_hp_pointer_offset_1 = 0x118
+        max_hp_pointer_offset_2 = 0x398
+        max_hp_pointer_offset_3 = 0xA4
+        max_hp_pointer = GetPointer(max_hp_pointer_address[game_version], max_hp_pointer_offset_1)
+        max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_2, true)
+        max_hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_3, true)
+        return ReadShort(max_hp_pointer, true)
+    end
 end
 
 function read_deck_capacity()
-    deck_capacity_address = {0x10F9F5E6, 0x10F9DE66}
-    return ReadByte(deck_capacity_address[game_version])
+    deck_capacity_pointer_address = {0x10FB5978, 0x10FB41F8}
+    if ReadInt(deck_capacity_pointer_address[game_version]) ~= 0 then --in menu
+        deck_capacity_address = GetPointer(deck_capacity_pointer_address[game_version], 0x27F2)
+        return ReadByte(deck_capacity_address, true)
+    else
+        deck_capacity_address = {0x10F9F5E6, 0x10F9DE66}
+        return ReadByte(deck_capacity_address[game_version])
+    end
 end
 
 function read_chest_location_ids()
@@ -507,7 +532,7 @@ function receive_items()
         io.close(file)
         if received_item_id == 2270000000 then
             write_victory_item()
-        elseif received_item_id >= 2270010000 and received_item_id <= 2270010209 then
+        elseif received_item_id >= 2270010000 and received_item_id <= 2270010210 then
             item_value = received_item_id % 2270010000
             write_command(item_value)
         elseif received_item_id >= 2270020000 and received_item_id <= 2270020014 then
