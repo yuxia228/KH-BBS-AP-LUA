@@ -428,7 +428,7 @@ function read_deck_capacity()
         return ReadByte(deck_capacity_address, true)
     else
         deck_capacity_address = {0x10F9F5E6, 0x10F9DE66}
-        ReadByte(deck_capacity_address[game_version])
+        return ReadByte(deck_capacity_address[game_version])
     end
 end
 
