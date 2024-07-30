@@ -366,7 +366,7 @@ function write_max_hp(value)
 end
 
 function write_deck_capacity(value)
-    deck_capacity_pointer_address = {0x0, 0x10FB41F8}
+    deck_capacity_pointer_address = {0x10FB5978, 0x10FB41F8}
     if ReadInt(deck_capacity_pointer_address[game_version]) ~= 0 then --in menu
         deck_capacity_address = GetPointer(deck_capacity_pointer_address[game_version], 0x27F2)
         WriteByte(deck_capacity_address, math.min(value, 8), true)
@@ -422,7 +422,7 @@ function read_max_hp()
 end
 
 function read_deck_capacity()
-        deck_capacity_pointer_address = {0x0, 0x10FB41F8}
+        deck_capacity_pointer_address = {0x10FB5978, 0x10FB41F8}
     if ReadInt(deck_capacity_pointer_address[game_version]) ~= 0 then --in menu
         deck_capacity_address = GetPointer(deck_capacity_pointer_address[game_version], 0x27F2)
         return ReadByte(deck_capacity_address, true)
