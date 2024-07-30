@@ -311,7 +311,7 @@ function _OnFrame()
         end
 		--Terra & Aqua's The Keyblade Graveyard Battle/Combat Level
 		if ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x10) == 0x01 then
-			if ReadByte(Save[game_version]+0x2821) ~= 0x09 then
+			if ReadShort(Now[game_version]+0x00) == 0x0111 and ReadByte(Save[game_version]+0x2821) ~= 0x09 then
 				WriteByte(Save[game_version]+0x2821,0x09)
 			end
 		end
