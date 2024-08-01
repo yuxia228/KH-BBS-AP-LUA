@@ -335,7 +335,7 @@ function _OnFrame()
             end
             WriteByte(Save[game_version]+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save[game_version]+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
-            WriteByte(Save[game_version]+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
+            WriteInt(Save[game_version]+0x2968,0x00000102 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
             --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
             WriteArray(Save[game_version]+0x2974,{0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01}) --World Map Lines
             WriteByte(Save[game_version]+0x22E,0x01) --The Land of Departure: Mountain Path (Destroyed) MAP
@@ -1222,14 +1222,14 @@ function _OnFrame()
                     WriteByte(RoomNameText[game_version]+0x48C,0x00) --Makes sure Room Name text doesn't overlap
                     WriteInt(Save[game_version]+0x29B8,0x00000000)
                 end
-                if ReadShort(Save[game_version]+0x25D4) ~= 0x00 and ReadShort(Save[game_version]+0x25D4) <= 0x07 then --Before Front Doors Unversed
+                if ReadByte(Save[game_version]+0x25D4) ~= 0x00 and ReadByte(Save[game_version]+0x25D4) <= 0x07 then --Before Front Doors Unversed
                     WriteLong(Save[game_version]+0x29BC, 0x0C0A02000C0A0000)
                     if ReadShort(Now[game_version]+0) == 0x0111 then
                         WriteInt(Save[game_version]+0x29B8, 0x00000000)
                     else
                         WriteInt(Save[game_version]+0x29B8, 0x0C0A0000)
                     end
-                elseif ReadShort(Save[game_version]+0x25D4) == 0x0F  then --Before Trinity Armor
+                elseif ReadByte(Save[game_version]+0x25D4) == 0x0F  then --Before Trinity Armor
                     WriteLong(Save[game_version]+0x29BC, 0x000000000C0A0000)
                     WriteLong(Save[game_version]+0x29C4, 0x000000000C0A0100)
                     if ReadShort(Now[game_version]+0) == 0x0111 then
@@ -1237,7 +1237,7 @@ function _OnFrame()
                     else
                         WriteInt(Save[game_version]+0x29B8, 0x0C0A0100)
                     end
-                elseif ReadShort(Save[game_version]+0x25D4) == 0x3F or ReadShort(Save[game_version]+0x25D4) == 0x7F or ReadShort(Save[game_version]+0x25D4) == 0x017F then --After Trinity Armor/Before Vanitas I
+                elseif ReadByte(Save[game_version]+0x25D4) == 0x3F or ReadByte(Save[game_version]+0x25D4) == 0x7F then --After Trinity Armor/Before Vanitas I
                     WriteLong(Save[game_version]+0x29BC, 0)
                     WriteLong(Save[game_version]+0x29C4, 0x0C0A030000000000)
                     if ReadShort(Now[game_version]+0) == 0x0111 then
@@ -1245,7 +1245,7 @@ function _OnFrame()
                     else
                         WriteInt(Save[game_version]+0x29B8, 0x0C0A0300)
                     end
-                elseif ReadShort(Save[game_version]+0x25D4) == 0xFF or ReadShort(Save[game_version]+0x25D4) == 0x01FF then --World Cleared
+                elseif ReadByte(Save[game_version]+0x25D4) == 0xFF then --World Cleared
                     WriteLong(Save[game_version]+0x29BC, 0)
                     WriteLong(Save[game_version]+0x29C4, 0)
                     if ReadShort(Now[game_version]+0) == 0x0111 then
@@ -1312,6 +1312,7 @@ function _OnFrame()
                 WriteArray(Now[game_version]+0,{0x07, 0x16, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00})
                 WriteShort(Save[game_version]+0x14,0x1607)
                 WriteByte(Save[game_version]+0x25F5,0x0F)
+                WriteByte(Save[game_version]+0x25FC,0x01)
                 WriteShort(Save[game_version]+0x295D,0x0122)
             end
             --Dark Hide Fight
