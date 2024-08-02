@@ -99,6 +99,7 @@ function _OnInit()
     RoomNameText = {0xCB8652, 0xCB6ED2}
     CharMod = {0x10F9F54C, 0x10F9DDCC}
     BGM = {0x87086C, 0x86F0EC}
+    Book = {0x81C6EC, 0x81A6F0}
     Timer = {0x81EF20, 0x81CF24}
     if ReadByte(IsEpicGLVersion) == 0xFF then
         game_version = 1
@@ -345,8 +346,14 @@ function _OnFrame()
                 WriteByte(Save[game_version]+0x2917,ReadByte(Save[game_version]+0x2917)+8) --Unlock The Keyblade Graveyard: Fissure Save Point on World Map
             end
         end
+        --100 Acre Wood Book (Ventus & Aqua)
+        if ReadByte(Save[game_version]+0x10) <= 0x01 then
+            if ReadShort(Now[game_version]+0) == 0x0806 and ReadByte(Now[game_version]+8) == 0x02 then
+                WriteByte(Book[game_version]+0,1)
+            end
+        end
         --Vanitas Remnant
-        if ReadByte(Save[game_version]+0x10) == 0x01 or ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x00) == 0x00 and ReadByte(Save[game_version]+0x26BC) == 0x01 then
+        if ReadByte(Save[game_version]+0x10) == 0x01 or ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x10) == 0x00 and ReadByte(Save[game_version]+0x26BC) == 0x01 then
             if ReadByte(Save[game_version]+0x13DA) ~= 0x01 or ReadByte(Save[game_version]+0x13DE) ~= 0x16 then
                 WriteByte(Save[game_version]+0x13DA,0x01) --The Keyblade Graveyard: Badlands MAP
                 WriteByte(Save[game_version]+0x13DE,0x16) --The Keyblade Graveyard: Badlands EVENT
@@ -480,6 +487,10 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x25D8,1)
                     WriteByte(Save[game_version]+0x2810,ReadByte(Save[game_version]+0x2810)+1)
                 end
+            end
+            --100 Acre Wood Book (Terra)
+            if ReadShort(Now[game_version]+0) == 0x0806 and ReadByte(Now[game_version]+8) == 0x00 then
+                WriteByte(Book[game_version]+0,1)
             end
             --End of Radiant Garden
             if ReadShort(Now[game_version]+0) == 0x0111 and ReadShort(Now[game_version]+0x10) == 0x0B06 then
