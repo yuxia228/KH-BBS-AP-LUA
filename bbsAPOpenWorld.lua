@@ -336,7 +336,7 @@ function _OnFrame()
             end
             WriteByte(Save[game_version]+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save[game_version]+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
-            WriteInt(Save[game_version]+0x2968,0x00000102 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
+            WriteByte(Save[game_version]+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
             --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
             WriteArray(Save[game_version]+0x2974,{0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01}) --World Map Lines
             WriteByte(Save[game_version]+0x22E,0x01) --The Land of Departure: Mountain Path (Destroyed) MAP
@@ -351,6 +351,11 @@ function _OnFrame()
             if ReadShort(Now[game_version]+0) == 0x0806 and ReadByte(Now[game_version]+8) == 0x02 then
                 WriteByte(Book[game_version]+0,1)
             end
+        end
+        --Floating Flora
+        if ReadShort(Now[game_version]+0x0) == 0x030D and ReadByte(Save[game_version]+0x13E4) ~= 0x16 then
+            WriteByte(Save[game_version]+0x13E0,0x19)
+            WriteByte(Save[game_version]+0x13E4,0x16)
         end
         --Vanitas Remnant
         if ReadByte(Save[game_version]+0x10) == 0x01 or ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x10) == 0x00 and ReadByte(Save[game_version]+0x26BC) == 0x01 then
@@ -387,8 +392,8 @@ function _OnFrame()
             WriteByte(Save[game_version]+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save[game_version]+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
             WriteByte(Save[game_version]+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
-            if ReadByte(Save[game_version]+0x2969) == 0x15 then
-                WriteByte(Save[game_version]+0x2969,0x01)
+            if ReadByte(Save[game_version]+0x2969) ~= 0x21 then
+                WriteByte(Save[game_version]+0x2969,0x21)
             end
             --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
             --All Tutorials Viewed (Except Command Styles & Mini-Games)
@@ -668,8 +673,8 @@ function _OnFrame()
             WriteByte(Save[game_version]+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save[game_version]+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
             WriteByte(Save[game_version]+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
-            if ReadByte(Save[game_version]+0x2969) == 0x15 then
-                WriteByte(Save[game_version]+0x2969,0x01)
+            if ReadByte(Save[game_version]+0x2969) ~= 0x21 then
+                WriteByte(Save[game_version]+0x2969,0x21)
             end
             --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
             --All Tutorials Viewed (Except Command Styles & Mini-Games)
@@ -954,8 +959,8 @@ function _OnFrame()
             WriteByte(Save[game_version]+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save[game_version]+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
             WriteByte(Save[game_version]+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
-            if ReadByte(Save[game_version]+0x2969) == 0x15 then
-                WriteByte(Save[game_version]+0x2969,0x01)
+            if ReadByte(Save[game_version]+0x2969) ~= 0x21 then
+                WriteByte(Save[game_version]+0x2969,0x21)
             end
             --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
             WriteLong(Save[game_version]+0x298C,0x0000000000000000) --Unlock The Land of Departure's Save Points on World Map
