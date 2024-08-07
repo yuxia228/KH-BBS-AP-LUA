@@ -337,7 +337,7 @@ function _OnFrame()
             WriteByte(Save[game_version]+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save[game_version]+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
             WriteByte(Save[game_version]+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
-            --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
+            WriteByte(Save[game_version]+0x2970,0x02 * worlds_unlocked_array[7]) --Mirage Arena
             WriteArray(Save[game_version]+0x2974,{0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01}) --World Map Lines
             WriteByte(Save[game_version]+0x22E,0x01) --The Land of Departure: Mountain Path (Destroyed) MAP
             WriteByte(Save[game_version]+0x234,0x01) --The Land of Departure: Summit (Destroyed) MAP
@@ -395,7 +395,7 @@ function _OnFrame()
             if ReadByte(Save[game_version]+0x2969) ~= 0x21 then
                 WriteByte(Save[game_version]+0x2969,0x21)
             end
-            --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
+            WriteByte(Save[game_version]+0x2970,0x02 * worlds_unlocked_array[7]) --Mirage Arena
             --All Tutorials Viewed (Except Command Styles & Mini-Games)
             if ReadShort(Now[game_version]+0) == 0x0201 then
                 WriteLong(Save[game_version]+0x4E13,0x0003030303030303)
@@ -676,7 +676,7 @@ function _OnFrame()
             if ReadByte(Save[game_version]+0x2969) ~= 0x21 then
                 WriteByte(Save[game_version]+0x2969,0x21)
             end
-            --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
+            WriteByte(Save[game_version]+0x2970,0x02 * worlds_unlocked_array[7]) --Mirage Arena
             --All Tutorials Viewed (Except Command Styles & Mini-Games)
             if ReadShort(Now[game_version]+0) == 0x0201 then
                 WriteLong(Save[game_version]+0x4E13,0x0703030303030303)
@@ -962,7 +962,7 @@ function _OnFrame()
             if ReadByte(Save[game_version]+0x2969) ~= 0x21 then
                 WriteByte(Save[game_version]+0x2969,0x21)
             end
-            --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
+            WriteByte(Save[game_version]+0x2970,0x02 * worlds_unlocked_array[7]) --Mirage Arena
             WriteLong(Save[game_version]+0x298C,0x0000000000000000) --Unlock The Land of Departure's Save Points on World Map
             WriteInt(Save[game_version]+0x29F0,0x00000000) --Unlock The Keyblade Graveyard: Badlands Save Point on World Map
             WriteString(RoomNameText[game_version]+0x77C,"Realm of Darkness")
