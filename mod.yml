@@ -27,6 +27,10 @@ assets:
   method: copy
   source:
   - name: remastered/Item/Tm2/it1f1bs.tm2/-0.dds
+- name: remastered/arc_en/menu/Select_2D.arc/US_Select_2D_arc1.dds
+  method: copy
+  source:
+  - name: remastered/arc_en/menu/Select_2D.arc/US_Select_2D_arc1.dds
 - name: arc/preset/cd/cd01ve.arc
   method: copy
   source:
