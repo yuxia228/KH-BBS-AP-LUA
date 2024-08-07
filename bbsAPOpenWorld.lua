@@ -1223,7 +1223,9 @@ function _OnFrame()
                 WriteInt(Save[game_version]+0x29CC,0x00000000)
                 WriteLong(Save[game_version]+0x29F4,0x0000000000000000) --Re-opens Seat of War & Twister Trench
                 WriteInt(Save[game_version]+0x29FC,0x00000000) --Re-opens Fissure
-                WriteByte(CharMod[game_version]+0,0x02) --Changes Character from Armored Aqua to Normal Aqua
+                if ReadByte(Now[game_version]+0) ~= 0x0F then
+                    WriteByte(CharMod[game_version]+0,0x02) --Changes Character from Armored Aqua to Normal Aqua
+                end
                 if ReadByte(Now[game_version]+0) == 0x06 then --Room Names
                     WriteString(RoomNameText[game_version]+0x41D,"Entryway") --Fixes Room Name text back to normal
                     WriteArray(RoomNameText[game_version]+0x425,{0x00, 0x43, 0x65, 0x6E, 0x74, 0x72, 0x61, 0x6C, 0x20, 0x53, 0x71, 0x75, 0x61, 0x72})
