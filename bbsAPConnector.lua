@@ -495,6 +495,36 @@ function read_world_progress_location_ids()
     return location_ids
 end
 
+function read_misc_location_ids()
+    --[[Reads other checks that aren't associated with Chests, Stickers, or Story Progression.]]
+    location_ids = {}
+    lookup_table = {
+        --Ventus
+        {},
+        --Aqua
+        {
+            {0x10FB0DFC, 0x10FAF67C}, 2271130000, 1, 0}
+            {0x10FB0DFC, 0x10FAF67C}, 2271130001, 2, 0}
+            {0x10FB0DFC, 0x10FAF67C}, 2271130002, 3, 0}
+            {0x10FB0DFC, 0x10FAF67C}, 2271130003, 4, 0}
+            {0x10FB0DFC, 0x10FAF67C}, 2271130004, 5, 0}
+            {0x10FB0DFC, 0x10FAF67C}, 2271130005, 6, 0}
+            {0x10FB0DFC, 0x10FAF67C}, 2271130006, 7, 0}
+        },
+        --Terra
+        {}
+    }
+    for k,v in pairs(lookup_table[read_current_character() + 1]) do
+        value = ReadByte(v[1][game_version])
+        if v[3] == 0 and value >= v[4] then
+            table.insert(location_ids, v[2])
+        elseif v[3] > 0 and (value%(2^v[3]) >= 2^(v[3]-1)) then
+            table.insert(location_ids, v[2])
+        end
+    end
+    return location_ids
+end
+
 function read_current_character()
     current_character_address = {0x10FA0F80, 0x10F9F800}
     return ReadByte(current_character_address[game_version])
@@ -581,6 +611,15 @@ function send_items()
     end
     world_progress_location_ids = read_world_progress_location_ids()
     for location_index, location_id in pairs(world_progress_location_ids) do
+        if not file_exists(client_communication_path .. "send" .. tostring(location_id)) then
+            file = io.open(client_communication_path .. "send" .. tostring(location_id), "w")
+            io.output(file)
+            io.write("")
+            io.close(file)
+        end
+    end
+    misc_location_ids = read_misc_location_ids()
+    for location_index, location_id in pairs(misc_location_ids) do
         if not file_exists(client_communication_path .. "send" .. tostring(location_id)) then
             file = io.open(client_communication_path .. "send" .. tostring(location_id), "w")
             io.output(file)
