@@ -503,12 +503,12 @@ function read_misc_location_ids()
         {},
         --Aqua
         {
-            {0x10FB0DFC, 0x10FAF67C}, 2271130000, 1, 0x0}
-            {0x10FB0DFC, 0x10FAF67C}, 2271130001, 2, 0x0}
-            {0x10FB0DFC, 0x10FAF67C}, 2271130002, 3, 0x0}
-            {0x10FB0DFC, 0x10FAF67C}, 2271130003, 4, 0x0}
-            {0x10FB0DFC, 0x10FAF67C}, 2271130004, 5, 0x0}
-            {0x10FB0DFC, 0x10FAF67C}, 2271130005, 6, 0x0}
+            {0x10FB0DFC, 0x10FAF67C}, 2271130000, 1, 0x0},
+            {0x10FB0DFC, 0x10FAF67C}, 2271130001, 2, 0x0},
+            {0x10FB0DFC, 0x10FAF67C}, 2271130002, 3, 0x0},
+            {0x10FB0DFC, 0x10FAF67C}, 2271130003, 4, 0x0},
+            {0x10FB0DFC, 0x10FAF67C}, 2271130004, 5, 0x0},
+            {0x10FB0DFC, 0x10FAF67C}, 2271130005, 6, 0x0},
             {0x10FB0DFC, 0x10FAF67C}, 2271130006, 7, 0x0}
         },
         --Terra
