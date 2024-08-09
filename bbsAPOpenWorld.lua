@@ -352,6 +352,23 @@ function _OnFrame()
                 WriteByte(Book[game_version]+0,1)
             end
         end
+        --Rumble Racing in Mirage Arena
+        if ReadByte(Save[game_version]+0x269C) == 0x00 and ReadByte(Save[game_version]+0x125DC) ~= 0x00 then
+            WriteInt(Save[game_version]+0x125DC,0)
+            WriteInt(Save[game_version]+0x125E4,0)
+        end
+        if ReadByte(Save[game_version]+0x269C) == 0x01 and ReadByte(Save[game_version]+0x125DC) == 0x00 then
+            WriteByte(Save[game_version]+0x125DC,1)
+        end
+        if ReadByte(Save[game_version]+0x125DD) == 0x00 and ReadByte(Save[game_version]+0x125E4) == 0x01 then
+            WriteByte(Save[game_version]+0x125DD,1)
+        end
+        if ReadByte(Save[game_version]+0x125DE) == 0x00 and ReadByte(Save[game_version]+0x125E5) == 0x01 then
+            WriteByte(Save[game_version]+0x125DE,1)
+        end
+        if ReadByte(Save[game_version]+0x125DF) == 0x00 and ReadByte(Save[game_version]+0x125E6) == 0x01 then
+            WriteByte(Save[game_version]+0x125DF,1)
+        end
         --Floating Flora
         if ReadShort(Now[game_version]+0x0) == 0x030D and ReadByte(Save[game_version]+0x13E4) ~= 0x16 then
             WriteByte(Save[game_version]+0x13E0,0x19)
@@ -760,6 +777,8 @@ function _OnFrame()
                 if ReadByte(Save[game_version]+0x2698) == 0 then
                     WriteByte(Save[game_version]+0x2698,1)
                     WriteByte(Save[game_version]+0x2810,ReadByte(Save[game_version]+0x2810)+1)
+                    WriteByte(Save[game_version]+0x1276,0x00)
+                    WriteByte(Save[game_version]+0x12A0,0x00)
                 end
             end
             --End of Disney Town 1
@@ -775,6 +794,8 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteShort(Save[game_version]+0x14,0x020C)
                     WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
+                    WriteByte(Save[game_version]+0x1276,0x16)
+                    WriteByte(Save[game_version]+0x12A0,0x16)
                 end
             end
             --Start of Olympus Coliseum
@@ -1049,6 +1070,8 @@ function _OnFrame()
                 if ReadByte(Save[game_version]+0x2698) == 0 then
                     WriteByte(Save[game_version]+0x2698,1)
                     WriteByte(Save[game_version]+0x2810,ReadByte(Save[game_version]+0x2810)+1)
+                    WriteByte(Save[game_version]+0x1276,0x00)
+                    WriteByte(Save[game_version]+0x12A0,0x00)
                 end
             end
             --Quicker Fruitball
@@ -1068,6 +1091,8 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteShort(Save[game_version]+0x14,0x020C)
                     WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
+                    WriteByte(Save[game_version]+0x1276,0x16)
+                    WriteByte(Save[game_version]+0x12A0,0x16)
                 end
             end
             --Start of Olympus Coliseum
