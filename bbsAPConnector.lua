@@ -411,6 +411,14 @@ function write_ap_item_text()
     WriteArray(disney_town_pass_description_address, {0x41,0x6E,0x20,0x69,0x74,0x65,0x6D,0x20,0x66,0x6F,0x72,0x20,0x79,0x6F,0x75,0x20,0x6F,0x72,0x20,0x61,0x6E,0x6F,0x74,0x68,0x65,0x72,0x20,0x70,0x6C,0x61,0x79,0x65,0x72,0x00,0x2E})
 end
 
+function write_command_board(item_value)
+    command_board_address = {0x0, 0x10FAA718}
+    current_command_board_byte = ReadByte(command_board_address[game_version])
+    current_command_board_bits = toBits(current_command_board_byte, 8)
+    current_command_board_bits[item_value + 1] = 1
+    WriteByte(command_board_address[game_version], toNum(current_command_board_bits))
+end
+
 function read_check_number()
     check_number_address = {0x10FA34A0, 0x10FA1D20}
     return ReadInt(check_number_address[game_version])
@@ -500,7 +508,46 @@ function read_misc_location_ids()
     location_ids = {}
     lookup_table = {
         --Ventus
-        {},
+        {
+            {{0x10FB0DFC, 0x10FAF67C}, 2271030000, 1, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271030001, 2, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271030002, 3, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271030003, 4, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271030004, 5, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271030005, 6, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271030006, 7, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271030007, 8, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271030008, 1, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271030009, 2, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271030010, 3, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271030011, 3, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271030012, 4, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271030013, 4, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271030014, 5, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271030015, 6, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271030016, 7, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271030017, 8, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271030018, 8, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271030019, 1, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271030020, 2, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271030021, 2, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271030022, 3, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271030023, 4, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271030024, 5, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271030025, 6, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271030026, 7, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271030027, 7, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271030028, 8, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271030029, 8, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271030030, 1, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271030031, 1, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271030032, 2, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271030033, 3, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271030034, 4, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271030035, 5, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271030036, 6, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271030037, 6, 0x0}
+        },
         --Aqua
         {
             {{0x10FB0DFC, 0x10FAF67C}, 2271130000, 1, 0x0},
@@ -509,10 +556,81 @@ function read_misc_location_ids()
             {{0x10FB0DFC, 0x10FAF67C}, 2271130003, 4, 0x0},
             {{0x10FB0DFC, 0x10FAF67C}, 2271130004, 5, 0x0},
             {{0x10FB0DFC, 0x10FAF67C}, 2271130005, 6, 0x0},
-            {{0x10FB0DFC, 0x10FAF67C}, 2271130006, 7, 0x0}
+            {{0x10FB0DFC, 0x10FAF67C}, 2271130006, 7, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271130007, 8, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271130008, 8, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271130009, 1, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271130010, 2, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271130011, 3, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271130012, 4, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271130013, 5, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271130014, 5, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271130015, 6, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271130016, 7, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271130017, 8, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271130018, 8, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271130019, 1, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271130020, 2, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271130021, 2, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271130022, 3, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271130023, 4, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271130024, 5, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271130025, 6, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271130026, 7, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271130027, 7, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271130028, 8, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271130029, 8, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271130030, 1, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271130031, 1, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271130032, 2, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271130033, 3, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271130034, 4, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271130035, 5, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271130036, 6, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271130037, 6, 0x0}
         },
         --Terra
-        {}
+        {
+            {{0x10FB0DFC, 0x10FAF67C}, 2271230000, 1, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271230001, 2, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271230002, 3, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271230003, 4, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271230004, 5, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271230005, 6, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271230006, 7, 0x0},
+            {{0x10FB0DFC, 0x10FAF67C}, 2271230007, 8, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271230008, 1, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271230009, 2, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271230010, 2, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271230011, 3, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271230012, 3, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271230013, 4, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271230014, 4, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271230015, 5, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271230016, 6, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271230017, 7, 0x0},
+            {{0x10FB0DFD, 0x10FAF67D}, 2271230018, 8, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230019, 1, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230020, 1, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230021, 2, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230022, 2, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230023, 3, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230024, 4, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230025, 5, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230026, 6, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230027, 7, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230028, 7, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230029, 8, 0x0},
+            {{0x10FB0DFE, 0x10FAF67E}, 2271230030, 8, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271230031, 1, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271230032, 1, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271230033, 2, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271230034, 3, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271230035, 4, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271230036, 5, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271230037, 6, 0x0},
+            {{0x10FB0DFF, 0x10FAF67F}, 2271230038, 6, 0x0}
+        }
     }
     for k,v in pairs(lookup_table[read_current_character() + 1]) do
         value = ReadByte(v[1][game_version])
@@ -584,6 +702,9 @@ function receive_items()
         elseif received_item_id >= 2270070000 and received_item_id <= 2270070012 then
             item_value = received_item_id % 2270070000
             write_dlink(item_value)
+        elseif received_item_id >= 2270080000 and received_item_id <= 2270080006 then
+            item_value = received_item_id % 2270080000
+            write_command_board(item_value)
         end
         i = i + 1
     end
