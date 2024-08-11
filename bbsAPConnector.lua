@@ -412,7 +412,7 @@ function write_ap_item_text()
 end
 
 function write_command_board(item_value)
-    command_board_address = {0x0, 0x10FAA718}
+    command_board_address = {0x10FABE98, 0x10FAA718}
     current_command_board_byte = ReadByte(command_board_address[game_version])
     current_command_board_bits = toBits(current_command_board_byte, 8)
     current_command_board_bits[item_value + 1] = 1
