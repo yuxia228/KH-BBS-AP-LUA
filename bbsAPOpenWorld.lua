@@ -1225,7 +1225,7 @@ function _OnFrame()
                 end
             end]]
             --No Music After Braig
-            if ReadShort(Now[game_version]+0) == 0x0C0D and ReadByte(Now[game_version]+0) == 0x3C and ReadShort(BGM[game_version]+0x21) == 0x3132 then
+            if ReadShort(Now[game_version]+0) == 0x0C0D and ReadByte(Now[game_version]+8) == 0x3C and ReadShort(BGM[game_version]+0x21) == 0x3132 then
                 WriteString(BGM[game_version]+0x20,"124dp_amb")
             else
                 WriteString(BGM[game_version]+0x20,"021kouya_f")
