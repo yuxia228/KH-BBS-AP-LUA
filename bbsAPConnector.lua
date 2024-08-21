@@ -696,7 +696,7 @@ function receive_items()
             item_value = received_item_id % 2270050000
             write_world_item(item_value)
         elseif received_item_id == 2270060000 then
-            write_max_hp(read_max_hp() + 5)
+            write_max_hp(read_max_hp() + 10)
         elseif received_item_id == 2270060001 then
             write_deck_capacity(read_deck_capacity() + 1)
         elseif received_item_id >= 2270070000 and received_item_id <= 2270070012 then
