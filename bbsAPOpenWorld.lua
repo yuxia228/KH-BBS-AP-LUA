@@ -1357,12 +1357,8 @@ function _OnFrame()
                 WriteByte(Save[game_version]+0x25F5,0x0F)
                 WriteByte(Save[game_version]+0x25FC,0x01)
                 WriteShort(Save[game_version]+0x295D,0x0122)
-            end
-            --Dark Hide Fight
-            if ReadByte(Save[game_version]+0x25F5) == 0x0F then
-                if ReadShort(Now[game_version]+0) == 0x1707 and ReadShort(Now[game_version]+0x10) == 0x1607 then
-                    WriteArray(Now[game_version]+0,{0x07, 0x17, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01})
-                end
+                WriteArray(Save[game_version]+0xB58,{0x00, 0x00, 0x00, 0x00, 0x00})
+                WriteByte(Save[game_version]+0xB62,0x01)
             end
             --Secret Episode Ending
             if ReadByte(Save[game_version]+0x25FC) == 1 then
