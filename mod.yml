@@ -19,6 +19,10 @@ assets:
   method: copy
   source:
   - name: bbsAPRemoveItem.lua
+- name: scripts/bbsAPKeybladeStats.lua
+  method: copy
+  source:
+  - name: bbsAPKeybladeStats.lua
 - name: remastered/Item/Tm2/it1f1b.tm2/-0.dds
   method: copy
   source:
