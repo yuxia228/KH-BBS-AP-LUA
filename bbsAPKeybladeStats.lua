@@ -91,7 +91,7 @@ function _OnInit()
 end
 
 function _OnFrame()
-    if frame_count == 0 and canExecute then
+    if frame_count == 0 and can_execute then
         main()
     end
     frame_count = (frame_count + 1) % 30
