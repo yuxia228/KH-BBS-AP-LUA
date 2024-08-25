@@ -4,7 +4,7 @@ LUAGUI_DESC = "Kingdom Hearts BBS AP Integration"
 
 game_version = 1 --1 for ESG 1.0.0.9, 2 for Steam 1.0.0.9
 
-local keyblade_stats_base_address = {0x0, 0x818AEC}
+local keyblade_stats_base_address = {0x81AAEC, 0x818AEC}
 
 IsEpicGLVersion = 0x6107D4
 IsSteamGLVersion = 0x6107B4
