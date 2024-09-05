@@ -2,10 +2,10 @@ LUAGUI_NAME = "bbsAPOpenWorld"
 LUAGUI_AUTH = "Sonicshadowsilver2"
 LUAGUI_DESC = "BBS FM AP Open World"
 
-game_version = 1 --1 for 1.0.0.9 EGS, 2 for Steam
-IsEpicGLVersion = 0x6107D4
-IsSteamGLVersion = 0x6107B4
-IsSteamJPVersion = 0x610534
+game_version = 1 --1: EGS GL v1.0.0.10, 2: Steam GL v1.0.0.2, 3: Steam JP v1.0.0.2
+IsEpicGLVersion = 0x68D229
+IsSteamGLVersion = 0x68D451
+IsSteamJPVersion = 0x68C401
 can_execute = false
 
 worlds_unlocked_array = {1,0,0,0,0,0,0,0,0,0,0,0,0}
@@ -44,7 +44,7 @@ end
 
 
 function read_world_item()
-    ap_bits_address = {0x10FA349C, 0x10FA1D1C}
+    ap_bits_address = {0x10FA349C, 0x10FA2D9C}
     world_item_byte_array = ReadArray(ap_bits_address[game_version], 2)
     world_item_bits_1 = toBits(world_item_byte_array[1], 8)
     world_item_bits_2 = toBits(world_item_byte_array[2], 8)
@@ -64,7 +64,7 @@ function read_world_item()
 end
 
 function read_number_of_wayfinders()
-    key_item_stock_address = {0x10FA422C, 0x10FA2AAC}
+    key_item_stock_address = {0x10FA422C, 0x10FA3B2C}
     max_items = 40
     item_index = 0
     wayfinders = {}
@@ -83,9 +83,9 @@ end
 
 function character_selected_or_save_loaded()
     if can_execute then
-        if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
-            if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0xD0100 then
-                if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x817123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x817127}, game_version)) ~= 0x100 then
+        if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
+            if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0xD0100 then
+                if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x818123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x818127}, game_version)) ~= 0x100 then
                     return true
                 end
             end
@@ -94,20 +94,26 @@ function character_selected_or_save_loaded()
 end
 
 function _OnInit()
-    Now = {0x819120, 0x817120}
-    Save = {0x10FA0F70, 0x10F9F7F0}
-    RoomNameText = {0xCB8652, 0xCB6ED2}
-    CharMod = {0x10F9F54C, 0x10F9DDCC}
-    BGM = {0x87086C, 0x86F0EC}
-    Timer = {0x81EF20, 0x81CF24}
-    if ReadByte(IsEpicGLVersion) == 0xFF then
+    Now = {0x819120, 0x818120}
+    Save = {0x10FA0F70, 0x10FA0870}
+    RoomNameText = {0xCB8652, 0xCB7F52}
+    CharMod = {0x10F9F54C, 0x10F9EE4C}
+    BGM = {0x87086C, 0x87016C}
+    Book = {0x81C6F0, 0x81B6F0}
+    Timer = {0x81EF20, 0x81DF24}
+    if ReadLong(IsEpicGLVersion) == 0x7265737563697065 then
         game_version = 1
-        ConsolePrint("EGS Version Detected")
+        ConsolePrint("EGS GL v1.0.0.10 Detected")
         can_execute = true
     end
-    if ReadByte(IsSteamGLVersion) == 0xFF then
+    if ReadLong(IsSteamGLVersion) == 0x7265737563697065 then
         game_version = 2
-        ConsolePrint("Steam Version Detected")
+        ConsolePrint("Steam GL v1.0.0.2 Detected")
+        can_execute = true
+    end
+    if ReadLong(IsSteamJPVersion) == 0x7265737563697065 then
+        game_version = 3
+        ConsolePrint("Steam JP v1.0.0.2 Detected")
         can_execute = true
     end
 end
@@ -336,7 +342,7 @@ function _OnFrame()
             WriteByte(Save[game_version]+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save[game_version]+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
             WriteByte(Save[game_version]+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
-            --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
+            WriteByte(Save[game_version]+0x2970,0x02 * worlds_unlocked_array[7]) --Mirage Arena
             WriteArray(Save[game_version]+0x2974,{0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01}) --World Map Lines
             WriteByte(Save[game_version]+0x22E,0x01) --The Land of Departure: Mountain Path (Destroyed) MAP
             WriteByte(Save[game_version]+0x234,0x01) --The Land of Departure: Summit (Destroyed) MAP
@@ -345,8 +351,36 @@ function _OnFrame()
                 WriteByte(Save[game_version]+0x2917,ReadByte(Save[game_version]+0x2917)+8) --Unlock The Keyblade Graveyard: Fissure Save Point on World Map
             end
         end
+        --100 Acre Wood Book (Ventus & Aqua)
+        if ReadByte(Save[game_version]+0x10) <= 0x01 then
+            if ReadShort(Now[game_version]+0) == 0x0806 and ReadByte(Now[game_version]+8) == 0x02 then
+                WriteByte(Book[game_version]+0,1)
+            end
+        end
+        --Rumble Racing in Mirage Arena
+        if ReadByte(Save[game_version]+0x269C) == 0x00 and ReadByte(Save[game_version]+0x125DC) ~= 0x00 then
+            WriteInt(Save[game_version]+0x125DC,0)
+            WriteInt(Save[game_version]+0x125E4,0)
+        end
+        if ReadByte(Save[game_version]+0x269C) == 0x01 and ReadByte(Save[game_version]+0x125DC) == 0x00 then
+            WriteByte(Save[game_version]+0x125DC,1)
+        end
+        if ReadByte(Save[game_version]+0x125DD) == 0x00 and ReadByte(Save[game_version]+0x125E4) == 0x01 then
+            WriteByte(Save[game_version]+0x125DD,1)
+        end
+        if ReadByte(Save[game_version]+0x125DE) == 0x00 and ReadByte(Save[game_version]+0x125E5) == 0x01 then
+            WriteByte(Save[game_version]+0x125DE,1)
+        end
+        if ReadByte(Save[game_version]+0x125DF) == 0x00 and ReadByte(Save[game_version]+0x125E6) == 0x01 then
+            WriteByte(Save[game_version]+0x125DF,1)
+        end
+        --Floating Flora
+        if ReadShort(Now[game_version]+0x0) == 0x030D and ReadByte(Save[game_version]+0x13E4) ~= 0x16 then
+            WriteByte(Save[game_version]+0x13E0,0x19)
+            WriteByte(Save[game_version]+0x13E4,0x16)
+        end
         --Vanitas Remnant
-        if ReadByte(Save[game_version]+0x10) == 0x01 or ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x00) == 0x00 and ReadByte(Save[game_version]+0x26BC) == 0x01 then
+        if ReadByte(Save[game_version]+0x10) == 0x01 or ReadByte(Save[game_version]+0x10) == 0x02 or ReadByte(Save[game_version]+0x10) == 0x00 and ReadByte(Save[game_version]+0x26BC) == 0x01 then
             if ReadByte(Save[game_version]+0x13DA) ~= 0x01 or ReadByte(Save[game_version]+0x13DE) ~= 0x16 then
                 WriteByte(Save[game_version]+0x13DA,0x01) --The Keyblade Graveyard: Badlands MAP
                 WriteByte(Save[game_version]+0x13DE,0x16) --The Keyblade Graveyard: Badlands EVENT
@@ -380,10 +414,10 @@ function _OnFrame()
             WriteByte(Save[game_version]+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save[game_version]+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
             WriteByte(Save[game_version]+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
-            if ReadByte(Save[game_version]+0x2969) == 0x15 then
-                WriteByte(Save[game_version]+0x2969,0x01)
+            if ReadByte(Save[game_version]+0x2969) ~= 0x21 then
+                WriteByte(Save[game_version]+0x2969,0x21)
             end
-            --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
+            WriteByte(Save[game_version]+0x2970,0x02 * worlds_unlocked_array[7]) --Mirage Arena
             --All Tutorials Viewed (Except Command Styles & Mini-Games)
             if ReadShort(Now[game_version]+0) == 0x0201 then
                 WriteLong(Save[game_version]+0x4E13,0x0003030303030303)
@@ -416,13 +450,12 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x2810,ReadByte(Save[game_version]+0x2810)+1)
                 end
             end
-            --End of Castle of Dreams 1
+            --End of Castle of Dreams
             if ReadShort(Now[game_version]+0) == 0x0111 or ReadShort(Now[game_version]+0) == 0x0B06 then
                 if ReadShort(Now[game_version]+0x10) == 0x0A03 then
                     if ReadByte(Save[game_version]+0x257C) == 0 then
                         WriteByte(Save[game_version]+0x257C,1)
-                        WriteLong(Now[game_version]+0,0x0000000100020803)
-                        WriteByte(Now[game_version]+8,0x16)
+                        WriteArray(Now[game_version]+0,{0x03, 0x08, 0x02, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
                         WriteShort(Save[game_version]+0x2941,0x0122)
                         WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
                     end
@@ -481,6 +514,10 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x2810,ReadByte(Save[game_version]+0x2810)+1)
                 end
             end
+            --100 Acre Wood Book (Terra)
+            if ReadShort(Now[game_version]+0) == 0x0806 and ReadByte(Now[game_version]+8) == 0x00 then
+                WriteByte(Book[game_version]+0,1)
+            end
             --End of Radiant Garden
             if ReadShort(Now[game_version]+0) == 0x0111 and ReadShort(Now[game_version]+0x10) == 0x0B06 then
                 if ReadByte(Save[game_version]+0x25DC) == 0 then
@@ -507,8 +544,8 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x269C,1)
                     WriteArray(Now[game_version]+0,{0x0C, 0x02, 0x33, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
                     WriteShort(Save[game_version]+0x2965,0x0122)
-                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteShort(Save[game_version]+0x14,0x020C)
+                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
                 end
             end
@@ -657,10 +694,10 @@ function _OnFrame()
             WriteByte(Save[game_version]+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save[game_version]+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
             WriteByte(Save[game_version]+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
-            if ReadByte(Save[game_version]+0x2969) == 0x15 then
-                WriteByte(Save[game_version]+0x2969,0x01)
+            if ReadByte(Save[game_version]+0x2969) ~= 0x21 then
+                WriteByte(Save[game_version]+0x2969,0x21)
             end
-            --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
+            WriteByte(Save[game_version]+0x2970,0x02 * worlds_unlocked_array[7]) --Mirage Arena
             --All Tutorials Viewed (Except Command Styles & Mini-Games)
             if ReadShort(Now[game_version]+0) == 0x0201 then
                 WriteLong(Save[game_version]+0x4E13,0x0703030303030303)
@@ -717,7 +754,6 @@ function _OnFrame()
                     if ReadByte(Save[game_version]+0x259C) == 0 then
                         WriteByte(Save[game_version]+0x259C,1)
                         WriteArray(Now[game_version]+0,{0x04, 0x06, 0x01, 0x00, 0x01, 0x00, 0x18, 0x00, 0x16})
-                        WriteInt(Now[game_version]+0,0x00010604)
                         WriteShort(Save[game_version]+0x2945,0x0122)
                         WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
                     end
@@ -744,6 +780,8 @@ function _OnFrame()
                 if ReadByte(Save[game_version]+0x2698) == 0 then
                     WriteByte(Save[game_version]+0x2698,1)
                     WriteByte(Save[game_version]+0x2810,ReadByte(Save[game_version]+0x2810)+1)
+                    WriteByte(Save[game_version]+0x1276,0x00)
+                    WriteByte(Save[game_version]+0x12A0,0x00)
                 end
             end
             --End of Disney Town 1
@@ -756,9 +794,11 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x269C,1)
                     WriteArray(Now[game_version]+0,{0x0C, 0x02, 0x33, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
                     WriteShort(Save[game_version]+0x2965,0x0122)
-                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteShort(Save[game_version]+0x14,0x020C)
+                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
+                    WriteByte(Save[game_version]+0x1276,0x16)
+                    WriteByte(Save[game_version]+0x12A0,0x16)
                 end
             end
             --Start of Olympus Coliseum
@@ -943,10 +983,10 @@ function _OnFrame()
             WriteByte(Save[game_version]+0x2960,0x02 * worlds_unlocked_array[11]) --Never Land
             WriteByte(Save[game_version]+0x2964,0x02 * worlds_unlocked_array[12]) --Disney Town
             WriteByte(Save[game_version]+0x2968,0x02 * math.floor(read_number_of_wayfinders() / 3)) --Keyblade Graveyard
-            if ReadByte(Save[game_version]+0x2969) == 0x15 then
-                WriteByte(Save[game_version]+0x2969,0x01)
+            if ReadByte(Save[game_version]+0x2969) ~= 0x21 then
+                WriteByte(Save[game_version]+0x2969,0x21)
             end
-            --WriteByte(Save[game_version]+0x2970,0x02) --Mirage Arena
+            WriteByte(Save[game_version]+0x2970,0x02 * worlds_unlocked_array[7]) --Mirage Arena
             WriteLong(Save[game_version]+0x298C,0x0000000000000000) --Unlock The Land of Departure's Save Points on World Map
             WriteInt(Save[game_version]+0x29F0,0x00000000) --Unlock The Keyblade Graveyard: Badlands Save Point on World Map
             WriteString(RoomNameText[game_version]+0x77C,"Realm of Darkness")
@@ -1008,6 +1048,7 @@ function _OnFrame()
                         WriteByte(Save[game_version]+0x259C,1)
                         WriteArray(Now[game_version]+0,{0x04, 0x08, 0x02, 0x00, 0x02, 0x00, 0x00, 0x00, 0x16})
                         WriteShort(Save[game_version]+0x2945,0x0122)
+                        WriteShort(Save[game_version]+0x14,0x0804)
                         WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
                     end
                 end
@@ -1033,6 +1074,8 @@ function _OnFrame()
                 if ReadByte(Save[game_version]+0x2698) == 0 then
                     WriteByte(Save[game_version]+0x2698,1)
                     WriteByte(Save[game_version]+0x2810,ReadByte(Save[game_version]+0x2810)+1)
+                    WriteByte(Save[game_version]+0x1276,0x00)
+                    WriteByte(Save[game_version]+0x12A0,0x00)
                 end
             end
             --Quicker Fruitball
@@ -1049,9 +1092,11 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x269C,1)
                     WriteArray(Now[game_version]+0,{0x0C, 0x02, 0x33, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
                     WriteShort(Save[game_version]+0x2965,0x0122)
-                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteShort(Save[game_version]+0x14,0x020C)
+                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
+                    WriteByte(Save[game_version]+0x1276,0x16)
+                    WriteByte(Save[game_version]+0x12A0,0x16)
                 end
             end
             --Start of Olympus Coliseum
@@ -1184,7 +1229,7 @@ function _OnFrame()
                 end
             end]]
             --No Music After Braig
-            if ReadShort(Now[game_version]+0) == 0x0C0D and ReadByte(Now[game_version]+0) == 0x3C and ReadShort(BGM[game_version]+0x21) == 0x3132 then
+            if ReadShort(Now[game_version]+0) == 0x0C0D and ReadByte(Now[game_version]+8) == 0x3C and ReadShort(BGM[game_version]+0x21) == 0x3132 then
                 WriteString(BGM[game_version]+0x20,"124dp_amb")
             else
                 WriteString(BGM[game_version]+0x20,"021kouya_f")
@@ -1207,7 +1252,9 @@ function _OnFrame()
                 WriteInt(Save[game_version]+0x29CC,0x00000000)
                 WriteLong(Save[game_version]+0x29F4,0x0000000000000000) --Re-opens Seat of War & Twister Trench
                 WriteInt(Save[game_version]+0x29FC,0x00000000) --Re-opens Fissure
-                WriteByte(CharMod[game_version]+0,0x02) --Changes Character from Armored Aqua to Normal Aqua
+                if ReadByte(Now[game_version]+0) ~= 0x0F then
+                    WriteByte(CharMod[game_version]+0,0x02) --Changes Character from Armored Aqua to Normal Aqua
+                end
                 if ReadByte(Now[game_version]+0) == 0x06 then --Room Names
                     WriteString(RoomNameText[game_version]+0x41D,"Entryway") --Fixes Room Name text back to normal
                     WriteArray(RoomNameText[game_version]+0x425,{0x00, 0x43, 0x65, 0x6E, 0x74, 0x72, 0x61, 0x6C, 0x20, 0x53, 0x71, 0x75, 0x61, 0x72})
@@ -1222,14 +1269,14 @@ function _OnFrame()
                     WriteByte(RoomNameText[game_version]+0x48C,0x00) --Makes sure Room Name text doesn't overlap
                     WriteInt(Save[game_version]+0x29B8,0x00000000)
                 end
-                if ReadShort(Save[game_version]+0x25D4) ~= 0x00 and ReadShort(Save[game_version]+0x25D4) <= 0x07 then --Before Front Doors Unversed
+                if ReadByte(Save[game_version]+0x25D4) ~= 0x00 and ReadByte(Save[game_version]+0x25D4) <= 0x07 then --Before Front Doors Unversed
                     WriteLong(Save[game_version]+0x29BC, 0x0C0A02000C0A0000)
                     if ReadShort(Now[game_version]+0) == 0x0111 then
                         WriteInt(Save[game_version]+0x29B8, 0x00000000)
                     else
                         WriteInt(Save[game_version]+0x29B8, 0x0C0A0000)
                     end
-                elseif ReadShort(Save[game_version]+0x25D4) == 0x0F  then --Before Trinity Armor
+                elseif ReadByte(Save[game_version]+0x25D4) == 0x0F  then --Before Trinity Armor
                     WriteLong(Save[game_version]+0x29BC, 0x000000000C0A0000)
                     WriteLong(Save[game_version]+0x29C4, 0x000000000C0A0100)
                     if ReadShort(Now[game_version]+0) == 0x0111 then
@@ -1237,7 +1284,7 @@ function _OnFrame()
                     else
                         WriteInt(Save[game_version]+0x29B8, 0x0C0A0100)
                     end
-                elseif ReadShort(Save[game_version]+0x25D4) == 0x3F or ReadShort(Save[game_version]+0x25D4) == 0x7F or ReadShort(Save[game_version]+0x25D4) == 0x017F then --After Trinity Armor/Before Vanitas I
+                elseif ReadByte(Save[game_version]+0x25D4) == 0x3F or ReadByte(Save[game_version]+0x25D4) == 0x7F then --After Trinity Armor/Before Vanitas I
                     WriteLong(Save[game_version]+0x29BC, 0)
                     WriteLong(Save[game_version]+0x29C4, 0x0C0A030000000000)
                     if ReadShort(Now[game_version]+0) == 0x0111 then
@@ -1245,7 +1292,7 @@ function _OnFrame()
                     else
                         WriteInt(Save[game_version]+0x29B8, 0x0C0A0300)
                     end
-                elseif ReadShort(Save[game_version]+0x25D4) == 0xFF or ReadShort(Save[game_version]+0x25D4) == 0x01FF then --World Cleared
+                elseif ReadByte(Save[game_version]+0x25D4) == 0xFF then --World Cleared
                     WriteLong(Save[game_version]+0x29BC, 0)
                     WriteLong(Save[game_version]+0x29C4, 0)
                     if ReadShort(Now[game_version]+0) == 0x0111 then
@@ -1312,13 +1359,10 @@ function _OnFrame()
                 WriteArray(Now[game_version]+0,{0x07, 0x16, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00})
                 WriteShort(Save[game_version]+0x14,0x1607)
                 WriteByte(Save[game_version]+0x25F5,0x0F)
+                WriteByte(Save[game_version]+0x25FC,0x01)
                 WriteShort(Save[game_version]+0x295D,0x0122)
-            end
-            --Dark Hide Fight
-            if ReadByte(Save[game_version]+0x25F5) == 0x0F then
-                if ReadShort(Now[game_version]+0) == 0x1707 and ReadShort(Now[game_version]+0x10) == 0x1607 then
-                    WriteArray(Now[game_version]+0,{0x07, 0x17, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01})
-                end
+                WriteArray(Save[game_version]+0xB58,{0x00, 0x00, 0x00, 0x00, 0x00})
+                WriteByte(Save[game_version]+0xB62,0x01)
             end
             --Secret Episode Ending
             if ReadByte(Save[game_version]+0x25FC) == 1 then
