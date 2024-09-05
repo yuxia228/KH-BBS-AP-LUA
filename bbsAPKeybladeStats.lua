@@ -2,13 +2,13 @@ LUAGUI_NAME = "bbsAPKeybladeStats"
 LUAGUI_AUTH = "Gicu"
 LUAGUI_DESC = "Kingdom Hearts BBS AP Integration"
 
-game_version = 1 --1 for ESG 1.0.0.9, 2 for Steam 1.0.0.9
+game_version = 1 --1: EGS GL v1.0.0.10, 2: Steam GL v1.0.0.2, 3: Steam JP v1.0.0.2
 
-local keyblade_stats_base_address = {0x81AAEC, 0x818AEC}
+local keyblade_stats_base_address = {0x81AAEC, 0x819AEC}
 
-IsEpicGLVersion = 0x6107D4
-IsSteamGLVersion = 0x6107B4
-IsSteamJPVersion = 0x610534
+IsEpicGLVersion = 0x68D229
+IsSteamGLVersion = 0x68D451
+IsSteamJPVersion = 0x68C401
 can_execute = false
 frame_count = 0
 
@@ -78,14 +78,19 @@ function main()
 end
 
 function _OnInit()
-    if ReadByte(IsEpicGLVersion) == 0xFF then
+    if ReadLong(IsEpicGLVersion) == 0x7265737563697065 then
         game_version = 1
-        ConsolePrint("EGS Version Detected")
+        ConsolePrint("EGS GL v1.0.0.10 Detected")
         can_execute = true
     end
-    if ReadByte(IsSteamGLVersion) == 0xFF then
+    if ReadLong(IsSteamGLVersion) == 0x7265737563697065 then
         game_version = 2
-        ConsolePrint("Steam Version Detected")
+        ConsolePrint("Steam GL v1.0.0.2 Detected")
+        can_execute = true
+    end
+    if ReadLong(IsSteamJPVersion) == 0x7265737563697065 then
+        game_version = 3
+        ConsolePrint("Steam JP v1.0.0.2 Detected")
         can_execute = true
     end
 end

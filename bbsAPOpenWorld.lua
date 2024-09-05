@@ -2,10 +2,10 @@ LUAGUI_NAME = "bbsAPOpenWorld"
 LUAGUI_AUTH = "Sonicshadowsilver2"
 LUAGUI_DESC = "BBS FM AP Open World"
 
-game_version = 1 --1 for 1.0.0.9 EGS, 2 for Steam
-IsEpicGLVersion = 0x6107D4
-IsSteamGLVersion = 0x6107B4
-IsSteamJPVersion = 0x610534
+game_version = 1 --1: EGS GL v1.0.0.10, 2: Steam GL v1.0.0.2, 3: Steam JP v1.0.0.2
+IsEpicGLVersion = 0x68D229
+IsSteamGLVersion = 0x68D451
+IsSteamJPVersion = 0x68C401
 can_execute = false
 
 worlds_unlocked_array = {1,0,0,0,0,0,0,0,0,0,0,0,0}
@@ -44,7 +44,7 @@ end
 
 
 function read_world_item()
-    ap_bits_address = {0x10FA349C, 0x10FA1D1C}
+    ap_bits_address = {0x10FA349C, 0x10FA2D9C}
     world_item_byte_array = ReadArray(ap_bits_address[game_version], 2)
     world_item_bits_1 = toBits(world_item_byte_array[1], 8)
     world_item_bits_2 = toBits(world_item_byte_array[2], 8)
@@ -64,7 +64,7 @@ function read_world_item()
 end
 
 function read_number_of_wayfinders()
-    key_item_stock_address = {0x10FA422C, 0x10FA2AAC}
+    key_item_stock_address = {0x10FA422C, 0x10FA3B2C}
     max_items = 40
     item_index = 0
     wayfinders = {}
@@ -83,9 +83,9 @@ end
 
 function character_selected_or_save_loaded()
     if can_execute then
-        if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
-            if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0xD0100 then
-                if ReadInt(version_choice({0x81911F, 0x81711F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x817123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x817127}, game_version)) ~= 0x100 then
+        if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
+            if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0xD0100 then
+                if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x818123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x818127}, game_version)) ~= 0x100 then
                     return true
                 end
             end
@@ -94,21 +94,26 @@ function character_selected_or_save_loaded()
 end
 
 function _OnInit()
-    Now = {0x819120, 0x817120}
-    Save = {0x10FA0F70, 0x10F9F7F0}
-    RoomNameText = {0xCB8652, 0xCB6ED2}
-    CharMod = {0x10F9F54C, 0x10F9DDCC}
-    BGM = {0x87086C, 0x86F0EC}
-    Book = {0x81C6EC, 0x81A6F0}
-    Timer = {0x81EF20, 0x81CF24}
-    if ReadByte(IsEpicGLVersion) == 0xFF then
+    Now = {0x819120, 0x818120}
+    Save = {0x10FA0F70, 0x10FA0870}
+    RoomNameText = {0xCB8652, 0xCB7F52}
+    CharMod = {0x10F9F54C, 0x10F9EE4C}
+    BGM = {0x87086C, 0x87016C}
+    Book = {0x81C6F0, 0x81B6F0}
+    Timer = {0x81EF20, 0x81DF24}
+    if ReadLong(IsEpicGLVersion) == 0x7265737563697065 then
         game_version = 1
-        ConsolePrint("EGS Version Detected")
+        ConsolePrint("EGS GL v1.0.0.10 Detected")
         can_execute = true
     end
-    if ReadByte(IsSteamGLVersion) == 0xFF then
+    if ReadLong(IsSteamGLVersion) == 0x7265737563697065 then
         game_version = 2
-        ConsolePrint("Steam Version Detected")
+        ConsolePrint("Steam GL v1.0.0.2 Detected")
+        can_execute = true
+    end
+    if ReadLong(IsSteamJPVersion) == 0x7265737563697065 then
+        game_version = 3
+        ConsolePrint("Steam JP v1.0.0.2 Detected")
         can_execute = true
     end
 end
@@ -445,13 +450,12 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x2810,ReadByte(Save[game_version]+0x2810)+1)
                 end
             end
-            --End of Castle of Dreams 1
+            --End of Castle of Dreams
             if ReadShort(Now[game_version]+0) == 0x0111 or ReadShort(Now[game_version]+0) == 0x0B06 then
                 if ReadShort(Now[game_version]+0x10) == 0x0A03 then
                     if ReadByte(Save[game_version]+0x257C) == 0 then
                         WriteByte(Save[game_version]+0x257C,1)
-                        WriteLong(Now[game_version]+0,0x0000000100020803)
-                        WriteByte(Now[game_version]+8,0x16)
+                        WriteArray(Now[game_version]+0,{0x03, 0x08, 0x02, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
                         WriteShort(Save[game_version]+0x2941,0x0122)
                         WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
                     end
@@ -540,8 +544,8 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x269C,1)
                     WriteArray(Now[game_version]+0,{0x0C, 0x02, 0x33, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
                     WriteShort(Save[game_version]+0x2965,0x0122)
-                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteShort(Save[game_version]+0x14,0x020C)
+                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
                 end
             end
@@ -750,7 +754,6 @@ function _OnFrame()
                     if ReadByte(Save[game_version]+0x259C) == 0 then
                         WriteByte(Save[game_version]+0x259C,1)
                         WriteArray(Now[game_version]+0,{0x04, 0x06, 0x01, 0x00, 0x01, 0x00, 0x18, 0x00, 0x16})
-                        WriteInt(Now[game_version]+0,0x00010604)
                         WriteShort(Save[game_version]+0x2945,0x0122)
                         WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
                     end
@@ -791,8 +794,8 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x269C,1)
                     WriteArray(Now[game_version]+0,{0x0C, 0x02, 0x33, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
                     WriteShort(Save[game_version]+0x2965,0x0122)
-                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteShort(Save[game_version]+0x14,0x020C)
+                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
                     WriteByte(Save[game_version]+0x1276,0x16)
                     WriteByte(Save[game_version]+0x12A0,0x16)
@@ -1045,6 +1048,7 @@ function _OnFrame()
                         WriteByte(Save[game_version]+0x259C,1)
                         WriteArray(Now[game_version]+0,{0x04, 0x08, 0x02, 0x00, 0x02, 0x00, 0x00, 0x00, 0x16})
                         WriteShort(Save[game_version]+0x2945,0x0122)
+                        WriteShort(Save[game_version]+0x14,0x0804)
                         WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
                     end
                 end
@@ -1088,8 +1092,8 @@ function _OnFrame()
                     WriteByte(Save[game_version]+0x269C,1)
                     WriteArray(Now[game_version]+0,{0x0C, 0x02, 0x33, 0x00, 0x01, 0x00, 0x00, 0x00, 0x16})
                     WriteShort(Save[game_version]+0x2965,0x0122)
-                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteShort(Save[game_version]+0x14,0x020C)
+                    WriteByte(Save[game_version]+0x282C,ReadByte(Save[game_version]+0x282C)+1) --Moogle Level
                     WriteByte(Save[game_version]+0x2658,ReadByte(Save[game_version]+0x2658)+1)
                     WriteByte(Save[game_version]+0x1276,0x16)
                     WriteByte(Save[game_version]+0x12A0,0x16)
