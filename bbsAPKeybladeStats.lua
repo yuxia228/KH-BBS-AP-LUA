@@ -89,7 +89,7 @@ function _OnInit()
         can_execute = true
     end
     if ReadLong(IsSteamJPVersion) == 0x7265737563697065 then
-        game_version = 3
+        game_version = 2
         ConsolePrint("Steam JP v1.0.0.2 Detected")
         can_execute = true
     end

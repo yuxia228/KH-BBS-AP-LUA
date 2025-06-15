@@ -44,7 +44,7 @@ end
 
 
 function read_world_item()
-    ap_bits_address = {0x10FA349C, 0x10FA2D9C}
+    ap_bits_address = {0x10FA349C, 0x10FA2D9C-0x1000}
     world_item_byte_array = ReadArray(ap_bits_address[game_version], 2)
     world_item_bits_1 = toBits(world_item_byte_array[1], 8)
     world_item_bits_2 = toBits(world_item_byte_array[2], 8)
@@ -64,7 +64,7 @@ function read_world_item()
 end
 
 function read_number_of_wayfinders()
-    key_item_stock_address = {0x10FA422C, 0x10FA3B2C}
+    key_item_stock_address = {0x10FA422C, 0x10FA3B2C-0x1000}
     max_items = 40
     item_index = 0
     wayfinders = {}
@@ -83,9 +83,9 @@ end
 
 function character_selected_or_save_loaded()
     if can_execute then
-        if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
-            if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0xD0100 then
-                if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x818123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x818127}, game_version)) ~= 0x100 then
+        if ReadInt(version_choice({0x81911F, 0x81811F-0x1000}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
+            if ReadInt(version_choice({0x81911F, 0x81811F-0x1000}, game_version)) ~= 0xD0100 then
+                if ReadInt(version_choice({0x81911F, 0x81811F-0x1000}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x818123-0x1000}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x818127-0x1000}, game_version)) ~= 0x100 then
                     return true
                 end
             end
@@ -94,13 +94,13 @@ function character_selected_or_save_loaded()
 end
 
 function _OnInit()
-    Now = {0x819120, 0x818120}
-    Save = {0x10FA0F70, 0x10FA0870}
-    RoomNameText = {0xCB8652, 0xCB7F52}
-    CharMod = {0x10F9F54C, 0x10F9EE4C}
-    BGM = {0x87086C, 0x87016C}
-    Book = {0x81C6F0, 0x81B6F0}
-    Timer = {0x81EF20, 0x81DF24}
+    Now = {0x819120, 0x818120-0x1000}
+    Save = {0x10FA0F70, 0x10FA0870-0x1000}
+    RoomNameText = {0xCB8652, 0xCB7F52-0x1000}
+    CharMod = {0x10F9F54C, 0x10F9EE4C-0x1000}
+    BGM = {0x87086C, 0x87016C-0x1000}
+    Book = {0x81C6F0, 0x81B6F0-0x1000}
+    Timer = {0x81EF20, 0x81DF24-0x1000}
     if ReadLong(IsEpicGLVersion) == 0x7265737563697065 then
         game_version = 1
         ConsolePrint("EGS GL v1.0.0.10 Detected")
@@ -112,7 +112,7 @@ function _OnInit()
         can_execute = true
     end
     if ReadLong(IsSteamJPVersion) == 0x7265737563697065 then
-        game_version = 3
+        game_version = 2
         ConsolePrint("Steam JP v1.0.0.2 Detected")
         can_execute = true
     end

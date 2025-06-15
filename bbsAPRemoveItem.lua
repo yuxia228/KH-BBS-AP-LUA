@@ -20,14 +20,14 @@ function _OnInit()
         can_execute = true
     end
     if ReadLong(IsSteamJPVersion) == 0x7265737563697065 then
-        game_version = 3
+        game_version = 2
         ConsolePrint("Steam JP v1.0.0.2 Detected")
         can_execute = true
     end
 end
 
 function _OnFrame()
-    queue_address = {0x10FA41CA, 0x10FA3ACA}
+    queue_address = {0x10FA41CA, 0x10FA3ACA-0x1000}
     i = 0
     while i < 46 do
         if ReadShort(queue_address[game_version] + (i*2)) == 0x1F1B then

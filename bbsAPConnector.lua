@@ -225,7 +225,7 @@ end
 
 function write_key_item(item_value)
     --Writes key item to the player's inventory
-    key_item_stock_address = {0x10FA422C, 0x10FA3B2C}
+    key_item_stock_address = {0x10FA422C, 0x10FA3B2C-0x1000}
     max_items = 40
     item_index = 0
     duplicate = false
@@ -242,7 +242,7 @@ end
 
 function write_command(command_value)
     --Writes command to the player's inventory
-    command_stock_address = {0X10FA4408, 0x10FA3D08}
+    command_stock_address = {0X10FA4408, 0x10FA3D08-0x1000}
     max_commands = 500
     command_value = command_value + 0x5B
     if command_value >= 0xBC and command_value <= 0xD2 then --Item Command
@@ -285,7 +285,7 @@ function write_dlink(dlink_value)
     dlink_offset[10] = -0x10
     dlink_offset[11] = -0x18
     dlink_offset[12] = -0x8
-    dlinks_address = {0x10FA664C, 0x10FA5F4C}
+    dlinks_address = {0x10FA664C, 0x10FA5F4C-0x1000}
     duplicate = false
     if not duplicate then
         WriteShort(dlinks_address[game_version] + dlink_offset[dlink_value] + 0, dlink_value + 0x163) --Write D-Link
@@ -297,7 +297,7 @@ end
 
 function write_ability(ability_offset)
     --Write ability to the player's ability array
-    abilities_address = {0x10FA5CD4, 0x10FA55D4}
+    abilities_address = {0x10FA5CD4, 0x10FA55D4-0x1000}
     ability_byte_1 = ReadByte(abilities_address[game_version] + (ability_offset) * 4)
     ability_byte_2 = ReadByte((abilities_address[game_version] + (ability_offset) * 4)+1)
     ability_bits_1 = toBits(ability_byte_1, 8)
@@ -319,12 +319,12 @@ end
 
 function write_command_style(command_style_offset)
     --Writes command style to a players command style array
-    command_style_address = {0x10FA5D4C, 0x10FA564C}
+    command_style_address = {0x10FA5D4C, 0x10FA564C-0x1000}
     WriteByte(command_style_address[game_version]+command_style_offset, 0x05)
 end
 
 function write_worlds()
-    world_open_address = {0x10FA0F70 + 0x2938, 0x10FA0870 + 0x2938}
+    world_open_address = {0x10FA0F70 + 0x2938, 0x10FA0870 + 0x2938 -0x1000}
     world_open_values = {
         0x00002002, --LOD
         0x00000102, --DW
@@ -350,17 +350,17 @@ function write_worlds()
 end
 
 function write_check_number(value)
-    check_number_address = {0x10FA34A0, 0x10FA2DA0}
+    check_number_address = {0x10FA34A0, 0x10FA2DA0-0x1000}
     WriteInt(check_number_address[game_version], value)
 end
 
 function write_max_hp(value)
-    max_hp_pointer_address = {0x10FB5978, 0x10FB5278}
+    max_hp_pointer_address = {0x10FB5978, 0x10FB5278-0x1000}
     if ReadInt(max_hp_pointer_address[game_version]) ~= 0 then
         max_hp_address = GetPointer(max_hp_pointer_address[game_version], 0x2548)
         return WriteShort(max_hp_address, value, true)
     else
-        max_hp_pointer_address = {0x10F9F540, 0x10F9EE40}
+        max_hp_pointer_address = {0x10F9F540, 0x10F9EE40-0x1000}
         max_hp_pointer_offset_1 = 0x118
         max_hp_pointer_offset_2 = 0x398
         max_hp_pointer_offset_3 = 0xA4
@@ -372,19 +372,19 @@ function write_max_hp(value)
 end
 
 function write_deck_capacity(value)
-    deck_capacity_pointer_address = {0x10FB5978, 0x10FB5278}
+    deck_capacity_pointer_address = {0x10FB5978, 0x10FB5278-0x1000}
     if ReadInt(deck_capacity_pointer_address[game_version]) ~= 0 then --in menu
         deck_capacity_address = GetPointer(deck_capacity_pointer_address[game_version], 0x27F2)
         WriteByte(deck_capacity_address, math.min(value, 8), true)
     else
-        deck_capacity_address = {0x10F9F5E6, 0x10F9EEE6}
+        deck_capacity_address = {0x10F9F5E6, 0x10F9EEE6-0x1000}
         WriteByte(deck_capacity_address[game_version], math.min(value, 8))
     end
 end
 
 function write_world_item(world_offset)
     if world_offset <= 12 then
-        ap_bits_address = {0x10FA349C, 0x10FA2D9C}
+        ap_bits_address = {0x10FA349C, 0x10FA2D9C-0x1000}
         address_offset = math.floor(world_offset / 8)
         bit_num = (world_offset % 8) + 1
         ap_byte = ReadByte(ap_bits_address[game_version] + address_offset)
@@ -395,7 +395,7 @@ function write_world_item(world_offset)
 end
 
 function write_victory_item()
-    ap_bits_address = {0x10FA349D, 0x10FA2D9D}
+    ap_bits_address = {0x10FA349D, 0x10FA2D9D-0x1000}
     ap_byte = ReadByte(ap_bits_address[game_version])
     ap_bits = toBits(ap_byte, 8)
     ap_bits[6] = 1
@@ -403,7 +403,7 @@ function write_victory_item()
 end
 
 function write_ap_item_text()
-    dummy_id_text_address = {0xD66CD0, 0xD665D0}
+    dummy_id_text_address = {0xD66CD0, 0xD665D0-0x1000}
     disney_town_pass_text_address = dummy_id_text_address[game_version] + 0x910
     disney_town_pass_description_address = dummy_id_text_address[game_version] + 0x3B6C
     WriteArray(dummy_id_text_address[game_version],  {0x41,0x50,0x20,0x49,0x74,0x65,0x6D,0x00})
@@ -412,7 +412,7 @@ function write_ap_item_text()
 end
 
 function write_command_board(item_value)
-    command_board_address = {0x10FABE98, 0x10FAB798}
+    command_board_address = {0x10FABE98, 0x10FAB798-0x1000}
     current_command_board_byte = ReadByte(command_board_address[game_version])
     current_command_board_bits = toBits(current_command_board_byte, 8)
     current_command_board_bits[item_value + 1] = 1
@@ -420,17 +420,17 @@ function write_command_board(item_value)
 end
 
 function read_check_number()
-    check_number_address = {0x10FA34A0, 0x10FA2DA0}
+    check_number_address = {0x10FA34A0, 0x10FA2DA0-0x1000}
     return ReadInt(check_number_address[game_version])
 end
 
 function read_max_hp()
-    max_hp_pointer_address = {0x10FB5978, 0x10FB5278}
+    max_hp_pointer_address = {0x10FB5978, 0x10FB5278-0x1000}
     if ReadInt(max_hp_pointer_address[game_version]) ~= 0 then
         max_hp_address = GetPointer(max_hp_pointer_address[game_version], 0x2548)
         return ReadShort(max_hp_address, true)
     else
-        max_hp_pointer_address = {0x10F9F540, 0x10F9EE40}
+        max_hp_pointer_address = {0x10F9F540, 0x10F9EE40-0x1000}
         max_hp_pointer_offset_1 = 0x118
         max_hp_pointer_offset_2 = 0x398
         max_hp_pointer_offset_3 = 0xA4
@@ -442,19 +442,19 @@ function read_max_hp()
 end
 
 function read_deck_capacity()
-    deck_capacity_pointer_address = {0x10FB5978, 0x10FB5278}
+    deck_capacity_pointer_address = {0x10FB5978, 0x10FB5278-0x1000}
     if ReadInt(deck_capacity_pointer_address[game_version]) ~= 0 then --in menu
         deck_capacity_address = GetPointer(deck_capacity_pointer_address[game_version], 0x27F2)
         return ReadByte(deck_capacity_address, true)
     else
-        deck_capacity_address = {0x10F9F5E6, 0x10F9EEE6}
+        deck_capacity_address = {0x10F9F5E6, 0x10F9EEE6-0x1000}
         return ReadByte(deck_capacity_address[game_version])
     end
 end
 
 function read_chest_location_ids()
     location_ids = {}
-    chests_opened_address = {0x10FA42FC, 0x10FA3BFC}
+    chests_opened_address = {0x10FA42FC, 0x10FA3BFC-0x1000}
     location_add_array = {2271000000, 2271100000, 2271200000}
     chests_opened_array = ReadArray(chests_opened_address[game_version], 27)
     for chest_index, chest_byte in pairs(chests_opened_array) do
@@ -470,7 +470,7 @@ end
 
 function read_sticker_location_ids()
     location_ids = {}
-    stickers_found_address = {0x10FA431C, 0x10FA3C1C}
+    stickers_found_address = {0x10FA431C, 0x10FA3C1C-0x1000}
     location_add_array = {2271010000, 2271110000, 2271210000}
     stickers_opened_array = ReadArray(stickers_found_address[game_version], 3)
     for sticker_index, sticker_byte in pairs(stickers_opened_array) do
@@ -485,7 +485,7 @@ function read_sticker_location_ids()
 end
 
 function read_world_progress_location_ids()
-    world_progress_address = {0x10FA34A4, 0x10FA2DA4}
+    world_progress_address = {0x10FA34A4, 0x10FA2DA4-0x1000}
     location_ids = {}
     world_progress_index = 0
     while world_progress_index < 14 do
@@ -509,127 +509,127 @@ function read_misc_location_ids()
     lookup_table = {
         --Ventus
         {
-            {{0x10FB0DFC, 0x10FB06FC}, 2271030000, 1, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271030001, 2, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271030002, 3, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271030003, 4, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271030004, 5, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271030005, 6, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271030006, 7, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271030007, 8, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271030008, 1, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271030009, 2, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271030010, 3, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271030011, 3, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271030012, 4, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271030013, 4, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271030014, 5, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271030015, 6, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271030016, 7, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271030017, 8, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271030018, 8, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271030019, 1, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271030020, 2, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271030021, 2, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271030022, 3, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271030023, 4, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271030024, 5, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271030025, 6, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271030026, 7, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271030027, 7, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271030028, 8, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271030029, 8, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271030030, 1, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271030031, 1, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271030032, 2, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271030033, 3, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271030034, 4, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271030035, 5, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271030036, 6, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271030037, 6, 0x0}
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271030000, 1, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271030001, 2, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271030002, 3, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271030003, 4, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271030004, 5, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271030005, 6, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271030006, 7, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271030007, 8, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271030008, 1, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271030009, 2, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271030010, 3, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271030011, 3, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271030012, 4, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271030013, 4, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271030014, 5, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271030015, 6, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271030016, 7, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271030017, 8, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271030018, 8, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271030019, 1, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271030020, 2, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271030021, 2, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271030022, 3, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271030023, 4, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271030024, 5, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271030025, 6, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271030026, 7, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271030027, 7, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271030028, 8, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271030029, 8, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271030030, 1, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271030031, 1, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271030032, 2, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271030033, 3, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271030034, 4, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271030035, 5, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271030036, 6, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271030037, 6, 0x0}
         },
         --Aqua
         {
-            {{0x10FB0DFC, 0x10FB06FC}, 2271130000, 1, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271130001, 2, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271130002, 3, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271130003, 4, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271130004, 5, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271130005, 6, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271130006, 7, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271130007, 8, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271130008, 8, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271130009, 1, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271130010, 2, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271130011, 3, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271130012, 4, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271130013, 5, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271130014, 5, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271130015, 6, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271130016, 7, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271130017, 8, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271130018, 8, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271130019, 1, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271130020, 2, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271130021, 2, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271130022, 3, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271130023, 4, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271130024, 5, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271130025, 6, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271130026, 7, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271130027, 7, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271130028, 8, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271130029, 8, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271130030, 1, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271130031, 1, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271130032, 2, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271130033, 3, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271130034, 4, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271130035, 5, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271130036, 6, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271130037, 6, 0x0}
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271130000, 1, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271130001, 2, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271130002, 3, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271130003, 4, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271130004, 5, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271130005, 6, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271130006, 7, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271130007, 8, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271130008, 8, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271130009, 1, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271130010, 2, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271130011, 3, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271130012, 4, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271130013, 5, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271130014, 5, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271130015, 6, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271130016, 7, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271130017, 8, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271130018, 8, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271130019, 1, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271130020, 2, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271130021, 2, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271130022, 3, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271130023, 4, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271130024, 5, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271130025, 6, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271130026, 7, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271130027, 7, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271130028, 8, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271130029, 8, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271130030, 1, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271130031, 1, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271130032, 2, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271130033, 3, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271130034, 4, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271130035, 5, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271130036, 6, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271130037, 6, 0x0}
         },
         --Terra
         {
-            {{0x10FB0DFC, 0x10FB06FC}, 2271230000, 1, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271230001, 2, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271230002, 3, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271230003, 4, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271230004, 5, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271230005, 6, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271230006, 7, 0x0},
-            {{0x10FB0DFC, 0x10FB06FC}, 2271230007, 8, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271230008, 1, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271230009, 2, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271230010, 2, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271230011, 3, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271230012, 3, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271230013, 4, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271230014, 4, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271230015, 5, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271230016, 6, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271230017, 7, 0x0},
-            {{0x10FB0DFD, 0x10FB06FD}, 2271230018, 8, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230019, 1, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230020, 1, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230021, 2, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230022, 2, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230023, 3, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230024, 4, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230025, 5, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230026, 6, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230027, 7, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230028, 7, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230029, 8, 0x0},
-            {{0x10FB0DFE, 0x10FB06FE}, 2271230030, 8, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271230031, 1, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271230032, 1, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271230033, 2, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271230034, 3, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271230035, 4, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271230036, 5, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271230037, 6, 0x0},
-            {{0x10FB0DFF, 0x10FB06FF}, 2271230038, 6, 0x0}
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271230000, 1, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271230001, 2, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271230002, 3, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271230003, 4, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271230004, 5, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271230005, 6, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271230006, 7, 0x0},
+            {{0x10FB0DFC, 0x10FB06FC-0x1000}, 2271230007, 8, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271230008, 1, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271230009, 2, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271230010, 2, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271230011, 3, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271230012, 3, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271230013, 4, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271230014, 4, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271230015, 5, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271230016, 6, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271230017, 7, 0x0},
+            {{0x10FB0DFD, 0x10FB06FD-0x1000}, 2271230018, 8, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230019, 1, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230020, 1, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230021, 2, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230022, 2, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230023, 3, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230024, 4, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230025, 5, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230026, 6, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230027, 7, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230028, 7, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230029, 8, 0x0},
+            {{0x10FB0DFE, 0x10FB06FE-0x1000}, 2271230030, 8, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271230031, 1, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271230032, 1, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271230033, 2, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271230034, 3, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271230035, 4, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271230036, 5, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271230037, 6, 0x0},
+            {{0x10FB0DFF, 0x10FB06FF-0x1000}, 2271230038, 6, 0x0}
         }
     }
     for k,v in pairs(lookup_table[read_current_character() + 1]) do
@@ -644,12 +644,12 @@ function read_misc_location_ids()
 end
 
 function read_current_character()
-    current_character_address = {0x10FA0F80, 0x10FA0880}
+    current_character_address = {0x10FA0F80, 0x10FA0880-0x1000}
     return ReadByte(current_character_address[game_version])
 end
 
 function victorious()
-    ap_bits_address = {0x10FA349D, 0x10FA2D9D}
+    ap_bits_address = {0x10FA349D, 0x10FA2D9D-0x1000}
     ap_byte = ReadByte(ap_bits_address[game_version])
     ap_bits = toBits(ap_byte, 8)
     if ap_bits[6] == 1 then
@@ -661,9 +661,9 @@ end
 
 function character_selected_or_save_loaded()
     if can_execute then
-        if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
-            if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0xD0100 then
-                if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x818123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x818127}, game_version)) ~= 0x100 then
+        if ReadInt(version_choice({0x81911F, 0x81811F-0x1000}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
+            if ReadInt(version_choice({0x81911F, 0x81811F-0x1000}, game_version)) ~= 0xD0100 then
+                if ReadInt(version_choice({0x81911F, 0x81811F-0x1000}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x818123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x818127-0x1000}, game_version)) ~= 0x100 then
                     return true
                 end
             end
@@ -759,7 +759,7 @@ function send_items()
 end
 
 function remove_starting_wayfinder()
-    starting_wayfinder_address = {0x10FA41CC, 0x10FA3ACC}
+    starting_wayfinder_address = {0x10FA41CC, 0x10FA3ACC -0x1000}
     item = ReadInt(starting_wayfinder_address[game_version])
     if item == 0x1F1C or item == 0x1F1F or item == 0x1F20 then
         WriteInt(starting_wayfinder_address[game_version], 0x0)
@@ -778,7 +778,7 @@ function _OnInit()
         can_execute = true
     end
     if ReadLong(IsSteamJPVersion) == 0x7265737563697065 then
-        game_version = 3
+        game_version = 2
         ConsolePrint("Steam JP v1.0.0.2 Detected")
         can_execute = true
     end

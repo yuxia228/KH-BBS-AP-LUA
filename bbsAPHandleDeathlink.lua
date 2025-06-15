@@ -32,7 +32,7 @@ function version_choice(array, choice)
 end
 
 function kill_player()
-    death_pointer_address = {0x10F9F540, 0x10F9EE40}
+    death_pointer_address = {0x10F9F540, 0x10F9EE40-0x1000}
     death_pointer_offset = 0x154
     if ReadInt(death_pointer_address[game_version]) ~= 0 then
         death_pointer = GetPointer(death_pointer_address[game_version], death_pointer_offset)
@@ -44,9 +44,9 @@ end
 
 function character_selected_or_save_loaded()
     if can_execute then
-        if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
-            if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0xD0100 then
-                if ReadInt(version_choice({0x81911F, 0x81811F}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x818123}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x818127}, game_version)) ~= 0x100 then
+        if ReadInt(version_choice({0x81911F, 0x81811F-0x1000}, game_version)) ~= 0xFFFFFF00 then --Not on Title Screen
+            if ReadInt(version_choice({0x81911F, 0x81811F-0x1000}, game_version)) ~= 0xD0100 then
+                if ReadInt(version_choice({0x81911F, 0x81811F-0x1000}, game_version)) ~= 0x20100 or ReadInt(version_choice({0x819123, 0x818123-0x1000}, game_version)) ~= 0x100 or ReadShort(version_choice({0x819127, 0x818127-0x1000}, game_version)) ~= 0x100 then
                     return true
                 end
             end
@@ -55,7 +55,7 @@ function character_selected_or_save_loaded()
 end
 
 function get_current_hp()
-    hp_pointer_address = {0x10F9F540, 0x10F9EE40}
+    hp_pointer_address = {0x10F9F540, 0x10F9EE40-0x1000}
     if ReadInt(hp_pointer_address[game_version]) > 0 then
         hp_pointer_offset_1 = 0x118
         hp_pointer_offset_2 = 0x398
@@ -81,7 +81,7 @@ function _OnInit()
         can_execute = true
     end
     if ReadLong(IsSteamJPVersion) == 0x7265737563697065 then
-        game_version = 3
+        game_version = 2
         ConsolePrint("Steam JP v1.0.0.2 Detected")
         can_execute = true
     end
